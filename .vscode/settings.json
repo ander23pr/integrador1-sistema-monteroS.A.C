@@ -1,0 +1,21 @@
+{
+  "java.jdt.ls.java.home": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.10.7-hotspot",
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-21",
+      "path": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.10.7-hotspot",
+      "default": true
+    }
+  ],
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.import.maven.enabled": true,
+  "java.autobuild.enabled": true,
+  "java.project.importOnFirstTimeStartup": "automatic",
+  "java.eclipse.downloadSources": true,
+  "java.maven.downloadSources": true,
+  "java.compile.nullAnalysis.mode": "disabled",
+  "java.jdt.ls.javac.enabled": "off",
+  "maven.executable.path": "C:\\Users\\sanan\\.vscode\\extensions\\oracle.oracle-java-25.1.0\\nbcode\\java\\maven\\bin\\mvn.cmd",
+  "maven.executable.preferMavenWrapper": true,
+  "maven.terminal.useJavaHome": true
+}

@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+
+<html lang="es" xmlns:th="http://www.thymeleaf.org"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pagar Transacción - PagoEfectivo</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            'montenero-surface': '#f8f9ff',
+            'montenero-dark': '#0F172A',
+            'pago-efectivo-blue': '#003366',
+            'pago-efectivo-yellow': '#FBC02D',
+            'success-teal': '#14B8A6',
+          },
+          borderRadius: {
+            'eight': '8px',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-layout">
+    body {
+      background-color: #ffffff;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .payment-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    /* Adjustment for the 2x2 or 3-col layout seen in image */
+    .payment-option-btn {
+      transition: all 0.2s ease;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-slate-800">
+<!-- BEGIN: MainHeader -->
+<header class="bg-[#1A1A1A] text-white h-14 flex items-center justify-between px-4 sticky top-0 z-50" data-purpose="app-header">
+<div class="flex items-center">
+<!-- Back Arrow placeholder -->
+<button aria-label="Volver" class="p-2">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+<h1 class="text-lg font-medium">Pagar Transacción</h1>
+<div class="flex items-center">
+<!-- Close Icon -->
+<button aria-label="Cerrar" class="p-2">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</header>
+<!-- END: MainHeader -->
+<main class="p-5 max-w-md mx-auto">
+<!-- BEGIN: PaymentSelection -->
+<section class="mb-8" data-purpose="payment-selection">
+<h2 class="text-[#3b82f6] text-lg font-medium mb-6">Seleccione la forma de pago</h2>
+<!-- Grid for Payment Methods -->
+<div class="grid grid-cols-3 gap-3 mb-4">
+<!-- Tarjeta (Inactive) -->
+<button class="payment-option-btn border border-slate-200 bg-white text-blue-500 rounded-eight shadow-sm">
+          Tarjeta
+        </button>
+<!-- PagoEfectivo (Active) -->
+<button class="payment-option-btn bg-[#002D57] text-white rounded-eight shadow-md">
+          PagoEfectivo
+        </button>
+<!-- Pago con QR (Inactive) -->
+<button class="payment-option-btn border border-slate-200 bg-white text-blue-500 rounded-eight shadow-sm">
+          Pago con QR
+        </button>
+</div>
+<!-- Yape (Second Row) -->
+<div class="w-1/3 pr-2">
+<button class="payment-option-btn border border-slate-200 bg-white text-blue-500 rounded-eight shadow-sm w-full">
+          Yape
+        </button>
+</div>
+</section>
+<!-- END: PaymentSelection -->
+<!-- BEGIN: InstructionsSection -->
+<section class="mb-8 p-4 border border-slate-100 rounded-eight" data-purpose="instructions">
+<p class="text-sky-600 text-sm leading-relaxed mb-8">
+        Seleccione una de estas plataformas y te enviaremos un código de pago a tu correo. Tendrás 3 horas para pagarlo
+      </p>
+<!-- Payment Provider Detail -->
+<div class="flex items-center space-x-4">
+<!-- Radio Selector (Active state) -->
+<div class="w-6 h-6 flex items-center justify-center rounded-full border-2 border-teal-500">
+<div class="w-3 h-3 bg-teal-500 rounded-full"></div>
+</div>
+<!-- PagoEfectivo Logo Component -->
+<div class="flex items-center space-x-2" data-purpose="logo-container">
+<div class="bg-yellow-400 w-10 h-10 rounded-br-2xl rounded-tl-lg flex items-center justify-center overflow-hidden">
+<span class="text-black font-black text-2xl italic">P</span>
+</div>
+<span class="text-2xl font-bold italic tracking-tight text-slate-800">PagoEfectivo</span>
+</div>
+</div>
+</section>
+<!-- END: InstructionsSection -->
+<!-- BEGIN: TermsAndConditions -->
+<section class="mb-10 px-1" data-purpose="terms-and-conditions">
+<div class="flex items-start space-x-3 mb-4">
+<input class="mt-1 h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500" id="terms" type="checkbox"/>
+<label class="text-sm text-green-800 leading-tight" for="terms">
+          Al hacer clic, está aceptando los requisitos necesarios para viajar y los términos y condiciones del viaje. Revíselos en los siguientes links:
+        </label>
+</div>
+<div class="ml-8 space-y-2">
+<a class="block text-[#0077b6] text-sm" href="#">- Requisitos para el pasajero</a>
+<a class="block text-[#0077b6] text-sm" href="#">- Términos y Condiciones del Viaje</a>
+</div>
+</section>
+<!-- END: TermsAndConditions -->
+<!-- BEGIN: FooterActions -->
+<footer class="flex items-center space-x-4 mt-auto pt-4" data-purpose="footer-navigation">
+<button class="flex-1 py-3 px-4 border border-slate-300 rounded-full text-slate-600 font-medium bg-gray-50/50">
+        Cancelar
+      </button>
+<button class="flex-1 py-3 px-4 bg-[#5490ab] text-white rounded-full font-medium shadow-sm active:bg-[#43758b]">
+        Procesar pago
+      </button>
+</footer>
+<!-- END: FooterActions -->
+</main>
+</body></html>

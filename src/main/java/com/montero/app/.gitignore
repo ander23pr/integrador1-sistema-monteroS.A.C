@@ -1,0 +1,17 @@
+# Maven
+target/
+
+# VS Code
+.vscode/
+
+# Eclipse
+.settings/
+.project
+.classpath
+
+# Logs
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db
