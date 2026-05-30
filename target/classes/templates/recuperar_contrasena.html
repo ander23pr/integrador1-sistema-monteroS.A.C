@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html><html class="light" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Montero - Recuperar Contraseña</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#0F172A",
+                        "secondary": "#C00037",
+                        "surface": "#FFFFFF",
+                        "background": "#FDFDFD",
+                        "on-surface-variant": "#71717A",
+                        "outline-variant": "#E4E4E7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "stack-lg": "24px",
+                        "margin-page": "32px",
+                        "section-gap": "48px"
+                    },
+                    "fontFamily": {
+                        "sans": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+            font-size: 20px;
+        }
+        .header-curve {
+            border-bottom-left-radius: 80px;
+        }
+    </style>
+</head>
+<body class="bg-background text-zinc-900 min-h-screen antialiased flex flex-col font-sans">
+<!-- Top Curved Section -->
+<div class="w-full bg-primary h-[40vh] flex flex-col items-center justify-center relative header-curve overflow-hidden">
+<!-- Logo Area -->
+<div class="flex flex-col items-center">
+<div class="mb-4">
+<!-- Using logo from DataStore IMAGE_23 -->
+<img alt="Montero Logo" class="h-20 md:h-24 w-auto object-contain brightness-0 invert" src="https://lh3.googleusercontent.com/aida/ADBb0uheFT6SRsbtLKAvAf_Vy8WwEPA9CoPGKZdST3vAeYWYFttO30va3xwhfwKf7o5HpYMcZzQVFUuxyOVow-JhYhWqFPHYz3ElaNC6Bj0Y-6veU0OKcnOIxwjR9NF3oj56fPKw_bpIPgXaJ7yL4W05FUE9MQBunGmjtINlkBtTK2QobcaVUkskLXnn4RoFU8eh3O15hX_es6ZE1lHncWye9rk47qF1iFT3D3-s35W3Di1mngT8QmyulDGiTpQb">
+</div>
+<div class="text-white text-xl font-bold tracking-tight">Montero</div>
+</div>
+<!-- Heading text positioned at bottom right like references -->
+<div class="absolute right-margin-page bottom-12 text-right">
+
+</div>
+</div>
+<!-- Form Section -->
+<main class="flex-1 px-margin-page pt-12 pb-10 flex flex-col justify-between max-w-lg mx-auto w-full">
+<div>
+<p class="text-zinc-500 text-sm mb-10 text-center px-4">
+                Ingresa tu correo electrónico para recibir instrucciones de recuperación.
+            </p>
+<form action="#" class="flex flex-col gap-stack-lg" method="POST">
+<!-- Email Input -->
+<div class="space-y-2">
+<label class="block text-[10px] font-bold text-zinc-400 uppercase tracking-widest ml-4" for="email">
+                        Correo Electrónico
+                    </label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-zinc-400">mail</span>
+</div>
+<input class="block w-full pl-12 pr-6 py-4 bg-white border border-zinc-200 rounded-full text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary shadow-sm transition-all" id="email" name="email" placeholder="tu@ejemplo.com" required="" type="email">
+</div>
+</div>
+<!-- Submit Button -->
+<div class="mt-4">
+<button class="w-full bg-secondary text-white py-4 px-6 rounded-full font-bold text-lg shadow-lg shadow-secondary/20 hover:bg-[#A0002E] active:scale-[0.98] transition-all uppercase tracking-wider" type="submit">
+                        ENVIAR
+                    </button>
+</div>
+</form>
+</div>
+<!-- Footer Link -->
+<div class="text-center mt-section-gap">
+<a class="inline-flex items-center gap-2 text-sm font-medium text-zinc-500 hover:text-secondary transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                Volver al inicio de sesión
+            </a>
+</div>
+</main>
+
+
+</body></html>

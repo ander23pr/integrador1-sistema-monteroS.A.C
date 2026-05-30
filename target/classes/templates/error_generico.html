@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Error - Montero</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      colors: { "secondary": "#ba0035", "on-secondary": "#ffffff", "surface": "#f8f9ff", "on-surface": "#0d1c2f", "on-surface-variant": "#45464d" },
+      fontFamily: { sans: ["Inter", "sans-serif"] }
+    }}
+  }
+</script>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+</style>
+</head>
+<body class="bg-surface font-sans antialiased min-h-screen flex items-center justify-center px-6">
+<div class="max-w-md w-full text-center">
+  <!-- Icono de error -->
+  <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+    <span class="material-symbols-outlined text-4xl text-secondary">error</span>
+  </div>
+
+  <!-- Título dinámico -->
+  <h1 class="text-2xl font-bold text-on-surface mb-3" th:text="${titulo}">Error</h1>
+
+  <!-- Mensaje dinámico -->
+  <p class="text-on-surface-variant mb-8 leading-relaxed" th:text="${mensaje}">
+    Se produjo un error inesperado.
+  </p>
+
+  <!-- Botón de regreso -->
+  <a th:href="${linkVolver}"
+     class="inline-flex items-center gap-2 bg-secondary text-white font-bold py-3 px-8 rounded-full hover:opacity-90 transition-opacity shadow-lg">
+    <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+    Volver
+  </a>
+</div>
+</body>
+</html>
