@@ -241,7 +241,7 @@
 <span class="font-body-md text-body-md text-on-surface-variant">Precio</span>
 <span class="font-headline-lg text-headline-lg font-bold text-secondary" th:text="'S/ ' + ${viaje.precio}">S/. 6.00</span>
 </div>
-<a th:href="@{/reservas/viaje/{id}/asientos(id=${viaje.id},origen=${origenBuscado},destino=${destinoBuscado},fecha=${fechaBuscada})}" class="w-full bg-secondary text-on-secondary font-label-caps text-label-caps uppercase py-3 rounded-xl hover:opacity-90 transition-opacity focus:ring-2 focus:ring-secondary focus:ring-offset-2 text-center block">
+<a th:href="@{/reservas/viaje/{id}/asientos(id=${viaje.id},origen=${origenBuscado},destino=${destinoBuscado},fecha=${#temporals.format(fechaBuscada, 'yyyy-MM-dd')})}" class="w-full bg-secondary text-on-secondary font-label-caps text-label-caps uppercase py-3 rounded-xl hover:opacity-90 transition-opacity focus:ring-2 focus:ring-secondary focus:ring-offset-2 text-center block">
                         Seleccionar
 </a>
 </div>

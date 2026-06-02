@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 /**
@@ -33,15 +34,19 @@ public class ReservaRequestDTO {
     private LocalDate fechaSeleccionada;
 
     @NotBlank(message = "Los nombres son obligatorios")
+    @Size(min = 3, max = 100, message = "Los nombres deben tener entre 3 y 100 caracteres")
     private String nombresPasajero;
 
     @NotBlank(message = "Los apellidos son obligatorios")
+    @Size(min = 3, max = 100, message = "Los apellidos deben tener entre 3 y 100 caracteres")
     private String apellidosPasajero;
 
     @NotBlank(message = "El DNI es obligatorio")
-    @Size(min = 8, max = 8, message = "El DNI debe tener 8 dígitos")
+    @Size(min = 8, max = 8, message = "El DNI debe tener exactamente 8 dígitos")
+    @Pattern(regexp = "^\\d{8}$", message = "El DNI debe contener solo números")
     private String dniPasajero;
 
+    @NotBlank(message = "El email es obligatorio")
     @Email(message = "Debe ingresar un email válido")
     private String emailPasajero;
 

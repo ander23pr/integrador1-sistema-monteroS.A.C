@@ -56,6 +56,18 @@
             <optional>true</optional>
         </dependency>
 
+         <!-- Spring Security Crypto (para BCryptPasswordEncoder, sin activar Spring Security completo) -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+        </dependency>
+
+        <!-- Apache Commons Lang3 (para validaciones de cadenas) -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

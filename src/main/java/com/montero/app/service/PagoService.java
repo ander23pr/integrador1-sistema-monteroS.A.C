@@ -1,5 +1,14 @@
 package com.montero.app.service;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.montero.app.dto.PagoYapeDTO;
 import com.montero.app.model.EstadoReserva;
 import com.montero.app.model.MetodoPago;
@@ -7,18 +16,14 @@ import com.montero.app.model.Pago;
 import com.montero.app.model.Reserva;
 import com.montero.app.repository.PagoRepository;
 import com.montero.app.repository.ReservaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 /**
  * Servicio encargado de gestionar los pagos simulados.
  */
 @Service
 public class PagoService {
+
+    private static final Logger logger = LoggerFactory.getLogger(PagoService.class);
 
     @Autowired
     private PagoRepository pagoRepository;
@@ -39,6 +44,8 @@ public class PagoService {
 
         // Validar que la reserva esté en estado PENDIENTE
         if (!reserva.getEstado().equals(EstadoReserva.PENDIENTE)) {
+            logger.warn("Intento de pago para reserva no en estado PENDIENTE. Reserva ID: {}, Estado actual: {}", 
+                    reservaId, reserva.getEstado());
             throw new IllegalStateException("La reserva no se encuentra en estado PENDIENTE o ya fue procesada.");
         }
 
@@ -57,6 +64,8 @@ public class PagoService {
         reserva.setEstado(EstadoReserva.PAGADO);
         reservaRepository.save(reserva);
 
+        logger.info("Pago procesado exitosamente. Reserva ID: {}, Método: YAPE, Teléfono: {}", 
+                reservaId, pagoYapeDTO.getNumeroTelefono());
         return pagoGuardado;
     }
 
