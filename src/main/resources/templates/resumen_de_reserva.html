@@ -1,4 +1,4 @@
-<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org" lang="es" style=""><head>
+<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org" lang="es"><head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>Resumen de Compra - Montenero</title>
@@ -267,7 +267,7 @@
 <span class="font-label-caps text-label-caps text-on-surface-variant">TOTAL A PAGAR</span>
 <span class="font-headline-lg text-headline-lg text-secondary" th:text="'S/ ' + ${reserva.precioTotal}">S/. 138.00</span>
 </div>
-<a th:href="@{/pagos/yape/{id}(id=${reserva.id})}" class="w-full md:w-auto flex-1 bg-secondary text-on-secondary font-headline-md text-headline-md py-4 px-6 rounded-xl text-center hover:bg-secondary-container transition-colors shadow-sm">PAGAR CON YAPE</a>
+<a th:href="@{/pagos/yape/{id}(id=${reserva.id})}" class="w-full md:w-auto flex-1 bg-secondary text-on-secondary font-headline-md text-headline-md py-4 px-6 rounded-xl text-center hover:bg-secondary-container transition-colors shadow-sm">SIGUIENTE</a>
 </div>
 </div>
 
