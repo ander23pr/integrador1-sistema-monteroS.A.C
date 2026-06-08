@@ -111,10 +111,13 @@ public class ReservaController {
         } catch (Exception e) {
             // Si falla la lógica de negocio (ej. asiento fue ocupado por otra persona al mismo tiempo)
             redirectAttributes.addFlashAttribute("error", e.getMessage());
-            redirectAttributes.addAttribute("origen", reservaDTO.getOrigenSeleccionado());
-            redirectAttributes.addAttribute("destino", reservaDTO.getDestinoSeleccionado());
-            redirectAttributes.addAttribute("fecha", reservaDTO.getFechaSeleccionada());
-            return "redirect:/reservas/viaje/" + reservaDTO.getViajeId() + "/asientos";
+            if (reservaDTO.getViajeId() != null) {
+                redirectAttributes.addAttribute("origen", reservaDTO.getOrigenSeleccionado());
+                redirectAttributes.addAttribute("destino", reservaDTO.getDestinoSeleccionado());
+                redirectAttributes.addAttribute("fecha", reservaDTO.getFechaSeleccionada());
+                return "redirect:/reservas/viaje/" + reservaDTO.getViajeId() + "/asientos";
+            }
+            return "redirect:/viajes";
         }
     }
 

@@ -189,7 +189,7 @@
 <div class="mb-section-gap flex items-center justify-between bg-surface-container-lowest p-stack-md rounded-xl shadow-sm border border-outline-variant/30">
 <div>
 <p class="font-label-caps text-label-caps text-on-surface-variant uppercase" th:text="${origenBuscado} + ' → ' + ${destinoBuscado}">piura - paita</p>
-<p class="font-body-md text-body-md text-on-surface mt-unit" th:text="'Ida: ' + ${fechaBuscada} + (${fechaRetornoBuscada} != null ? ' | Retorno: ' + ${fechaRetornoBuscada} : '') + ' • 1 Pasajero'">Mar 12, 2025 • 1 Pasajero</p>
+<p class="font-body-md text-body-md text-on-surface mt-unit" th:text="'Ida: ' + ${#temporals.format(fechaBuscada, 'dd MMM yyyy')} + (${fechaRetornoBuscada} != null ? ' | Retorno: ' + ${#temporals.format(fechaRetornoBuscada, 'dd MMM yyyy')} : '') + ' • 1 Pasajero'">Mar 12, 2025 • 1 Pasajero</p>
 </div>
 <a th:href="@{/viajes}" class="text-on-tertiary-container hover:opacity-80 transition-opacity flex items-center gap-1">
 <span class="material-symbols-outlined" data-icon="edit">edit</span>
@@ -231,8 +231,8 @@
 <div class="flex items-center gap-stack-sm mt-stack-sm">
 <div class="w-12 h-12 flex-shrink-0"></div> <!-- Spacer for alignment -->
 <div>
-<p class="font-headline-md text-headline-md text-on-surface" th:text="${viaje.fechaSalida}">18:45</p>
-<p class="font-label-md text-label-md text-on-surface-variant" th:text="${viaje.destino}">Paita(Terminal Terrestre)</p>
+<p class="font-headline-md text-headline-md text-on-surface" th:text="${#temporals.format(viaje.fechaSalida, 'dd MMM yyyy')}">29 May 2026</p>
+<p class="font-label-md text-label-md text-on-surface-variant" th:text="${viaje.destino}">Paita (Terminal Terrestre)</p>
 </div>
 </div>
 </div>

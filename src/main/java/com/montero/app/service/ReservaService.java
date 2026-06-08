@@ -36,6 +36,14 @@ public class ReservaService {
     @Transactional
     public Reserva iniciarReserva(ReservaRequestDTO dto) {
 
+        if (dto.getViajeId() == null) {
+            throw new IllegalArgumentException("No se encontró el viaje seleccionado. Por favor recargue la página e intente nuevamente.");
+        }
+
+        if (dto.getDniPasajero() == null || dto.getDniPasajero().isBlank()) {
+            throw new IllegalArgumentException("El DNI del pasajero es obligatorio.");
+        }
+
         // 1. Obtener el viaje seleccionado y los asientos enviados desde el formulario
         Viaje viaje = viajeService.obtenerViajePorId(dto.getViajeId());
         List<Integer> asientosSeleccionados = dto.getNumerosAsientos();
@@ -68,9 +76,10 @@ public class ReservaService {
         }
 
         // 7. Validar límite máximo de reservas activas por pasajero
+        String dniPasajero = dto.getDniPasajero();
         long reservasActivasDni = reservaRepository.findByViajeId(viaje.getId()).stream()
                 .filter(r -> !r.getEstado().name().equals("CANCELADO"))
-                .filter(r -> r.getDniPasajero().equals(dto.getDniPasajero()))
+                .filter(r -> dniPasajero.equals(r.getDniPasajero()))
                 .count();
         if (reservasActivasDni >= 5) {
             throw new IllegalStateException("Se ha alcanzado el máximo de 5 reservas por pasajero para este viaje.");
