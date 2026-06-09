@@ -1,26 +1,4 @@
-2026-06-09 13:51:14 [http-nio-8080-exec-8] WARN  c.montero.app.service.UsuarioService - Intento de login fallido (contraseña incorrecta) para: maria.garcia@gmail.com
-2026-06-09 13:51:19 [http-nio-8080-exec-5] WARN  c.montero.app.service.UsuarioService - Intento de login fallido (contraseña incorrecta) para: maria.garcia@gmail.com
-2026-06-09 13:55:03 [http-nio-8080-exec-5] WARN  c.montero.app.service.UsuarioService - Intento de registro con email ya existente: Maria.garcia@gmail.com
-2026-06-09 13:56:04 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Nuevo usuario registrado exitosamente: MariaGarcia@gmail.com
-2026-06-09 13:56:12 [http-nio-8080-exec-1] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
-2026-06-09 13:57:42 [http-nio-8080-exec-2] WARN  c.montero.app.service.ReservaService - Intento de reserva para viaje con fecha pasada. Viaje ID: 5, Fecha: 2026-05-30
-2026-06-09 13:58:27 [http-nio-8080-exec-6] WARN  c.montero.app.service.ReservaService - Intento de reserva para viaje con fecha pasada. Viaje ID: 1, Fecha: 2026-05-29
-2026-06-09 13:59:28 [http-nio-8080-exec-1] WARN  c.montero.app.service.ReservaService - Intento de reserva para viaje con fecha pasada. Viaje ID: 6, Fecha: 2026-05-30
-2026-06-09 14:04:16 [http-nio-8080-exec-4] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
-2026-06-09 14:04:44 [http-nio-8080-exec-3] WARN  c.montero.app.service.ReservaService - Intento de reserva para viaje con fecha pasada. Viaje ID: 5, Fecha: 2026-05-30
-2026-06-09 14:09:38 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
-2026-06-09 14:10:43 [http-nio-8080-exec-8] WARN  c.montero.app.service.ReservaService - Intento de reserva para viaje con fecha pasada. Viaje ID: 5, Fecha: 2026-05-30
-2026-06-09 14:33:10 [http-nio-8080-exec-7] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
-2026-06-09 14:33:43 [http-nio-8080-exec-5] WARN  c.montero.app.service.ReservaService - Intento de reserva para viaje con fecha pasada. Viaje ID: 11, Fecha: 2026-06-01
-2026-06-09 14:36:03 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
-2026-06-09 14:36:38 [http-nio-8080-exec-10] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 17, DNI Pasajero: 73784556, Asientos: 2
-2026-06-09 14:37:10 [http-nio-8080-exec-7] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 17, Método: YAPE, Teléfono: 951348627
-2026-06-09 14:45:26 [http-nio-8080-exec-6] WARN  c.montero.app.service.UsuarioService - Intento de login fallido (contraseña incorrecta) para: MariaGarcia@gmail.com
-2026-06-09 14:45:40 [http-nio-8080-exec-8] WARN  c.montero.app.service.UsuarioService - Intento de login con email no registrado: MariaGarcia@gmail.co
-2026-06-09 14:46:10 [http-nio-8080-exec-1] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
-2026-06-09 14:47:25 [http-nio-8080-exec-2] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 18, DNI Pasajero: 73784098, Asientos: 5
-2026-06-09 14:47:34 [http-nio-8080-exec-6] WARN  c.montero.app.service.ReservaService - Intento de reserva con asientos ocupados. Viaje ID: 14, Asientos: [5]
-2026-06-09 14:47:44 [http-nio-8080-exec-10] WARN  c.montero.app.service.ReservaService - Intento de reserva con asientos ocupados. Viaje ID: 14, Asientos: [5]
-2026-06-09 16:20:21 [http-nio-8080-exec-7] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
-2026-06-09 16:21:20 [http-nio-8080-exec-7] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 19, DNI Pasajero: 73784556, Asientos: 1
-2026-06-09 16:23:41 [http-nio-8080-exec-3] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 19, Método: YAPE, Teléfono: 951348627
+2026-06-10 01:34:25 [http-nio-8080-exec-10] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-06-10 02:03:59 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-06-10 02:04:35 [http-nio-8080-exec-7] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 20, DNI Pasajero: 73784556, Asientos: 14
+2026-06-10 02:05:06 [http-nio-8080-exec-10] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 20, Método: YAPE, Teléfono: 951348627

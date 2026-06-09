@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.base.Preconditions;
+
 import com.montero.app.dto.ReservaRequestDTO;
 import com.montero.app.model.EstadoReserva;
 import com.montero.app.model.Reserva;
@@ -42,57 +44,44 @@ public class ReservaService {
     @Transactional
     public Reserva iniciarReserva(ReservaRequestDTO dto) {
 
-        if (dto.getViajeId() == null) {
-            throw new IllegalArgumentException("No se encontró el viaje seleccionado. Por favor recargue la página e intente nuevamente.");
-        }
-
-        if (dto.getDniPasajero() == null || dto.getDniPasajero().isBlank()) {
-            throw new IllegalArgumentException("El DNI del pasajero es obligatorio.");
-        }
+        Preconditions.checkNotNull(dto.getViajeId(), "No se encontró el viaje seleccionado. Por favor recargue la página e intente nuevamente.");
+        Preconditions.checkArgument(dto.getDniPasajero() != null && !dto.getDniPasajero().isBlank(),
+                "El DNI del pasajero es obligatorio.");
 
         // 1. Obtener el viaje seleccionado y los asientos enviados desde el formulario
         Viaje viaje = viajeService.obtenerViajePorId(dto.getViajeId());
         List<Integer> asientosSeleccionados = dto.getNumerosAsientos();
 
         // 2. Validar que la fecha del viaje no sea en el pasado
-        if (viaje.getFechaSalida().isBefore(LocalDate.now())) {
-            logger.warn("Intento de reserva para viaje con fecha pasada. Viaje ID: {}, Fecha: {}", viaje.getId(), viaje.getFechaSalida());
-            throw new IllegalArgumentException("No se puede reservar un viaje cuya fecha de salida ya ha pasado.");
-        }
+        Preconditions.checkState(!viaje.getFechaSalida().isBefore(LocalDate.now()),
+                "No se puede reservar un viaje cuya fecha de salida ya ha pasado.");
 
         // 3. Validar que el DNI sea únicamente numérico (aunque el DTO también lo valida)
-        if (!StringUtils.isNumeric(dto.getDniPasajero())) {
-            logger.warn("Intento de reserva con DNI inválido (contiene caracteres no numéricos): {}", dto.getDniPasajero());
-            throw new IllegalArgumentException("El DNI debe contener solo números.");
-        }
+        Preconditions.checkArgument(StringUtils.isNumeric(dto.getDniPasajero()),
+                "El DNI debe contener solo números.");
 
         // 4. Validar que el usuario haya seleccionado al menos un asiento
-        if (asientosSeleccionados == null || asientosSeleccionados.isEmpty()) {
-            throw new IllegalArgumentException("Debe seleccionar al menos un asiento.");
-        }
+        Preconditions.checkArgument(asientosSeleccionados != null && !asientosSeleccionados.isEmpty(),
+                "Debe seleccionar al menos un asiento.");
 
         // 5. Validar que no se seleccionen más de 5 asientos
         long asientosUnicos = asientosSeleccionados.stream().distinct().count();
-        if (asientosUnicos > 5) {
-            throw new IllegalArgumentException("No se pueden reservar más de 5 asientos por operación.");
-        }
+        Preconditions.checkArgument(asientosUnicos <= 5,
+                "No se pueden reservar más de 5 asientos por operación.");
 
         // 6. Validar que los asientos existan dentro del rango permitido del bus
         boolean asientoFueraDeRango = asientosSeleccionados.stream()
                 .anyMatch(numero -> numero == null || numero < 1 || numero > viaje.getAsientosTotales());
-        if (asientoFueraDeRango) {
-            throw new IllegalArgumentException("Uno o más asientos son inválidos o están fuera de rango.");
-        }
+        Preconditions.checkArgument(!asientoFueraDeRango,
+                "Uno o más asientos son inválidos o están fuera de rango.");
 
         // 7. Consultar qué asientos ya están ocupados para ese viaje
         List<Integer> asientosOcupados = viajeService.obtenerAsientosOcupados(viaje.getId());
 
         // 8. Validar que los asientos seleccionados no estén reservados
         boolean hayAsientoOcupado = asientosSeleccionados.stream().anyMatch(asientosOcupados::contains);
-        if (hayAsientoOcupado) {
-            logger.warn("Intento de reserva con asientos ocupados. Viaje ID: {}, Asientos: {}", viaje.getId(), asientosSeleccionados);
-            throw new IllegalStateException("Uno o más asientos seleccionados ya se encuentran ocupados. Por favor, seleccione otros.");
-        }
+        Preconditions.checkState(!hayAsientoOcupado,
+                "Uno o más asientos seleccionados ya se encuentran ocupados. Por favor, seleccione otros.");
 
         // 9. Validar límite máximo de reservas activas por pasajero
         String dniPasajero = dto.getDniPasajero();
@@ -102,8 +91,9 @@ public class ReservaService {
                 .count();
         if (reservasActivasDni >= 5) {
             logger.warn("Límite de reservas alcanzado. Pasajero DNI: {}, Viaje ID: {}", dniPasajero, viaje.getId());
-            throw new IllegalStateException("Se ha alcanzado el máximo de 5 reservas por pasajero para este viaje.");
         }
+        Preconditions.checkState(reservasActivasDni < 5,
+                "Se ha alcanzado el máximo de 5 reservas por pasajero para este viaje.");
 
         // 10. Crear la nueva reserva con estado PENDIENTE y calcular el precio total
         Reserva reserva = new Reserva();
