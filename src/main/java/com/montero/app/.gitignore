@@ -9,6 +9,10 @@ target/
 .project
 .classpath
 
+# IntelliJ (Opcional, si alguien usa este IDE)
+.idea/
+*.iml
+
 # Logs
 *.log
 
