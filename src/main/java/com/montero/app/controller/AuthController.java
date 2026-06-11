@@ -4,6 +4,7 @@ import com.montero.app.dto.LoginRequestDTO;
 import com.montero.app.dto.RegistroRequestDTO;
 import com.montero.app.model.Usuario;
 import com.montero.app.service.UsuarioService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,7 @@ public class AuthController {
     @PostMapping("/login")
     public String procesarLogin(@Valid @ModelAttribute("loginDTO") LoginRequestDTO loginDTO,
                                 BindingResult result,
+                                HttpSession session,
                                 RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "login";
@@ -41,6 +43,9 @@ public class AuthController {
             result.rejectValue("email", "error.loginDTO", "Credenciales incorrectas");
             return "login";
         }
+
+        // Guardar usuarioId en sesión para notificaciones
+        session.setAttribute("usuarioId", usuario.getId());
 
         redirectAttributes.addFlashAttribute("mensajeExito", "¡Bienvenido de vuelta!");
         return "redirect:/viajes";

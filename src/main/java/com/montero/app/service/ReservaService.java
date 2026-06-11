@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.montero.app.dto.ReservaRequestDTO;
 import com.montero.app.model.EstadoReserva;
 import com.montero.app.model.Reserva;
+import com.montero.app.model.TipoNotificacion;
 import com.montero.app.model.Viaje;
 import com.montero.app.repository.ReservaRepository;
 
@@ -29,6 +30,9 @@ public class ReservaService {
 
     @Autowired
     private ViajeService viajeService;
+
+    @Autowired
+    private NotificacionService notificacionService;
 
     /**
      * Inicia una nueva reserva en estado PENDIENTE, validando la disponibilidad del asiento.
@@ -106,7 +110,24 @@ public class ReservaService {
         reserva.setEmailPasajero(dto.getEmailPasajero());
 
         // 14. Guardar finalmente la reserva en la base de datos
-        return reservaRepository.save(reserva);
+        Reserva reservaGuardada = reservaRepository.save(reserva);
+
+        // 15. Crear notificación automática de compra
+        if (reserva.getUsuario() != null) {
+            String mensaje = "Compra de boleto: " + viaje.getOrigen() + " a " + viaje.getDestino();
+            String descripcion = "Se ha creado una reserva para el viaje " + viaje.getOrigen() + 
+                                " - " + viaje.getDestino() + " el " + viaje.getFechaSalida() +
+                                ". Asientos: " + reserva.getNumerosAsientos();
+            notificacionService.crearNotificacion(
+                reserva.getUsuario(),
+                mensaje,
+                descripcion,
+                TipoNotificacion.COMPRA,
+                reservaGuardada
+            );
+        }
+
+        return reservaGuardada;
     }
 
     /**
@@ -115,5 +136,40 @@ public class ReservaService {
     public Reserva obtenerReservaPorId(Long id) {
         return reservaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Reserva no encontrada con ID: " + id));
+    }
+
+    /**
+     * Cancela una reserva existente y crea notificación de cancelación
+     */
+    @Transactional
+    public Reserva cancelarReserva(Long id) {
+        Reserva reserva = obtenerReservaPorId(id);
+
+        // Validar que no esté ya cancelada
+        if (reserva.getEstado() == EstadoReserva.CANCELADO) {
+            throw new IllegalStateException("La reserva ya fue cancelada anteriormente.");
+        }
+
+        // Cambiar estado a cancelado
+        reserva.setEstado(EstadoReserva.CANCELADO);
+        Reserva reservaCancelada = reservaRepository.save(reserva);
+
+        // Crear notificación de cancelación
+        if (reserva.getUsuario() != null) {
+            String mensaje = "Cancelación de reserva: " + reserva.getViaje().getOrigen() + 
+                           " a " + reserva.getViaje().getDestino();
+            String descripcion = "Su reserva para el viaje " + reserva.getViaje().getOrigen() + 
+                                " - " + reserva.getViaje().getDestino() + " con los asientos " + 
+                                reserva.getNumerosAsientos() + " ha sido cancelada.";
+            notificacionService.crearNotificacion(
+                reserva.getUsuario(),
+                mensaje,
+                descripcion,
+                TipoNotificacion.CANCELACION,
+                reservaCancelada
+            );
+        }
+
+        return reservaCancelada;
     }
 }

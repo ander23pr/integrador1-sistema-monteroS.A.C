@@ -1,310 +1,345 @@
-﻿<!DOCTYPE html><html class="light" lang="es" style=""><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Montenero - Notificaciones</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com" rel="preconnect">
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<script id="tailwind-config">
+<!DOCTYPE html>
+<html class="light" lang="es" style="">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Montenero - Notificaciones</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
         tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "error-container": "#ffdad6",
-                      "on-secondary-container": "#fffbff",
-                      "on-surface-variant": "#45464d",
-                      "surface-container-highest": "#d5e3fd",
-                      "on-primary-container": "#7c839b",
-                      "surface-variant": "#d5e3fd",
-                      "secondary-container": "#e21e49",
-                      "primary": "#000000",
-                      "on-secondary-fixed-variant": "#920028",
-                      "on-tertiary-fixed-variant": "#004395",
-                      "inverse-on-surface": "#ebf1ff",
-                      "on-secondary-fixed": "#40000c",
-                      "outline": "#76777d",
-                      "primary-fixed-dim": "#bec6e0",
-                      "surface-bright": "#f8f9ff",
-                      "surface": "#f8f9ff",
-                      "tertiary-fixed-dim": "#adc6ff",
-                      "on-primary-fixed-variant": "#3f465c",
-                      "error": "#ba1a1a",
-                      "tertiary": "#000000",
-                      "on-error-container": "#93000a",
-                      "surface-container-low": "#eff4ff",
-                      "on-tertiary-fixed": "#001a42",
-                      "surface-container-lowest": "#ffffff",
-                      "on-primary": "#ffffff",
-                      "on-secondary": "#ffffff",
-                      "inverse-primary": "#bec6e0",
-                      "surface-tint": "#565e74",
-                      "on-primary-fixed": "#131b2e",
-                      "secondary-fixed": "#ffdada",
-                      "surface-container": "#e6eeff",
-                      "on-tertiary-container": "#3980f4",
-                      "primary-container": "#131b2e",
-                      "tertiary-container": "#001a42",
-                      "surface-dim": "#ccdbf4",
-                      "inverse-surface": "#233144",
-                      "on-error": "#ffffff",
-                      "secondary-fixed-dim": "#ffb3b6",
-                      "background": "#f8f9ff",
-                      "tertiary-fixed": "#d8e2ff",
-                      "secondary": "#ba0035",
-                      "outline-variant": "#c6c6cd",
-                      "on-tertiary": "#ffffff",
-                      "primary-fixed": "#dae2fd",
-                      "on-background": "#0d1c2f",
-                      "on-surface": "#0d1c2f",
-                      "surface-container-high": "#dde9ff"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.25rem",
-                      "lg": "0.5rem",
-                      "xl": "0.75rem",
-                      "full": "9999px"
-              },
-              "spacing": {
-                      "unit": "4px",
-                      "stack-md": "16px",
-                      "margin-page": "20px",
-                      "gutter": "16px",
-                      "stack-lg": "24px",
-                      "section-gap": "40px",
-                      "stack-sm": "8px"
-              },
-              "fontFamily": {
-                      "body-md": [
-                              "Inter"
-                      ],
-                      "label-md": [
-                              "Inter"
-                      ],
-                      "headline-lg": [
-                              "Inter"
-                      ],
-                      "headline-md": [
-                              "Inter"
-                      ],
-                      "headline-xl": [
-                              "Inter"
-                      ],
-                      "label-caps": [
-                              "Inter"
-                      ],
-                      "body-lg": [
-                              "Inter"
-                      ]
-              },
-              "fontSize": {
-                      "body-md": [
-                              "14px",
-                              {
-                                      "lineHeight": "20px",
-                                      "fontWeight": "400"
-                              }
-                      ],
-                      "label-md": [
-                              "12px",
-                              {
-                                      "lineHeight": "16px",
-                                      "fontWeight": "500"
-                              }
-                      ],
-                      "headline-lg": [
-                              "24px",
-                              {
-                                      "lineHeight": "32px",
-                                      "letterSpacing": "-0.01em",
-                                      "fontWeight": "600"
-                              }
-                      ],
-                      "headline-md": [
-                              "20px",
-                              {
-                                      "lineHeight": "28px",
-                                      "fontWeight": "600"
-                              }
-                      ],
-                      "headline-xl": [
-                              "32px",
-                              {
-                                      "lineHeight": "40px",
-                                      "letterSpacing": "-0.02em",
-                                      "fontWeight": "700"
-                              }
-                      ],
-                      "label-caps": [
-                              "12px",
-                              {
-                                      "lineHeight": "16px",
-                                      "letterSpacing": "0.05em",
-                                      "fontWeight": "700"
-                              }
-                      ],
-                      "body-lg": [
-                              "16px",
-                              {
-                                      "lineHeight": "24px",
-                                      "fontWeight": "400"
-                              }
-                      ]
-              }
-      },
-          },
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#fffbff",
+                        "on-surface-variant": "#45464d",
+                        "surface-container-highest": "#d5e3fd",
+                        "on-primary-container": "#7c839b",
+                        "surface-variant": "#d5e3fd",
+                        "secondary-container": "#e21e49",
+                        "primary": "#000000",
+                        "on-secondary-fixed-variant": "#920028",
+                        "on-tertiary-fixed-variant": "#004395",
+                        "inverse-on-surface": "#ebf1ff",
+                        "on-secondary-fixed": "#40000c",
+                        "outline": "#76777d",
+                        "primary-fixed-dim": "#bec6e0",
+                        "surface-bright": "#f8f9ff",
+                        "surface": "#f8f9ff",
+                        "tertiary-fixed-dim": "#adc6ff",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "error": "#ba1a1a",
+                        "tertiary": "#000000",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#eff4ff",
+                        "on-tertiary-fixed": "#001a42",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#bec6e0",
+                        "surface-tint": "#565e74",
+                        "on-primary-fixed": "#131b2e",
+                        "secondary-fixed": "#ffdada",
+                        "surface-container": "#e6eeff",
+                        "on-tertiary-container": "#3980f4",
+                        "primary-container": "#131b2e",
+                        "tertiary-container": "#001a42",
+                        "surface-dim": "#ccdbf4",
+                        "inverse-surface": "#233144",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#ffb3b6",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed": "#d8e2ff",
+                        "secondary": "#ba0035",
+                        "outline-variant": "#c6c6cd",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#dae2fd",
+                        "on-background": "#0d1c2f",
+                        "on-surface": "#0d1c2f",
+                        "surface-container-high": "#dde9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "margin-page": "20px",
+                        "gutter": "16px",
+                        "stack-lg": "24px",
+                        "section-gap": "40px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": [
+                            "Inter"
+                        ],
+                        "label-md": [
+                            "Inter"
+                        ],
+                        "headline-lg": [
+                            "Inter"
+                        ],
+                        "headline-md": [
+                            "Inter"
+                        ],
+                        "headline-xl": [
+                            "Inter"
+                        ],
+                        "label-caps": [
+                            "Inter"
+                        ],
+                        "body-lg": [
+                            "Inter"
+                        ]
+                    },
+                    "fontSize": {
+                        "body-md": [
+                            "14px",
+                            {
+                                "lineHeight": "20px",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "label-md": [
+                            "12px",
+                            {
+                                "lineHeight": "16px",
+                                "fontWeight": "500"
+                            }
+                        ],
+                        "headline-lg": [
+                            "24px",
+                            {
+                                "lineHeight": "32px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "headline-md": [
+                            "20px",
+                            {
+                                "lineHeight": "28px",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "headline-xl": [
+                            "32px",
+                            {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "label-caps": [
+                            "12px",
+                            {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "body-lg": [
+                            "16px",
+                            {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                            }
+                        ]
+                    }
+                },
+            },
         }
-      </script>
-<style>
+    </script>
+    <style>
         .material-symbols-outlined {
-          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-      </style>
+    </style>
 </head>
+
 <body class="bg-background text-on-background font-body-md min-h-screen pb-24 md:pb-0">
-<!-- TopAppBar -->
-<header class="docked full-width top-0 bg-surface shadow-sm z-40 sticky">
-<div class="flex justify-between items-center w-full px-margin-page h-16 flex-row-reverse">
+    <!-- TopAppBar -->
+    <header class="docked full-width top-0 bg-surface shadow-sm z-40 sticky">
+        <div class="flex justify-between items-center w-full px-margin-page h-16 flex-row-reverse">
+            <button aria-label="Profile"
+                class="hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-150 flex items-center justify-center w-10 h-10 rounded-full overflow-hidden border border-outline-variant">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMkhznKqR-45QfFRY9Snyzbd0MRJvYREZbLBbZOQzGeFj3DtENCmVlUv_dCSslUGyVv9hgwJ8DIf61JmhY1QRC7XQ0uY8d0hjCqjRQ-ts-b8YHPz7DzaTgYqyPEN2wctGm51C3gy9bbRTCa-rRhkfMBoPY84P9nlP9SOn4vPmug1d8c_KEjlZvLTjDmNICIt65x7A0ReE3NIcZl2hvfb4gaRPH5PzZLegHRCPF1yfazeSdx5Tn_gIh95xiTgRPQRENx2bJOChJs9f9"
+                    alt="User Profile" class="w-full h-full object-cover">
+            </button>
+        </div>
+    </header>
 
+    <!-- Main Content -->
+    <main class="px-margin-page py-stack-lg max-w-3xl mx-auto">
+        <div class="flex justify-between items-end mb-stack-md">
+            <h2 class="font-headline-md text-headline-md text-primary">Notificaciones</h2>
+            <button id="marcarTodosBtn"
+                class="font-label-md text-label-md text-secondary hover:opacity-80 transition-opacity"
+                th:if="${!notificaciones.isEmpty()}">Marcar todo como leído</button>
+        </div>
 
-<button aria-label="Profile" class="hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-150 flex items-center justify-center w-10 h-10 rounded-full overflow-hidden border border-outline-variant">
-<img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMkhznKqR-45QfFRY9Snyzbd0MRJvYREZbLBbZOQzGeFj3DtENCmVlUv_dCSslUGyVv9hgwJ8DIf61JmhY1QRC7XQ0uY8d0hjCqjRQ-ts-b8YHPz7DzaTgYqyPEN2wctGm51C3gy9bbRTCa-rRhkfMBoPY84P9nlP9SOn4vPmug1d8c_KEjlZvLTjDmNICIt65x7A0ReE3NIcZl2hvfb4gaRPH5PzZLegHRCPF1yfazeSdx5Tn_gIh95xiTgRPQRENx2bJOChJs9f9" alt="User Profile" class="w-full h-full object-cover">
-</button>
-</div>
-</header>
-<!-- Main Content -->
-<main class="px-margin-page py-stack-lg max-w-3xl mx-auto">
-<div class="flex justify-between items-end mb-stack-md">
-<h2 class="font-headline-md text-headline-md text-primary">Notificaciones</h2>
-<button class="font-label-md text-label-md text-secondary hover:opacity-80 transition-opacity">Marcar todo como leído</button>
-</div>
-<!-- Notifications Container -->
-<div class="flex flex-col gap-unit">
-<!-- Date Header -->
-<div class="py-stack-sm mt-stack-sm">
-<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Hoy</span>
-</div>
-<!-- Alert: Trip Reminder (Warning/Important) -->
-<div class="bg-surface-container-lowest rounded-lg p-stack-md shadow-sm border border-surface-variant flex gap-gutter items-start relative overflow-hidden group hover:shadow-md transition-shadow">
-<!-- Status Strip -->
-<div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary rounded-l-lg"></div>
-<div class="flex-shrink-0 w-10 h-10 rounded-full bg-error-container text-on-error-container flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="departure_board" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">departure_board</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-1">
-<h3 class="font-body-lg text-body-lg text-on-surface font-semibold">El viaje MT402 sale en 3 horas</h3>
-<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap ml-2">10:45 AM</span>
-</div>
-<p class="font-body-md text-body-md text-on-surface-variant">Cambio de embarque en el Terminal de Piura, Andén 4. Por favor proceda a seguridad.</p>
-<div class="mt-stack-sm">
-<button class="bg-surface-container-high text-on-surface font-label-md text-label-md px-3 py-1.5 rounded-full hover:bg-surface-dim transition-colors">Ver boleto</button>
-</div>
-</div>
-<!-- Unread indicator -->
-<div class="w-2 h-2 rounded-full bg-secondary flex-shrink-0 mt-2"></div>
-</div>
-<!-- Alert: Platform Update (Info) -->
-<div class="bg-surface-container-lowest rounded-lg p-stack-md shadow-sm border border-surface-variant flex gap-gutter items-start relative overflow-hidden group hover:shadow-md transition-shadow">
-<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary-container rounded-l-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
-<div class="flex-shrink-0 w-10 h-10 rounded-full bg-surface-container text-on-tertiary-container flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="info">info</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-1">
-<h3 class="font-body-lg text-body-lg text-on-surface font-semibold">Interrupción del servicio en la Ruta Piura-Sullana</h3>
-<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap ml-2">08:30 AM</span>
-</div>
-<p class="font-body-md text-body-md text-on-surface-variant">Espere retrasos de hasta 15 minutos debido a mantenimiento de vías.</p>
-</div>
-</div>
-<!-- Date Header -->
-<div class="py-stack-sm mt-stack-md">
-<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Ayer</span>
-</div>
-<!-- Alert: Promotion (Promo) -->
-<div class="bg-surface-container-lowest rounded-lg p-stack-md shadow-sm border border-surface-variant flex gap-gutter items-start relative overflow-hidden group hover:shadow-md transition-shadow">
-<div class="flex-shrink-0 w-10 h-10 rounded-full bg-surface-container-highest text-on-primary-fixed-variant flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="local_offer">local_offer</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-1">
-<h3 class="font-body-lg text-body-lg text-on-surface font-semibold">Ofertas de escapada de fin de semana</h3>
-<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap ml-2">Ayer</span>
-</div>
-<p class="font-body-md text-body-md text-on-surface-variant">Ahorre un 20% en todas las rutas de bus interurbano reservadas este fin de semana.</p>
-</div>
-</div>
-<!-- Alert: Trip Confirmation -->
-<div class="bg-surface-container-lowest rounded-lg p-stack-md shadow-sm border border-surface-variant flex gap-gutter items-start relative overflow-hidden group hover:shadow-md transition-shadow">
-<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary-container rounded-l-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
-<div class="flex-shrink-0 w-10 h-10 rounded-full bg-surface-container text-on-tertiary-container flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-1">
-<h3 class="font-body-lg text-body-lg text-on-surface font-semibold">Reserva Confirmada: Piura a Máncora</h3>
-<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap ml-2">Ayer</span>
-</div>
-<p class="font-body-md text-body-md text-on-surface-variant">Su boleto de bus para el 12 de oct ha sido confirmado.</p>
-</div>
-</div>
-<!-- Date Header -->
-<div class="py-stack-sm mt-stack-md">
-<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">A principios de esta semana</span>
-</div>
-<!-- Promotion with Image -->
-<div class="bg-surface-container-lowest rounded-lg p-stack-md shadow-sm border border-surface-variant flex flex-col gap-stack-sm relative overflow-hidden group hover:shadow-md transition-shadow">
-<div class="flex gap-gutter items-start">
-<div class="flex-shrink-0 w-10 h-10 rounded-full bg-surface-container-highest text-on-primary-fixed-variant flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="star">star</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-1">
-<h3 class="font-body-lg text-body-lg text-on-surface font-semibold">Nueva Sala en el Terminal Piura</h3>
-<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap ml-2">Mar</span>
-</div>
-<p class="font-body-md text-body-md text-on-surface-variant mb-3">Mejore su experiencia de espera. Ahora abierto para todos los miembros de Montenero Plus.</p>
-</div>
-</div>
-<div class="w-full h-32 rounded-md overflow-hidden bg-surface-variant relative ml-14 max-w-[calc(100%-3.5rem)]">
-<img alt="Premium Lounge" class="w-full h-full object-cover" data-alt="A luxurious, modern airport or train station lounge. The space features sleek, minimalist furniture, warm ambient lighting, and high-contrast corporate modernism aesthetic. Deep black accents contrast with bright white surfaces and subtle red details. The mood is calm, professional, and premium, offering a relaxing environment for travelers." src="https://lh3.googleusercontent.com/aida/ADBb0ujAzRTtBB5v9PRIr0Fzsf_Yg98cMYnTjDtt2hPnbh7sjcJHikMqqZABnlPIJXhmC1CcCfNCWwXKWof0_Ybg1uzRxw7fHPD3bxGQwyuG5u_JiOpM2ZPb9C8d82jvZaULukBUkf9NeyoWOD8sv2K0T2FqgjWjFBVNNP-mu-NAzpM7Ybw2Tq2gsEpkh66jEE9CoFXNZPvgHre_T9VmJWdBzYir9RKNxojVcepqPb4q7KJHnJ1iOEnXTY0JxnaSQ5EtL5LUepaL-5nA18Q">
-</div>
-</div>
-</div>
-</main>
-<!-- BottomNavBar -->
-<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-4 pb-2 bg-surface-container-lowest border-t border-outline-variant shadow-lg md:hidden">
-<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/10 rounded-lg p-2 Active: scale-90 transition-all w-16">
-<span class="material-symbols-outlined" data-icon="home">home</span>
-<span class="font-label-md text-label-md mt-1">Inicio</span>
-</button>
-<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/10 rounded-lg p-2 Active: scale-90 transition-all w-16">
-<span class="material-symbols-outlined" data-icon="search">search</span>
-<span class="font-label-md text-label-md mt-1">Buscar</span>
-</button>
-<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/10 rounded-lg p-2 Active: scale-90 transition-all w-16">
-<span class="material-symbols-outlined" data-icon="directions_transit">directions_transit</span>
-<span class="font-label-md text-label-md mt-1">Mis Viajes</span>
-</button>
-<button class="flex flex-col items-center justify-center text-secondary font-bold hover:bg-surface-variant/10 rounded-lg p-2 Active: scale-90 transition-all w-16">
-<span class="material-symbols-outlined" data-icon="notifications" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">notifications</span>
-<span class="font-label-md text-label-md mt-1">Alertas</span>
-</button>
-<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/10 rounded-lg p-2 Active: scale-90 transition-all w-16"><span class="material-symbols-outlined" data-icon="settings">settings</span>
-<span class="font-label-md text-label-md mt-1">Ajustes</span></button>
-</nav>
+        <!-- Notifications Container -->
+        <div class="flex flex-col gap-unit">
 
+            <!-- Si no hay notificaciones -->
+            <div th:if="${notificaciones.isEmpty()}" class="text-center py-stack-lg">
+                <p class="font-body-md text-on-surface-variant">No tienes notificaciones en este momento
+                </p>
+            </div>
 
+            <!-- Recorrer todas las notificaciones -->
+            <div th:each="notif, iterStat : ${notificaciones}">
+                <!-- Date Header (mostrar una sola vez por día) -->
+                <div class="py-stack-sm mt-stack-sm"
+                    th:if="${iterStat.first || notif.fecha.toLocalDate() != notificaciones[notificaciones.size() - iterStat.count].fecha.toLocalDate()}">
+                    <span class="font-label-caps text-label-caps text-on-surface-variant uppercase"
+                        th:text="${#temporals.format(notif.fecha, 'dd/MM/yyyy') == #temporals.format(#temporals.today(), 'dd/MM/yyyy') ? 'Hoy' : #temporals.format(notif.fecha, 'dd MMM yyyy')}">
+                        Fecha
+                    </span>
+                </div>
 
+                <!-- Notificación Card -->
+                <div th:classappend="${notif.leida ? 'opacity-60' : ''}"
+                    class="bg-surface-container-lowest rounded-lg p-stack-md shadow-sm border border-surface-variant flex gap-gutter items-start relative overflow-hidden group hover:shadow-md transition-shadow"
+                    th:attr="data-notif-id=${notif.id}">
 
+                    <!-- Status Strip - Color según tipo -->
+                    <div class="absolute left-0 top-0 bottom-0 w-1 rounded-l-lg" th:classappend="${notif.tipo.name() == 'COMPRA' ? 'bg-secondary' : 
+                      notif.tipo.name() == 'CANCELACION' ? 'bg-error' : 
+                      notif.tipo.name() == 'PROMOCION' ? 'bg-tertiary-container' : 
+                      'bg-tertiary-container'}"></div>
 
+                    <!-- Icon - Según tipo de notificación -->
+                    <div class="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center" th:classappend="${notif.tipo.name() == 'COMPRA' ? 'bg-error-container text-on-error-container' : 
+                      notif.tipo.name() == 'CANCELACION' ? 'bg-error-container text-on-error-container' : 
+                      notif.tipo.name() == 'CONFIRMACION' ? 'bg-surface-container text-on-tertiary-container' : 
+                      notif.tipo.name() == 'PROMOCION' ? 'bg-surface-container-highest text-on-primary-fixed-variant' : 
+                      'bg-surface-container text-on-tertiary-container'}">
+                        <span class="material-symbols-outlined" th:attr="data-icon=${notif.tipo.name() == 'COMPRA' ? 'check_circle' : 
+                           notif.tipo.name() == 'CANCELACION' ? 'cancel' : 
+                           notif.tipo.name() == 'CONFIRMACION' ? 'check_circle' : 
+                           notif.tipo.name() == 'RECORDATORIO' ? 'departure_board' : 
+                           notif.tipo.name() == 'PROMOCION' ? 'local_offer' : 
+                           'info'}" th:class="${notif.tipo.name() == 'COMPRA' ? 'fill' : ''}" th:text="${notif.tipo.name() == 'COMPRA' ? 'check_circle' : 
+               notif.tipo.name() == 'CANCELACION' ? 'cancel' : 
+               notif.tipo.name() == 'CONFIRMACION' ? 'check_circle' : 
+               notif.tipo.name() == 'RECORDATORIO' ? 'departure_board' : 
+               notif.tipo.name() == 'PROMOCION' ? 'local_offer' : 
+               'info'}">info</span>
+                    </div>
 
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-body-lg text-body-lg text-on-surface font-semibold"
+                                th:text="${notif.mensaje}">Título</h3>
+                            <span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap ml-2"
+                                th:text="${#temporals.format(notif.fecha, 'HH:mm')}">Hora</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface-variant" th:text="${notif.descripcion}">
+                            Descripción</p>
+                        <div class="mt-stack-sm" th:if="${notif.boleto != null}">
+                            <a th:href="@{/reservas/{id}/resumen(id=${notif.boleto.id})}"
+                                class="bg-surface-container-high text-on-surface font-label-md text-label-md px-3 py-1.5 rounded-full hover:bg-surface-dim transition-colors inline-block">
+                                Ver boleto
+                            </a>
+                        </div>
+                    </div>
 
+                    <!-- Unread indicator - Solo si no está leída -->
+                    <div th:if="${!notif.leida}" class="w-2 h-2 rounded-full bg-secondary flex-shrink-0 mt-2"></div>
+                    <div th:if="${notif.leida}"
+                        class="w-2 h-2 rounded-full bg-surface-variant flex-shrink-0 mt-2 opacity-30">
+                    </div>
+                </div>
+            </div>
 
+        </div>
+    </main>
 
+    <!-- BottomNavBar -->
+    <nav
+        class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-4 pb-2 bg-surface-container-lowest border-t border-outline-variant shadow-lg md:hidden">
+        <button
+            class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/10 rounded-lg p-2 active:scale-90 transition-all w-16">
+            <span class="material-symbols-outlined" data-icon="home">home</span>
+            <span class="font-label-md text-label-md mt-1">Inicio</span>
+        </button>
+        <button
+            class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/10 rounded-lg p-2 active:scale-90 transition-all w-16">
+            <span class="material-symbols-outlined" data-icon="search">search</span>
+            <span class="font-label-md text-label-md mt-1">Buscar</span>
+        </button>
+        <button
+            class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/10 rounded-lg p-2 active:scale-90 transition-all w-16">
+            <span class="material-symbols-outlined" data-icon="directions_transit">directions_transit</span>
+            <span class="font-label-md text-label-md mt-1">Mis Viajes</span>
+        </button>
+        <button
+            class="flex flex-col items-center justify-center text-secondary font-bold hover:bg-surface-variant/10 rounded-lg p-2 active:scale-90 transition-all w-16">
+            <span class="material-symbols-outlined" data-icon="notifications" data-weight="fill"
+                style="font-variation-settings: 'FILL' 1;">notifications</span>
+            <span class="font-label-md text-label-md mt-1">Alertas</span>
+        </button>
+        <button
+            class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/10 rounded-lg p-2 active:scale-90 transition-all w-16">
+            <span class="material-symbols-outlined" data-icon="settings">settings</span>
+            <span class="font-label-md text-label-md mt-1">Ajustes</span>
+        </button>
+    </nav>
 
-</body></html>
+    <!-- Script para marcar notificaciones como leídas -->
+    <script>
+        document.getElementById('marcarTodosBtn')?.addEventListener('click', async function () {
+            try {
+                const response = await fetch('/notificaciones/marcar-todas-leidas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Recargar la página para mostrar los cambios
+                    window.location.reload();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        // Marcar como leída al hacer click en la notificación
+        document.querySelectorAll('[data-notif-id]').forEach(notif => {
+            notif.addEventListener('click', async function (e) {
+                // No marcar si hace click en el botón "Ver boleto"
+                if (e.target.tagName === 'A' || e.target.closest('a')) return;
+
+                const notifId = this.getAttribute('data-notif-id');
+                try {
+                    await fetch(`/notificaciones/${notifId}/marcar-leida`, {
+                        method: 'POST'
+                    });
+                    // Cambiar opacidad para indicar que fue leída
+                    this.style.opacity = '0.6';
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
