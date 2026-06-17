@@ -31,7 +31,8 @@ public class AuthController {
     @PostMapping("/login")
     public String procesarLogin(@Valid @ModelAttribute("loginDTO") LoginRequestDTO loginDTO,
                                 BindingResult result,
-                                RedirectAttributes redirectAttributes) {
+                                RedirectAttributes redirectAttributes,
+                                jakarta.servlet.http.HttpSession session) {
         if (result.hasErrors()) {
             return "login";
         }
@@ -42,6 +43,7 @@ public class AuthController {
             return "login";
         }
 
+        session.setAttribute("usuarioLogueado", usuario);
         redirectAttributes.addFlashAttribute("mensajeExito", "¡Bienvenido de vuelta!");
         return "redirect:/viajes";
     }
@@ -69,6 +71,12 @@ public class AuthController {
         }
 
         redirectAttributes.addFlashAttribute("mensajeExito", "Registro exitoso. Inicia sesión.");
+        return "redirect:/login";
+    }
+
+    @PostMapping("/auth/logout")
+    public String logout(jakarta.servlet.http.HttpSession session) {
+        session.invalidate();
         return "redirect:/login";
     }
 }

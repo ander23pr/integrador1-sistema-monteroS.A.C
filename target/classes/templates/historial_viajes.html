@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>Historial de viajes</title>
@@ -109,9 +109,9 @@
 
 </button>
 <h1 class="font-headline-lg text-headline-lg font-bold tracking-tight text-primary dark:text-on-surface"></h1>
-<button aria-label="Profile" class="text-primary hover:opacity-80 transition-opacity flex items-center justify-center p-2 rounded-full">
-<img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqCRchW_OGWiKv82gJ8j7hhip7Tz1eXwAq5ygCPqbryYNIYzvCSgl3VaUq76r7ELczeibqdm9yHFwAlBaQnI-q_G-J1E6CIul5UaOrNYJ-gASfCqWn_AaEoyj-20h6_hHzplKxGr5roo4wKHkj0xMwJhH9kBPGI9l23L0wGq2SEanlVV5ZNEHATuGufLtbrfyI1JGpXBbDjubjYOugtSaawxU3_YIFfcD-O6dvrGvEyfxR9WInqpN1AwKQrr86M-806goYLdWwPkDk" alt="User Profile" class="w-8 h-8 rounded-full object-cover">
-</button>
+<a th:href="@{/perfil}" aria-label="Profile" class="text-primary hover:opacity-80 transition-opacity flex items-center justify-center p-2 rounded-full">
+<img th:src="${session.usuarioLogueado != null && session.usuarioLogueado.fotoPerfil != null ? session.usuarioLogueado.fotoPerfil : 'https://lh3.googleusercontent.com/aida-public/AB6AXuAqCRchW_OGWiKv82gJ8j7hhip7Tz1eXwAq5ygCPqbryYNIYzvCSgl3VaUq76r7ELczeibqdm9yHFwAlBaQnI-q_G-J1E6CIul5UaOrNYJ-gASfCqWn_AaEoyj-20h6_hHzplKxGr5roo4wKHkj0xMwJhH9kBPGI9l23L0wGq2SEanlVV5ZNEHATuGufLtbrfyI1JGpXBbDjubjYOugtSaawxU3_YIFfcD-O6dvrGvEyfxR9WInqpN1AwKQrr86M-806goYLdWwPkDk'}" alt="User Profile" class="w-8 h-8 rounded-full object-cover hover:scale-105 transition-transform">
+</a>
 </header>
 <!-- Main Content -->
 <main class="flex-grow px-margin-page py-stack-lg pb-32">

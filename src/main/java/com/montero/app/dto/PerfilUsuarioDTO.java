@@ -1,53 +1,18 @@
-package com.montero.app.model;
+package com.montero.app.dto;
 
-import jakarta.persistence.*;
+public class PerfilUsuarioDTO {
 
-/**
- * Entidad Usuario utilizada únicamente para la autenticación y login básico.
- */
-@Entity
-@Table(name = "usuarios")
-public class Usuario {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false, unique = true, length = 100)
-    private String email;
-
-    @Column(nullable = false)
-    private String password;
-
-    @Column(length = 50)
-    private String rol;
-
-    @Column(length = 100)
     private String nombre;
-
-    @Column(length = 20)
     private String dni;
-
-    @Column(length = 20)
     private String telefono;
-
-    @Column(length = 50)
     private String preferenciaAsiento;
-
-    @Column(length = 50)
     private String preferenciaServicio;
-
-    @Column(length = 255)
     private String fotoPerfil;
+    private long viajesTotales;
+    private String destinoFavorito;
 
-    public Usuario() {
-    }
-
-    public Usuario(Long id, String email, String password, String rol) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.rol = rol;
+    public PerfilUsuarioDTO() {
     }
 
     public Long getId() {
@@ -56,30 +21,6 @@ public class Usuario {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
     }
 
     public String getNombre() {
@@ -120,6 +61,22 @@ public class Usuario {
 
     public void setPreferenciaServicio(String preferenciaServicio) {
         this.preferenciaServicio = preferenciaServicio;
+    }
+
+    public long getViajesTotales() {
+        return viajesTotales;
+    }
+
+    public void setViajesTotales(long viajesTotales) {
+        this.viajesTotales = viajesTotales;
+    }
+
+    public String getDestinoFavorito() {
+        return destinoFavorito;
+    }
+
+    public void setDestinoFavorito(String destinoFavorito) {
+        this.destinoFavorito = destinoFavorito;
     }
 
     public String getFotoPerfil() {

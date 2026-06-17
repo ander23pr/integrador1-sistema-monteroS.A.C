@@ -18,11 +18,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.montero.app.dto.ReservaRequestDTO;
 import com.montero.app.model.Reserva;
+import com.montero.app.model.Usuario;
 import com.montero.app.model.Viaje;
 import com.montero.app.service.PagoService;
 import com.montero.app.service.ReservaService;
 import com.montero.app.service.ViajeService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 /**
@@ -86,7 +88,11 @@ public class ReservaController {
     public String iniciarReserva(@Valid @ModelAttribute("reservaDTO") ReservaRequestDTO reservaDTO,
                                  BindingResult bindingResult,
                                  Model model,
-                                 RedirectAttributes redirectAttributes) {
+                                 RedirectAttributes redirectAttributes,
+                                 HttpSession session) {
+
+        // Se obtiene el usuario en sesión para asociar la reserva cuando haya un usuario logueado.
+        Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogueado");
 
         // Si hay errores de validación (por ejemplo, faltan apellidos o el DNI no tiene 8 dígitos)
         // el controlador vuelve a cargar la vista de selección de asientos manteniendo la información del viaje y mostrando los mensajes de error correspondientes.
@@ -103,7 +109,7 @@ public class ReservaController {
 
         try {
             // Intentamos crear la reserva
-            Reserva reserva = reservaService.iniciarReserva(reservaDTO);
+            Reserva reserva = reservaService.iniciarReserva(reservaDTO, usuarioSesion);
             
             // Si tiene éxito, redirigimos a la vista de resumen de ESA reserva específica
             return "redirect:/reservas/" + reserva.getId() + "/resumen";
