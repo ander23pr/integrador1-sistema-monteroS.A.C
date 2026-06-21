@@ -1,12 +1,11 @@
-2026-06-10 13:36:33 [http-nio-8080-exec-4] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
-2026-06-10 13:37:03 [http-nio-8080-exec-3] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 21, DNI Pasajero: 73784556, Asientos: 6
-2026-06-10 13:37:21 [http-nio-8080-exec-9] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 21, Método: YAPE, Teléfono: 951348627
-2026-07-02 02:36:40 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
-2026-07-02 02:37:36 [http-nio-8080-exec-5] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 25, DNI Pasajero: 73784098, Asientos: 2
-2026-07-02 02:37:52 [http-nio-8080-exec-3] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 25, Método: YAPE, Teléfono: 951348627
-2026-07-02 02:39:23 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
-2026-07-02 02:47:03 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
-2026-07-02 02:48:39 [http-nio-8080-exec-4] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
-2026-07-02 03:01:11 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
-2026-07-02 03:02:06 [http-nio-8080-exec-9] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
-2026-07-02 03:03:25 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-07-04 00:03:49 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-07-04 00:09:46 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-07-04 00:11:57 [http-nio-8080-exec-2] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-07-04 00:19:17 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-07-04 00:25:17 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-07-04 00:28:07 [http-nio-8080-exec-4] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-07-04 00:34:40 [http-nio-8080-exec-8] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-07-04 00:40:08 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-07-04 00:56:37 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-07-04 01:04:34 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-07-04 01:07:11 [http-nio-8080-exec-2] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com

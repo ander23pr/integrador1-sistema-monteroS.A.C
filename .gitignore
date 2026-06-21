@@ -1,0 +1,23 @@
+# Maven
+target/
+
+# IDE
+.vscode/
+.settings/
+.idea/
+*.iml
+
+# Logs
+logs/
+*.log
+
+# Archivos subidos por usuarios (contenido dinamico, no codigo)
+src/main/resources/static/uploads/
+
+# Variables de entorno / credenciales
+.env
+*.env
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

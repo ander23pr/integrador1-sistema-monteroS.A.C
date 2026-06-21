@@ -2,6 +2,7 @@ com\montero\app\model\MetodoPago.class
 com\montero\app\controller\HomeController.class
 com\montero\app\exception\GlobalExceptionHandler.class
 com\montero\app\MonteroApplication.class
+com\montero\app\config\PasswordEncoderConfig.class
 com\montero\app\service\PagoService.class
 com\montero\app\repository\ReservaRepository.class
 com\montero\app\repository\ViajeRepository.class
@@ -9,6 +10,8 @@ com\montero\app\controller\ReservaController.class
 com\montero\app\repository\PagoRepository.class
 com\montero\app\controller\ViajeController.class
 com\montero\app\repository\UsuarioRepository.class
+com\montero\app\dto\PerfilUsuarioDTO.class
+com\montero\app\service\PerfilUsuarioService.class
 com\montero\app\dto\PagoYapeDTO.class
 com\montero\app\controller\PagoController.class
 com\montero\app\model\Pago.class
@@ -22,4 +25,5 @@ com\montero\app\service\ReservaService.class
 com\montero\app\model\EstadoReserva.class
 com\montero\app\model\Reserva.class
 com\montero\app\service\ViajeService.class
+com\montero\app\controller\PerfilUsuarioController.class
 com\montero\app\dto\RegistroRequestDTO.class
