@@ -178,4 +178,103 @@ class ReservaServiceTest {
         );
         assertTrue(excepcion.getMessage().contains("Viaje no encontrado"));
     }
+
+    @Test
+    @DisplayName("Obtener historial de reservas del usuario autenticado")
+    void testObtenerHistorialPorUsuario() {
+
+        // Arrange
+        Viaje viaje = new Viaje(
+                1L,
+                "Piura",
+                "Paita",
+                LocalDate.now().plusDays(1),
+                LocalTime.of(8, 0),
+                BigDecimal.valueOf(50.00),
+                30
+        );
+
+        Reserva reservaUsuario = new Reserva();
+        reservaUsuario.setId(10L);
+        reservaUsuario.setEstado(EstadoReserva.PAGADO);
+        reservaUsuario.setViaje(viaje);
+        reservaUsuario.setPrecioTotal(BigDecimal.valueOf(50.00));
+
+        when(reservaRepository.findByUsuarioId(7L))
+                .thenReturn(Collections.singletonList(reservaUsuario));
+
+        // Act
+        var resultado = reservaService.obtenerHistorialPorUsuario(
+                7L,
+                null,           // búsqueda
+                "todos",        // filtro
+                "fecha_desc"    // orden
+        );
+
+        // Assert
+        assertNotNull(resultado);
+        assertEquals(1, resultado.size());
+        assertEquals(10L, resultado.get(0).getId());
+        assertEquals("Piura", resultado.get(0).getViaje().getOrigen());
+        assertEquals("Paita", resultado.get(0).getViaje().getDestino());
+        assertEquals(EstadoReserva.PAGADO, resultado.get(0).getEstado());
+    }
+
+    @Test
+    @DisplayName("Buscar reservas ignorando acentos y mayúsculas")
+    void testBuscarReservasIgnorandoAcentosYMayusculas() {
+        Viaje viaje = new Viaje(
+                2L,
+                "Máncora",
+                "Lima",
+                LocalDate.of(2024, 7, 15),
+                LocalTime.of(10, 30),
+                BigDecimal.valueOf(80.00),
+                25
+        );
+
+        Reserva reservaUsuario = new Reserva();
+        reservaUsuario.setId(11L);
+        reservaUsuario.setEstado(EstadoReserva.PAGADO);
+        reservaUsuario.setViaje(viaje);
+        reservaUsuario.setPrecioTotal(BigDecimal.valueOf(80.00));
+
+        when(reservaRepository.findByUsuarioId(7L))
+                .thenReturn(Collections.singletonList(reservaUsuario));
+
+        var resultado = reservaService.obtenerHistorialPorUsuario(7L, "mancora", "todos", "fecha_desc");
+
+        assertNotNull(resultado);
+        assertEquals(1, resultado.size());
+        assertEquals(11L, resultado.get(0).getId());
+    }
+
+    @Test
+    @DisplayName("Buscar reservas por nombres de mes y año en español")
+    void testBuscarReservasPorMesYAnioEnEspanol() {
+        Viaje viaje = new Viaje(
+                3L,
+                "Arequipa",
+                "Cusco",
+                LocalDate.of(2024, 7, 18),
+                LocalTime.of(14, 0),
+                BigDecimal.valueOf(120.00),
+                20
+        );
+
+        Reserva reservaUsuario = new Reserva();
+        reservaUsuario.setId(12L);
+        reservaUsuario.setEstado(EstadoReserva.PAGADO);
+        reservaUsuario.setViaje(viaje);
+        reservaUsuario.setPrecioTotal(BigDecimal.valueOf(120.00));
+
+        when(reservaRepository.findByUsuarioId(7L))
+                .thenReturn(Collections.singletonList(reservaUsuario));
+
+        var resultado = reservaService.obtenerHistorialPorUsuario(7L, "julio", "todos", "fecha_desc");
+
+        assertNotNull(resultado);
+        assertEquals(1, resultado.size());
+        assertEquals(12L, resultado.get(0).getId());
+    }
 }

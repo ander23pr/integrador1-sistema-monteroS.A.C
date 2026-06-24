@@ -119,11 +119,20 @@
     </style>
 </head>
 <body class="bg-background text-on-surface font-body-md selection:bg-secondary-fixed selection:text-secondary">
+<script>
+function goBackOrFallback() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = '/inicio';
+    }
+}
+</script>
 <!-- Top Navigation Anchor -->
 <header class="w-full top-0 sticky z-50 bg-primary-container text-on-primary-fixed border-b border-outline-variant/10 shadow-sm transition-colors duration-300 h-16 flex items-center">
 <div class="flex items-center justify-between px-margin-page w-full max-w-7xl mx-auto">
 <div class="flex items-center gap-4">
-<button class="active:scale-95 transition-transform hover:bg-surface-container-low/10 p-2 rounded-full">
+<button type="button" onclick="goBackOrFallback()" aria-label="Volver" class="active:scale-95 transition-transform hover:bg-surface-container-low/10 p-2 rounded-full">
 <span class="material-symbols-outlined text-on-primary">arrow_back</span>
 </button>
 <h1 class="font-headline-md text-headline-md text-on-primary">Perfil</h1>

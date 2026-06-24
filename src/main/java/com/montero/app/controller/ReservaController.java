@@ -3,7 +3,6 @@ package com.montero.app.controller;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,17 +32,40 @@ import jakarta.validation.Valid;
  * y la base de datos.
  */
 @Controller
-@RequestMapping("/reservas")
+@RequestMapping(path = {"/reservas", ""})
 public class ReservaController {
 
-    @Autowired
-    private ViajeService viajeService;
+    private final ViajeService viajeService;
+    private final ReservaService reservaService;
+    private final PagoService pagoService;
 
-    @Autowired
-    private ReservaService reservaService;
+    public ReservaController(ViajeService viajeService, ReservaService reservaService, PagoService pagoService) {
+        this.viajeService = viajeService;
+        this.reservaService = reservaService;
+        this.pagoService = pagoService;
+    }
 
-    @Autowired
-    private PagoService pagoService;
+    /**
+     * Muestra el historial de viajes del usuario autenticado.
+     */
+    @GetMapping("/historial")
+    public String mostrarHistorial(@RequestParam(value = "busqueda", required = false) String busqueda,
+                                   @RequestParam(value = "filtro", required = false, defaultValue = "todos") String filtro,
+                                   @RequestParam(value = "orden", required = false, defaultValue = "fecha_desc") String orden,
+                                   Model model,
+                                   HttpSession session) {
+        Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioSesion == null) {
+            return "redirect:/login";
+        }
+
+        List<Reserva> reservas = reservaService.obtenerHistorialPorUsuario(usuarioSesion.getId(), busqueda, filtro, orden);
+        model.addAttribute("reservas", reservas);
+        model.addAttribute("busqueda", busqueda);
+        model.addAttribute("filtro", filtro);
+        model.addAttribute("orden", orden);
+        return "historial_viajes";
+    }
 
     /**
      * Este método se encarga de cargar la vista de selección de asientos.

@@ -2,6 +2,7 @@ package com.montero.app.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +19,8 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     // Método para obtener todas las reservas de un viaje,
     // útil para saber qué asientos ya están ocupados.
     List<Reserva> findByViajeId(Long viajeId);
+
+    // Método para obtener el historial de reservas de un usuario autenticado.
+    @EntityGraph(attributePaths = "viaje")
+    List<Reserva> findByUsuarioId(Long usuarioId);
 }

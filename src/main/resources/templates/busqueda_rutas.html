@@ -181,10 +181,21 @@
 <span class="material-symbols-outlined mb-1" data-icon="search" style="font-variation-settings: &quot;FILL&quot; 1;">search</span>
 <span class="font-label-md text-label-md">Buscar</span>
 </button>
-<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/10 px-3 py-1 rounded-lg w-16" onmousedown="this.style.transform='scale(0.90)'" onmouseleave="this.style.transform='scale(1)'" onmouseup="this.style.transform='scale(1)'">
-<span class="material-symbols-outlined mb-1" data-icon="directions_transit" style="font-variation-settings: &quot;FILL&quot; 0;">directions_transit</span>
-<span class="font-label-md text-label-md">MisViajes</span>
-</button>
+<!-- Reemplaza tu bloque actual de Mis Viajes por este: -->
+<a th:href="@{/historial}" 
+   class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/10 px-0 py-1 rounded-lg w-20 text-center transition-colors"
+   onmousedown="this.style.transform='scale(0.90)'"
+   onmouseleave="this.style.transform='scale(1)'"
+   onmouseup="this.style.transform='scale(1)'">
+
+    <span class="material-symbols-outlined mb-0.5" style="font-variation-settings:'FILL' 0;">
+        directions_transit
+    </span>
+
+    <span class="font-label-md text-label-md whitespace-nowrap">
+        Mis Viajes
+    </span>
+</a>
 <button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/10 px-3 py-1 rounded-lg w-16" onmousedown="this.style.transform='scale(0.90)'" onmouseleave="this.style.transform='scale(1)'" onmouseup="this.style.transform='scale(1)'">
 <span class="material-symbols-outlined mb-1" data-icon="notifications" style="font-variation-settings: &quot;FILL&quot; 0;">notifications</span>
 <span class="font-label-md text-label-md">Alertas</span>

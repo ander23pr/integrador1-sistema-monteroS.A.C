@@ -109,7 +109,9 @@
 
 </button>
 <h1 class="font-headline-lg text-headline-lg font-bold tracking-tight text-primary dark:text-on-surface"></h1>
-<a th:href="@{/perfil}" aria-label="Profile" class="text-primary hover:opacity-80 transition-opacity flex items-center justify-center p-2 rounded-full">
+<a th:href="@{/perfil(origen='/reservas/historial')}"
+   aria-label="Profile"
+   class="text-primary hover:opacity-80 transition-opacity flex items-center justify-center p-2 rounded-full">
 <img th:src="${session.usuarioLogueado != null && session.usuarioLogueado.fotoPerfil != null ? session.usuarioLogueado.fotoPerfil : 'https://lh3.googleusercontent.com/aida-public/AB6AXuAqCRchW_OGWiKv82gJ8j7hhip7Tz1eXwAq5ygCPqbryYNIYzvCSgl3VaUq76r7ELczeibqdm9yHFwAlBaQnI-q_G-J1E6CIul5UaOrNYJ-gASfCqWn_AaEoyj-20h6_hHzplKxGr5roo4wKHkj0xMwJhH9kBPGI9l23L0wGq2SEanlVV5ZNEHATuGufLtbrfyI1JGpXBbDjubjYOugtSaawxU3_YIFfcD-O6dvrGvEyfxR9WInqpN1AwKQrr86M-806goYLdWwPkDk'}" alt="User Profile" class="w-8 h-8 rounded-full object-cover hover:scale-105 transition-transform">
 </a>
 </header>
@@ -118,104 +120,72 @@
 <!-- Header & Search Section -->
 <section class="mb-section-gap">
 <h2 class="font-headline-xl text-headline-xl mb-stack-md text-primary">Historial de viajes</h2>
-<div class="flex flex-col md:flex-row gap-gutter">
+<form th:action="@{/reservas/historial}" method="get" class="flex flex-col md:flex-row gap-gutter">
 <div class="relative flex-grow">
 <span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-outline">search</span>
-<input class="w-full pl-10 pr-4 py-3 bg-[#F1F5F9] border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" placeholder="Buscar destinos, fechas..." type="text">
+<input name="busqueda" th:value="${busqueda}" class="w-full pl-10 pr-4 py-3 bg-[#F1F5F9] border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" placeholder="Buscar destinos, fechas..." type="text">
+<input type="hidden" name="filtro" th:value="${filtro}" />
+<input type="hidden" name="orden" th:value="${orden}" />
 </div>
 <div class="flex gap-unit">
-<button class="px-4 py-3 bg-surface-container border border-outline-variant rounded-lg font-label-md text-on-surface-variant flex items-center gap-2 hover:bg-surface-variant transition-colors">
+<button type="submit" class="px-4 py-3 bg-surface-container border border-outline-variant rounded-lg font-label-md text-on-surface-variant flex items-center gap-2 hover:bg-surface-variant transition-colors">
 <span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
-                        Filtro
+                        Buscar
                     </button>
-<button class="px-4 py-3 bg-surface-container border border-outline-variant rounded-lg font-label-md text-on-surface-variant flex items-center gap-2 hover:bg-surface-variant transition-colors">
+<a th:href="@{/reservas/historial(busqueda=${busqueda}, filtro=${filtro}, orden=${orden == 'fecha_desc' ? 'fecha_asc' : 'fecha_desc'})}" class="px-4 py-3 bg-surface-container border border-outline-variant rounded-lg font-label-md text-on-surface-variant flex items-center gap-2 hover:bg-surface-variant transition-colors">
 <span class="material-symbols-outlined" data-icon="sort">sort</span>
-                        Ordenar
-                    </button>
+                        <span th:text="${orden == 'fecha_desc' ? 'Más antiguas' : 'Más recientes'}">Ordenar</span>
+                    </a>
 </div>
-</div>
+</form>
 <!-- Quick Filters (Chips) -->
 <div class="flex overflow-x-auto gap-unit mt-stack-md pb-2 no-scrollbar">
-<button class="whitespace-nowrap px-4 py-1.5 bg-surface-highest text-primary border border-outline-variant rounded-full font-label-md hover:bg-surface-variant transition-colors">Todos los viajes</button>
-<button class="whitespace-nowrap px-4 py-1.5 bg-secondary text-on-secondary rounded-full font-label-md shadow-sm">Completado</button>
-<button class="whitespace-nowrap px-4 py-1.5 bg-surface-highest text-primary border border-outline-variant rounded-full font-label-md hover:bg-surface-variant transition-colors">Cancelado</button>
-<button class="whitespace-nowrap px-4 py-1.5 bg-surface-highest text-primary border border-outline-variant rounded-full font-label-md hover:bg-surface-variant transition-colors">Negocios</button>
+<a th:href="@{/reservas/historial(busqueda=${busqueda}, filtro='todos', orden=${orden})}" th:classappend="${filtro == null || #strings.equalsIgnoreCase(filtro, 'todos') ? 'bg-secondary text-on-secondary shadow-sm' : 'bg-surface-highest text-primary border border-outline-variant'}" class="whitespace-nowrap px-4 py-1.5 rounded-full font-label-md hover:bg-surface-variant transition-colors">Todos los viajes</a>
+<a th:href="@{/reservas/historial(busqueda=${busqueda}, filtro='completados', orden=${orden})}" th:classappend="${#strings.equalsIgnoreCase(filtro, 'completados') ? 'bg-secondary text-on-secondary shadow-sm' : 'bg-surface-highest text-primary border border-outline-variant'}" class="whitespace-nowrap px-4 py-1.5 rounded-full font-label-md hover:bg-surface-variant transition-colors">Completados</a>
+<a th:href="@{/reservas/historial(busqueda=${busqueda}, filtro='cancelados', orden=${orden})}" th:classappend="${#strings.equalsIgnoreCase(filtro, 'cancelados') ? 'bg-secondary text-on-secondary shadow-sm' : 'bg-surface-highest text-primary border border-outline-variant'}" class="whitespace-nowrap px-4 py-1.5 rounded-full font-label-md hover:bg-surface-variant transition-colors">Cancelados</a>
 </div>
 </section>
 <!-- Trip Cards List -->
 <section class="flex flex-col gap-stack-lg">
-<!-- Card 1: Completed Trip -->
-<article class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-outline-variant/30 overflow-hidden relative status-strip-completed flex flex-col sm:flex-row transition-shadow hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
-<div class="p-stack-md flex-grow">
-<div class="flex justify-between mb-stack-sm items-center">
-<div class="flex items-center gap-2">
-<span class="px-2 py-0.5 bg-surface-container-high text-primary rounded-full font-label-caps">BUS</span>
-<span class="font-label-md text-on-surface-variant">Oct 12, 2023 • 08:30 AM</span>
+<div th:if="${#lists.isEmpty(reservas)}" class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-outline-variant/30 p-stack-lg text-center text-on-surface-variant">
+No tienes viajes registrados con esos criterios.
 </div>
-<span class="font-headline-md text-headline-md text-primary">S/. 6.00</span>
-</div>
-<div class="flex items-center gap-stack-sm mb-stack-md">
-<div class="flex flex-col items-center">
-<div class="w-2 h-2 rounded-full bg-outline"></div>
-<div class="w-0.5 h-6 bg-outline-variant"></div>
-<div class="w-2 h-2 rounded-full border-2 border-secondary bg-surface-container-lowest"></div>
-</div>
-<div class="flex flex-col gap-1 w-full"><div class="font-body-md text-on-surface">Piura</div><div class="font-body-md text-on-surface font-semibold">Sullana</div></div>
-</div>
-<div class="flex gap-stack-md pt-stack-sm border-t border-outline-variant/50">
-<button class="flex-1 py-3 bg-surface-container-lowest border border-[#001a42] text-[#001a42] rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors text-center">Ver Factura</button>
-<button class="flex-1 py-3 bg-secondary text-on-secondary rounded-lg font-label-md text-label-md shadow-sm hover:opacity-90 transition-opacity text-center">Repetir Viaje</button>
-</div>
-</div>
-</article>
-<!-- Card 2: Completed Trip -->
-<article class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-outline-variant/30 overflow-hidden relative status-strip-completed flex flex-col sm:flex-row transition-shadow hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
-<div class="p-stack-md flex-grow">
-<div class="flex justify-between mb-stack-sm items-center">
-<div class="flex items-center gap-2">
-<span class="px-2 py-0.5 bg-surface-container-high text-primary rounded-full font-label-caps">BUS</span>
-<span class="font-label-md text-on-surface-variant">Sep 28, 2023 • 14:15 PM</span>
-</div>
-<span class="font-headline-md text-headline-md text-primary">S/. 6.00</span>
-</div>
-<div class="flex items-center gap-stack-sm mb-stack-md">
-<div class="flex flex-col items-center">
-<div class="w-2 h-2 rounded-full bg-outline"></div>
-<div class="w-0.5 h-6 bg-outline-variant"></div>
-<div class="w-2 h-2 rounded-full border-2 border-secondary bg-surface-container-lowest"></div>
-</div>
-<div class="flex flex-col gap-1 w-full"><div class="font-body-md text-on-surface">Sullana</div><div class="font-body-md text-on-surface font-semibold">Paita</div></div>
-</div>
-<div class="flex gap-stack-md pt-stack-sm border-t border-outline-variant/50">
-<button class="flex-1 py-3 bg-surface-container-lowest border border-[#001a42] text-[#001a42] rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-colors text-center">Ver Factura</button>
-<button class="flex-1 py-3 bg-secondary text-on-secondary rounded-lg font-label-md text-label-md shadow-sm hover:opacity-90 transition-opacity text-center">Repetir Viaje</button>
-</div>
-</div>
-</article>
-<!-- Card 3: Cancelled Trip -->
-<article class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-outline-variant/30 overflow-hidden relative status-strip-cancelled flex flex-col sm:flex-row transition-shadow hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] opacity-80">
-<div class="p-stack-md flex-grow">
-<div class="flex justify-between mb-stack-sm items-center">
-<div class="flex items-center gap-2">
-<span class="px-2 py-0.5 bg-surface-container-high text-primary rounded-full font-label-caps">BUS</span>
-<span class="font-label-md text-on-surface-variant">Aug 05, 2023 • 09:00 AM</span>
-<span class="font-label-caps text-outline ml-2">CANCELADO</span>
-</div>
-<span class="font-headline-md text-headline-md text-outline line-through">S/. 20.00</span>
-</div>
-<div class="flex items-center gap-stack-sm mb-stack-md">
-<div class="flex flex-col items-center">
-<div class="w-2 h-2 rounded-full bg-outline"></div>
-<div class="w-0.5 h-6 bg-outline-variant"></div>
-<div class="w-2 h-2 rounded-full border-2 border-outline bg-surface-container-lowest"></div>
-</div>
-<div class="flex flex-col gap-1 w-full text-outline"><div class="font-body-md">Talara</div><div class="font-body-md font-semibold">Máncora</div></div>
-</div>
-<div class="flex gap-stack-md pt-stack-sm border-t border-outline-variant/50">
-<button class="flex-1 py-3 bg-surface-container border border-transparent text-on-surface-variant rounded-lg font-label-md text-label-md cursor-not-allowed text-center opacity-50" disabled="">Ver Factura</button>
-<button class="flex-1 py-3 bg-secondary text-on-secondary rounded-lg font-label-md text-label-md shadow-sm hover:opacity-90 transition-opacity text-center">Repetir Viaje</button>
-</div>
-</div>
+<article th:each="reserva : ${reservas}"
+         class="bg-surface-container-lowest rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-outline-variant/30 flex flex-col gap-4 transition-shadow hover:shadow-lg">
+    
+    <div class="flex items-center text-sm text-on-surface-variant font-medium pb-3 border-b border-outline-variant/20">
+        <span class="material-symbols-outlined text-lg mr-2 text-primary">calendar_month</span>
+        <span th:text="${#temporals.format(reserva.viaje.fechaSalida, 'MMM dd, yyyy') + ' • ' + #temporals.format(reserva.viaje.horaSalida, 'hh:mm a')}">Oct 12, 2023 • 08:30 AM</span>
+    </div>
+
+    <div class="grid grid-cols-[auto_1fr_auto] items-center gap-4">
+        
+        <div class="bg-surface-container-high px-3 py-1 rounded-lg font-bold text-xs text-primary">BUS</div>
+
+        <div class="flex flex-col gap-1">
+            <div class="flex items-center gap-2 text-sm">
+                <span class="w-2 h-2 rounded-full bg-outline"></span>
+                <span class="font-medium text-on-surface" th:text="${reserva.viaje.origen}">Piura</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+                <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                <span class="font-bold text-on-surface" th:text="${reserva.viaje.destino}">Sullana</span>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-end gap-1">
+            <span th:if="${reserva.estado.name() == 'PAGADO'}" class="text-[10px] font-bold tracking-wider text-secondary bg-secondary/10 px-2 py-0.5 rounded-full uppercase">COMPLETADO</span>
+            <span th:if="${reserva.estado.name() == 'CANCELADO'}" class="text-[10px] font-bold tracking-wider text-outline bg-outline/10 px-2 py-0.5 rounded-full uppercase">CANCELADO</span>
+            <span class="text-lg font-bold text-on-surface">S/. <span th:text="${#numbers.formatDecimal(reserva.precioTotal, 1, 2)}">6.00</span></span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 pt-2">
+        <a th:if="${reserva.estado.name() != 'CANCELADO'}" th:href="@{/reservas/{id}/confirmacion(id=${reserva.id})}" class="text-sm font-semibold py-2.5 rounded-xl border border-outline-variant text-on-surface hover:bg-surface-variant transition-colors text-center">Ver Factura</a>
+        <button th:unless="${reserva.estado.name() != 'CANCELADO'}" class="text-sm font-semibold py-2.5 rounded-xl border border-outline-variant text-outline bg-surface-container-low cursor-not-allowed text-center" disabled>Ver Factura</button>
+        
+        <a th:href="@{/viajes(origen=${reserva.viaje.origen}, destino=${reserva.viaje.destino})}" class="text-sm font-semibold py-2.5 rounded-xl bg-secondary text-on-secondary hover:opacity-90 transition-opacity text-center">Repetir Viaje</a>
+    </div>
 </article>
 </section>
 <!-- Image inclusion as requested -->
@@ -225,15 +195,15 @@
 </main>
 <!-- BottomNavBar -->
 <nav class="bg-surface-container-lowest dark:bg-surface-container-low font-label-md text-label-md border-t border-outline-variant bg-surface-container-lowest dark:bg-surface-container-low shadow-lg fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-4 pb-2 md:hidden">
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-variant/10 w-full h-full rounded-lg transition-colors" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-variant/10 w-full h-full rounded-lg transition-colors" th:href="@{/inicio}">
 <span class="material-symbols-outlined mb-1" data-icon="home">home</span>
 <span class="">Inicio</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-variant/10 w-full h-full rounded-lg transition-colors" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-variant/10 w-full h-full rounded-lg transition-colors" th:href="@{/viajes}">
 <span class="material-symbols-outlined mb-1" data-icon="search">search</span>
 <span class="">Buscar</span>
 </a>
-<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed font-bold hover:bg-surface-variant/10 w-full h-full rounded-lg transition-colors" href="#">
+<a class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed font-bold hover:bg-surface-variant/10 w-full h-full rounded-lg transition-colors" th:href="@{/historial}">
 <span class="material-symbols-outlined mb-1" data-icon="directions_transit" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">directions_transit</span>
 <span class="">Mis Viajes</span>
 </a>

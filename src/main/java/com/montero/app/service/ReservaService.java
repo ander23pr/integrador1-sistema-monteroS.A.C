@@ -1,16 +1,19 @@
 package com.montero.app.service;
 
 import java.math.BigDecimal;
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,12 +33,42 @@ import com.montero.app.repository.ReservaRepository;
 public class ReservaService {
 
     private static final Logger logger = LoggerFactory.getLogger(ReservaService.class);
+    private static final Map<String, String> MESES_ES = Map.ofEntries(
+            Map.entry("enero", "01"),
+            Map.entry("ene", "01"),
+            Map.entry("febrero", "02"),
+            Map.entry("feb", "02"),
+            Map.entry("marzo", "03"),
+            Map.entry("mar", "03"),
+            Map.entry("abril", "04"),
+            Map.entry("abr", "04"),
+            Map.entry("mayo", "05"),
+            Map.entry("may", "05"),
+            Map.entry("junio", "06"),
+            Map.entry("jun", "06"),
+            Map.entry("julio", "07"),
+            Map.entry("jul", "07"),
+            Map.entry("agosto", "08"),
+            Map.entry("ago", "08"),
+            Map.entry("septiembre", "09"),
+            Map.entry("sep", "09"),
+            Map.entry("setiembre", "09"),
+            Map.entry("set", "09"),
+            Map.entry("octubre", "10"),
+            Map.entry("oct", "10"),
+            Map.entry("noviembre", "11"),
+            Map.entry("nov", "11"),
+            Map.entry("diciembre", "12"),
+            Map.entry("dic", "12")
+    );
 
-    @Autowired
-    private ReservaRepository reservaRepository;
+    private final ReservaRepository reservaRepository;
+    private final ViajeService viajeService;
 
-    @Autowired
-    private ViajeService viajeService;
+    public ReservaService(ReservaRepository reservaRepository, ViajeService viajeService) {
+        this.reservaRepository = reservaRepository;
+        this.viajeService = viajeService;
+    }
 
     public Reserva iniciarReserva(ReservaRequestDTO dto) {
         return iniciarReserva(dto, null);
@@ -145,6 +178,119 @@ public class ReservaService {
         logger.info("Reserva creada exitosamente. Reserva ID: {}, DNI Pasajero: {}, Asientos: {}", 
                 reservaGuardada.getId(), dniPasajero, reserva.getNumerosAsientos());
         return reservaGuardada;
+    }
+
+    /**
+     * Obtiene el historial de reservas de un usuario autenticado, aplicando filtros y ordenamiento.
+     */
+    @Transactional(readOnly = true)
+    public List<Reserva> obtenerHistorialPorUsuario(Long usuarioId, String busqueda, String filtro, String orden) {
+        if (usuarioId == null) {
+            return List.of();
+        }
+
+        List<Reserva> reservas = reservaRepository.findByUsuarioId(usuarioId);
+        return reservas.stream()
+                .filter(reserva -> coincideBusqueda(reserva, busqueda))
+                .filter(reserva -> coincideFiltro(reserva, filtro))
+                .sorted(obtenerComparador(orden))
+                .collect(Collectors.toList());
+    }
+
+    private boolean coincideBusqueda(Reserva reserva, String busqueda) {
+        if (StringUtils.isBlank(busqueda)) {
+            return true;
+        }
+
+        String textoNormalizado = normalizarTexto(busqueda);
+        Viaje viaje = reserva.getViaje();
+        if (viaje == null) {
+            return false;
+        }
+
+        String origen = normalizarTexto(viaje.getOrigen());
+        String destino = normalizarTexto(viaje.getDestino());
+        String fecha = normalizarTexto(viaje.getFechaSalida() != null ? viaje.getFechaSalida().toString() : "");
+        String hora = normalizarTexto(viaje.getHoraSalida() != null ? viaje.getHoraSalida().toString() : "");
+        String precio = normalizarTexto(String.valueOf(reserva.getPrecioTotal()));
+        String estado = normalizarTexto(reserva.getEstado().name());
+
+        boolean coincideTexto = origen.contains(textoNormalizado)
+                || destino.contains(textoNormalizado)
+                || fecha.contains(textoNormalizado)
+                || hora.contains(textoNormalizado)
+                || precio.contains(textoNormalizado)
+                || estado.contains(textoNormalizado);
+
+        if (coincideTexto) {
+            return true;
+        }
+
+        return coincideConFecha(viaje.getFechaSalida(), textoNormalizado);
+    }
+
+    private boolean coincideConFecha(LocalDate fechaSalida, String textoNormalizado) {
+        if (fechaSalida == null || StringUtils.isBlank(textoNormalizado)) {
+            return false;
+        }
+
+        String texto = textoNormalizado;
+        if (texto.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            return fechaSalida.toString().contains(texto);
+        }
+
+        String mes = MESES_ES.get(texto);
+        if (mes != null) {
+            return fechaSalida.getMonthValue() == Integer.parseInt(mes);
+        }
+
+        if (texto.matches("\\d{4}")) {
+            return String.valueOf(fechaSalida.getYear()).contains(texto);
+        }
+
+        if (texto.matches("\\d{1,2}")) {
+            return String.valueOf(fechaSalida.getDayOfMonth()).contains(texto);
+        }
+
+        return false;
+    }
+
+    private String normalizarTexto(String texto) {
+        if (StringUtils.isBlank(texto)) {
+            return "";
+        }
+        String sinAcentos = Normalizer.normalize(texto, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "");
+        return sinAcentos.toLowerCase(Locale.ROOT);
+    }
+
+    private boolean coincideFiltro(Reserva reserva, String filtro) {
+        if (StringUtils.isBlank(filtro) || "todos".equalsIgnoreCase(filtro)) {
+            return true;
+        }
+
+        if ("completados".equalsIgnoreCase(filtro)) {
+            return reserva.getEstado() == EstadoReserva.PAGADO;
+        }
+
+        if ("cancelados".equalsIgnoreCase(filtro)) {
+            return reserva.getEstado() == EstadoReserva.CANCELADO;
+        }
+
+        return true;
+    }
+
+    private Comparator<Reserva> obtenerComparador(String orden) {
+        boolean ascendente = "fecha_asc".equalsIgnoreCase(orden);
+        Comparator<Reserva> comparador = Comparator.comparing(
+                reserva -> reserva.getViaje() != null ? reserva.getViaje().getFechaSalida() : LocalDate.MIN,
+                Comparator.nullsLast(Comparator.naturalOrder())
+        );
+        comparador = comparador.thenComparing(
+                reserva -> reserva.getViaje() != null ? reserva.getViaje().getHoraSalida() : LocalTime.MIDNIGHT,
+                Comparator.nullsLast(Comparator.naturalOrder())
+        );
+        return ascendente ? comparador : comparador.reversed();
     }
 
     /**

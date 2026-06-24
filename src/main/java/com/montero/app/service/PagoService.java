@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,14 +24,13 @@ public class PagoService {
 
     private static final Logger logger = LoggerFactory.getLogger(PagoService.class);
 
-    @Autowired
-    private PagoRepository pagoRepository;
+    private final PagoRepository pagoRepository;
+    private final ReservaRepository reservaRepository;
 
-    @Autowired
-    private ReservaRepository reservaRepository;
-
-    @Autowired
-    private ReservaService reservaService;
+    public PagoService(PagoRepository pagoRepository, ReservaRepository reservaRepository) {
+        this.pagoRepository = pagoRepository;
+        this.reservaRepository = reservaRepository;
+    }
 
     /**
      * Procesa la simulación de pago con Yape.
@@ -40,7 +38,8 @@ public class PagoService {
      */
     @Transactional
     public Pago procesarPagoYape(Long reservaId, PagoYapeDTO pagoYapeDTO) {
-        Reserva reserva = reservaService.obtenerReservaPorId(reservaId);
+        Reserva reserva = reservaRepository.findById(reservaId)
+                .orElseThrow(() -> new IllegalArgumentException("Reserva no encontrada con ID: " + reservaId));
 
         // Validar que la reserva esté en estado PENDIENTE
         if (!reserva.getEstado().equals(EstadoReserva.PENDIENTE)) {
