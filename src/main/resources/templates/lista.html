@@ -8,18 +8,15 @@
 <body class="bg-gray-100 font-sans">
 
     <div class="max-w-4xl mx-auto py-8 px-4">
-        <!-- Encabezado -->
         <div class="flex justify-between items-center border-b pb-4 mb-6">
             <h1 class="text-3xl font-bold text-gray-800" th:text="${tituloPagina}">Alertas</h1>
             <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Módulo Alertas</span>
         </div>
 
-        <!-- Mensaje si no hay alertas -->
         <div th:if="${#lists.isEmpty(alertas)}" class="bg-white p-6 rounded-lg shadow text-center text-gray-500">
             No hay alertas registradas en el sistema actualmente.
         </div>
 
-        <!-- Bucle dinámico que pintará cada alerta real de la BD -->
         <div th:each="alerta : ${alertas}" class="bg-white p-5 rounded-lg shadow-md border-l-4 border-blue-500 mb-4">
             <div class="flex justify-between items-start">
                 <div>
