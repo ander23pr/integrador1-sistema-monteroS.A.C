@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tituloPagina}">Formulario de Alerta</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+        .card-formulario {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 500px;
+        }
+        h2 {
+            color: #0f2c59;
+            margin-top: 0;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #f1f1f1;
+            padding-bottom: 10px;
+        }
+        .grupo-campo {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #f1f3f4;
+            transition: border 0.3s;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #a80038;
+            background-color: #fff;
+        }
+        .btn-guardar {
+            background-color: #c70039; /* El guinda de tus botones */
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 25px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(199, 0, 57, 0.2);
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+        .btn-guardar:hover {
+            background-color: #a80038;
+        }
+        .btn-cancelar {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-formulario">
+        <h2 th:text="${tituloPagina}">Registrar Nueva Alerta</h2>
+        
+        <form th:action="@{/alertas/guardar}" th:object="${alerta}" method="post">
+            
+            <div class="grupo-campo">
+                <label for="titulo">Título de la Alerta:</label>
+                <input type="text" id="titulo" th:field="*{titulo}" placeholder="Ej: Retraso en salida de bus" required />
+            </div>
+
+            <div class="grupo-campo">
+                <label for="mensaje">Mensaje / Descripción:</label>
+                <textarea id="mensaje" th:field="*{mensaje}" rows="4" placeholder="Detalla lo que está sucediendo..." required></textarea>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="tipo">Tipo de Alerta:</label>
+                <select id="tipo" th:field="*{tipo}">
+                    <option value="Informativa">Informativa</option>
+                    <option value="Advertencia">Advertencia</option>
+                    <option value="Critica">Crítica</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-guardar">GUARDAR ALERTA</button>
+            <a th:href="@{/alertas}" class="btn-cancelar">Volver al panel</a>
+        </form>
+    </div>
+
+</body>
+</html>

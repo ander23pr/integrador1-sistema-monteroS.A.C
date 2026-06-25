@@ -17,11 +17,14 @@ public class Alerta {
     @Column(nullable = false, length = 500)
     private String mensaje;
 
+    @Column(nullable = false)
+    private String tipo; 
+
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
 
     @Column(nullable = false)
-    private String estado; // Ejemplo: "PENDIENTE", "LEIDA"
+    private String estado; 
 
     // Constructor vacío obligatorio para JPA
     public Alerta() {
@@ -38,6 +41,9 @@ public class Alerta {
 
     public String getMensaje() { return mensaje; }
     public void setMensaje(String mensaje) { this.mensaje = mensaje; }
+
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
 
     public LocalDateTime getFechaCreacion() { return fechaCreacion; }
     public void setFechaCreacion(LocalDateTime fechaCreacion) { this.fechaCreacion = fechaCreacion; }
