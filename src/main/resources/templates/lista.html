@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${tituloPagina}">Alertas del Sistema</title>
-    <!-- Importamos Tailwind CSS para que se vea moderno al instante -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body class="bg-gray-100 font-sans">
@@ -15,25 +14,19 @@
             <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Módulo Alertas</span>
         </div>
 
-        <!-- Alerta de Prueba 1 -->
-        <div class="bg-white p-5 rounded-lg shadow-md border-l-4 border-yellow-500 mb-4">
-            <div class="flex justify-between items-start">
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-900">⚠️ Stock Crítico de Repuestos</h3>
-                    <p class="text-gray-600 mt-1 text-sm">El artículo 'Filtro de Aceite Montero' ha alcanzado el límite mínimo configurado.</p>
-                </div>
-                <span class="text-xs text-gray-400">Hace unos momentos</span>
-            </div>
+        <!-- Mensaje si no hay alertas -->
+        <div th:if="${#lists.isEmpty(alertas)}" class="bg-white p-6 rounded-lg shadow text-center text-gray-500">
+            No hay alertas registradas en el sistema actualmente.
         </div>
 
-        <!-- Alerta de Prueba 2 -->
-        <div class="bg-white p-5 rounded-lg shadow-md border-l-4 border-blue-500">
+        <!-- Bucle dinámico que pintará cada alerta real de la BD -->
+        <div th:each="alerta : ${alertas}" class="bg-white p-5 rounded-lg shadow-md border-l-4 border-blue-500 mb-4">
             <div class="flex justify-between items-start">
                 <div>
-                    <h3 class="text-lg font-semibold text-gray-900">ℹ️ Nueva Reserva Registrada</h3>
-                    <p class="text-gray-600 mt-1 text-sm">Se ha procesado exitosamente un nuevo pago correspondiente al flujo de gestión de viajes.</p>
+                    <h3 class="text-lg font-semibold text-gray-900" th:text="${alerta.titulo}">⚠️ Título</h3>
+                    <p class="text-gray-600 mt-1 text-sm" th:text="${alerta.mensaje}">Descripción de la alerta...</p>
                 </div>
-                <span class="text-xs text-gray-400">Ayer</span>
+                <span class="text-xs text-gray-400" th:text="${#temporals.format(alerta.fechaCreacion, 'dd/MM/yyyy HH:mm')}">Fecha</span>
             </div>
         </div>
     </div>
