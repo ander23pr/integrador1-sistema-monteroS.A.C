@@ -1,16 +1,22 @@
 package com.montero.app.controller;
 
-import com.montero.app.dto.PagoYapeDTO;
-import com.montero.app.model.Reserva;
-import com.montero.app.service.PagoService;
-import com.montero.app.service.ReservaService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.montero.app.dto.PagoYapeDTO;
+import com.montero.app.model.Reserva;
+import com.montero.app.service.PagoService;
+import com.montero.app.service.ReservaService;
+
+import jakarta.validation.Valid;
 
 /**
  * Controlador que gestiona los flujos de pago simulado.
@@ -63,7 +69,10 @@ public class PagoController {
         try {
             // Intentar procesar el pago y cambiar el estado
             pagoService.procesarPagoYape(reservaId, pagoYapeDTO);
-            
+
+            // Bandera de un solo uso: activa el toast de éxito en la vista de confirmación
+            redirectAttributes.addFlashAttribute("mostrarToastReserva", true);
+
             // Si el pago es exitoso, redirigimos a la confirmación final
             return "redirect:/reservas/" + reservaId + "/confirmacion";
         } catch (Exception e) {

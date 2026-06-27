@@ -1,15 +1,16 @@
 package com.montero.app.service;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.montero.app.model.Reserva;
 import com.montero.app.model.Viaje;
 import com.montero.app.repository.ReservaRepository;
 import com.montero.app.repository.ViajeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Servicio encargado de la lógica de negocio de Viajes.

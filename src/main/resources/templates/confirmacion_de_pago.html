@@ -261,7 +261,18 @@
 </div>
 </main>
 
-
-
+<script th:src="@{/js/notificaciones.js}"></script>
+<script th:if="${mostrarToastReserva}">
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.MonteneroNotificaciones) {
+    MonteneroNotificaciones.mostrarToast({
+      titulo: '¡Reserva realizada con éxito!',
+      mensaje: 'Tu ticket fue generado correctamente. Puedes revisarlo en Mis Viajes o Alertas.',
+      retrasoMs: 2000,
+      duracionMs: 5000
+    });
+  }
+});
+</script>
 
 </body></html>

@@ -1,1 +1,7 @@
-2026-07-06 00:03:18 [http-nio-8080-exec-5] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-07-07 13:32:04 [http-nio-8080-exec-3] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-07-07 13:33:17 [http-nio-8080-exec-6] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 30, DNI Pasajero: 73784098, Asientos: 6
+2026-07-07 13:33:32 [http-nio-8080-exec-5] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 30, Método: YAPE, Teléfono: 951348627
+2026-07-07 14:27:31 [http-nio-8080-exec-9] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: MariaGarcia@gmail.com
+2026-07-07 14:28:52 [http-nio-8080-exec-6] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 33, DNI Pasajero: 73784098, Asientos: 2
+2026-07-07 14:29:03 [http-nio-8080-exec-3] INFO  c.m.app.service.NotificacionService - Notificación de confirmación creada para la reserva 33
+2026-07-07 14:29:03 [http-nio-8080-exec-3] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 33, Método: YAPE, Teléfono: 951348627

@@ -26,15 +26,19 @@ public class PagoService {
 
     private final PagoRepository pagoRepository;
     private final ReservaRepository reservaRepository;
+    private final NotificacionService notificacionService;
 
-    public PagoService(PagoRepository pagoRepository, ReservaRepository reservaRepository) {
+    public PagoService(PagoRepository pagoRepository, ReservaRepository reservaRepository,
+                        NotificacionService notificacionService) {
         this.pagoRepository = pagoRepository;
         this.reservaRepository = reservaRepository;
+        this.notificacionService = notificacionService;
     }
 
     /**
      * Procesa la simulación de pago con Yape.
-     * Cambia el estado de la reserva y guarda la entidad Pago.
+     * Cambia el estado de la reserva, guarda la entidad Pago y genera la notificación
+     * de confirmación (único punto del flujo donde una reserva pasa a PAGADO).
      */
     @Transactional
     public Pago procesarPagoYape(Long reservaId, PagoYapeDTO pagoYapeDTO) {
@@ -62,6 +66,9 @@ public class PagoService {
         // 3. Actualizar el estado de la reserva a PAGADO
         reserva.setEstado(EstadoReserva.PAGADO);
         reservaRepository.save(reserva);
+
+        // 4. Generar la notificación de confirmación para el usuario (si aplica)
+        notificacionService.crearNotificacionConfirmacionReserva(reserva);
 
         logger.info("Pago procesado exitosamente. Reserva ID: {}, Método: YAPE, Teléfono: {}", 
                 reservaId, pagoYapeDTO.getNumeroTelefono());

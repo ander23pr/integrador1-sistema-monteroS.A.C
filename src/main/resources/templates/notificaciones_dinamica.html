@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="light" lang="es">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Montenero - Notificaciones</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "error-container": "#ffdad6",
+                "on-secondary-container": "#fffbff",
+                "on-surface-variant": "#45464d",
+                "surface-container-highest": "#d5e3fd",
+                "on-primary-container": "#7c839b",
+                "surface-variant": "#d5e3fd",
+                "secondary-container": "#e21e49",
+                "primary": "#000000",
+                "on-secondary-fixed-variant": "#920028",
+                "on-tertiary-fixed-variant": "#004395",
+                "inverse-on-surface": "#ebf1ff",
+                "on-secondary-fixed": "#40000c",
+                "outline": "#76777d",
+                "primary-fixed-dim": "#bec6e0",
+                "surface-bright": "#f8f9ff",
+                "surface": "#f8f9ff",
+                "tertiary-fixed-dim": "#adc6ff",
+                "on-primary-fixed-variant": "#3f465c",
+                "error": "#ba1a1a",
+                "tertiary": "#000000",
+                "on-error-container": "#93000a",
+                "surface-container-low": "#eff4ff",
+                "on-tertiary-fixed": "#001a42",
+                "surface-container-lowest": "#ffffff",
+                "on-primary": "#ffffff",
+                "on-secondary": "#ffffff",
+                "inverse-primary": "#bec6e0",
+                "surface-tint": "#565e74",
+                "on-primary-fixed": "#131b2e",
+                "secondary-fixed": "#ffdada",
+                "surface-container": "#e6eeff",
+                "on-tertiary-container": "#3980f4",
+                "primary-container": "#131b2e",
+                "tertiary-container": "#001a42",
+                "surface-dim": "#ccdbf4",
+                "inverse-surface": "#233144",
+                "on-error": "#ffffff",
+                "secondary-fixed-dim": "#ffb3b6",
+                "background": "#f8f9ff",
+                "tertiary-fixed": "#d8e2ff",
+                "secondary": "#ba0035",
+                "outline-variant": "#c6c6cd",
+                "on-tertiary": "#ffffff",
+                "primary-fixed": "#dae2fd",
+                "on-background": "#0d1c2f",
+                "on-surface": "#0d1c2f",
+                "surface-container-high": "#dde9ff"
+              },
+              borderRadius: {
+                DEFAULT: "0.25rem",
+                lg: "0.5rem",
+                xl: "0.75rem",
+                full: "9999px"
+              },
+              spacing: {
+                unit: "4px",
+                "stack-md": "16px",
+                "margin-page": "20px",
+                gutter: "16px",
+                "stack-lg": "24px",
+                "section-gap": "40px",
+                "stack-sm": "8px"
+              },
+              fontFamily: {
+                "body-md": ["Inter"],
+                "label-md": ["Inter"],
+                "headline-lg": ["Inter"],
+                "headline-md": ["Inter"],
+                "headline-xl": ["Inter"],
+                "label-caps": ["Inter"],
+                "body-lg": ["Inter"]
+              },
+              fontSize: {
+                "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                "label-md": ["12px", { lineHeight: "16px", fontWeight: "500" }],
+                "headline-lg": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                "headline-md": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+                "headline-xl": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "700" }],
+                "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }]
+              }
+            }
+          }
+        };
+      </script>
+<style>
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+</style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-24 md:pb-0">
+<header class="docked full-width top-0 bg-surface shadow-sm z-40 sticky">
+<div class="flex justify-between items-center w-full px-margin-page h-16 flex-row-reverse">
+<button aria-label="Profile" class="hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-150 flex items-center justify-center w-10 h-10 rounded-full overflow-hidden border border-outline-variant">
+<img th:src="${session.usuarioLogueado != null && session.usuarioLogueado.fotoPerfil != null ? session.usuarioLogueado.fotoPerfil : 'https://lh3.googleusercontent.com/aida-public/AB6AXuDMkhznKqR-45QfFRY9Snyzbd0MRJvYREZbLBbZOQzGeFj3DtENCmVlUv_dCSslUGyVv9hgwJ8DIf61JmhY1QRC7XQ0uY8d0hjCqjRQ-ts-b8YHPz7DzaTgYqyPEN2wctGm51C3gy9bbRTCa-rRhkfMBoPY84P9nlP9SOn4vPmug1d8c_KEjlZvLTjDmNICIt65x7A0ReE3NIcZl2hvfb4gaRPH5PzZLegHRCPF1yfazeSdx5Tn_gIh95xiTgRPQRENx2bJOChJs9f9'}" alt="User Profile" class="w-full h-full object-cover">
+</button>
+</div>
+</header>
+<main class="px-margin-page py-stack-lg max-w-3xl mx-auto">
+<div class="flex justify-between items-end mb-stack-md">
+<h2 class="font-headline-md text-headline-md text-primary">Notificaciones</h2>
+<form th:action="@{/notificaciones/marcar-todo-leido}" method="post">
+<button type="submit" class="font-label-md text-label-md text-secondary hover:opacity-80 transition-opacity">Marcar todo como leído</button>
+</form>
+</div>
+<div class="flex flex-col gap-unit" th:if="${notificaciones != null and !#lists.isEmpty(notificaciones)}">
+<div th:each="notificacion : ${notificaciones}" class="bg-surface-container-lowest rounded-lg p-stack-md shadow-sm border border-surface-variant flex gap-gutter items-start relative overflow-hidden group hover:shadow-md transition-shadow">
+<div th:classappend="${notificacion.leida ? 'bg-outline' : 'bg-secondary'}" class="absolute left-0 top-0 bottom-0 w-1 rounded-l-lg"></div>
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-surface-container text-on-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined" th:text="${notificacion.icono}">notifications</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-body-lg text-body-lg text-on-surface font-semibold" th:text="${notificacion.titulo}">Notificación</h3>
+<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap ml-2" th:text="${#temporals.format(notificacion.fechaCreacion, 'HH:mm')}">00:00</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant" th:text="${notificacion.mensaje}">Mensaje</p>
+<div class="mt-stack-sm" th:if="${notificacion.accion != null and notificacion.accion == 'ver_reserva' and notificacion.reserva != null}">
+<a th:href="@{/notificaciones/reservas/{id}(id=${notificacion.reserva.id})}" class="bg-surface-container-high text-on-surface font-label-md text-label-md px-3 py-1.5 rounded-full hover:bg-surface-dim transition-colors">Ver boleto</a>
+</div>
+</div>
+<div th:if="${!notificacion.leida}" class="w-2 h-2 rounded-full bg-secondary flex-shrink-0 mt-2"></div>
+</div>
+</div>
+<div th:if="${notificaciones == null or #lists.isEmpty(notificaciones)}" class="bg-surface-container-lowest rounded-lg p-stack-md shadow-sm border border-surface-variant text-center text-on-surface-variant">
+No tienes notificaciones por mostrar en este momento.
+</div>
+</main>
+<nav th:replace="~{fragments/navegacion :: bottom-nav('alertas')}"></nav>
+</body>
+</html>

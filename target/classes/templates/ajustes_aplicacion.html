@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html><html class="light" lang="es" style=""><head>
+﻿<!DOCTYPE html><html class="light" lang="es" xmlns:th="http://www.thymeleaf.org" style=""><head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>Configuración - Montenero</title>
@@ -221,26 +221,7 @@
 </div>
 </main>
 <!-- BottomNavBar -->
-<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-4 pb-2 border-t border-outline-variant bg-surface-container-lowest shadow-lg">
-<a class="flex flex-col items-center justify-center text-on-surface-variant w-16" href="#">
-<span class="material-symbols-outlined mb-1">home</span>
-<span class="font-label-md">Inicio</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant w-16" href="#">
-<span class="material-symbols-outlined mb-1">search</span>
-<span class="font-label-md">Buscar</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant w-16" href="#">
-<span class="material-symbols-outlined mb-1">directions_transit</span>
-<span class="font-label-md text-[10px]">Mis Viajes</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant w-16" href="#">
-<span class="material-symbols-outlined mb-1">notifications</span>
-<span class="font-label-md text-[10px]">Alertas</span>
-</a>
-<a class="flex flex-col items-center justify-center text-primary w-16" href="#"><span class="material-symbols-outlined mb-1">settings</span>
-<span class="font-label-md font-bold">Ajustes</span></a>
-</nav>
+<nav th:replace="~{fragments/navegacion :: bottom-nav('ajustes')}"></nav>
 
 
 
