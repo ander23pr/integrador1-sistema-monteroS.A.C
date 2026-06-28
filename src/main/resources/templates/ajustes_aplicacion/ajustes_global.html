@@ -1,0 +1,301 @@
+﻿<!DOCTYPE html>
+<html class="light" lang="es" xmlns:th="http://www.thymeleaf.org"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Montenero - Ajustes</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f8f9ff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c6c6cd;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #76777d;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary": "#ffffff",
+                      "tertiary-fixed": "#d8e2ff",
+                      "secondary-fixed-dim": "#ffb3b6",
+                      "surface-variant": "#d5e3fd",
+                      "on-surface": "#0d1c2f",
+                      "inverse-primary": "#bec6e0",
+                      "outline-variant": "#c6c6cd",
+                      "on-tertiary-fixed-variant": "#004395",
+                      "tertiary-fixed-dim": "#adc6ff",
+                      "on-error": "#ffffff",
+                      "surface-tint": "#565e74",
+                      "surface-dim": "#ccdbf4",
+                      "tertiary-container": "#001a42",
+                      "background": "#f8f9ff",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed": "#ffdada",
+                      "surface-bright": "#f8f9ff",
+                      "secondary": "#ba0035",
+                      "on-tertiary": "#ffffff",
+                      "inverse-surface": "#233144",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-container": "#e21e49",
+                      "on-tertiary-container": "#3980f4",
+                      "on-secondary-fixed-variant": "#920028",
+                      "on-secondary-container": "#fffbff",
+                      "on-secondary-fixed": "#40000c",
+                      "surface-container-low": "#eff4ff",
+                      "tertiary": "#000000",
+                      "on-primary-container": "#7c839b",
+                      "surface-container-high": "#dde9ff",
+                      "surface-container": "#e6eeff",
+                      "inverse-on-surface": "#ebf1ff",
+                      "primary-fixed": "#dae2fd",
+                      "primary-fixed-dim": "#bec6e0",
+                      "error": "#ba1a1a",
+                      "primary-container": "#131b2e",
+                      "surface-container-highest": "#d5e3fd",
+                      "on-surface-variant": "#45464d",
+                      "on-background": "#0d1c2f",
+                      "surface": "#f8f9ff",
+                      "on-tertiary-fixed": "#001a42",
+                      "on-primary-fixed": "#131b2e",
+                      "on-primary": "#ffffff",
+                      "outline": "#76777d",
+                      "primary": "#000000",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "error-container": "#ffdad6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-sm": "8px",
+                      "stack-md": "16px",
+                      "margin-page": "20px",
+                      "unit": "4px",
+                      "section-gap": "40px",
+                      "gutter": "16px",
+                      "stack-lg": "24px"
+              },
+              "fontFamily": {
+                      "label-md": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "headline-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface mb-24 min-h-screen">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface shadow-sm flex justify-between items-center px-margin-page h-16">
+<div class="flex items-center gap-4">
+<h1 class="font-headline-lg text-headline-lg text-secondary">Montenero</h1>
+</div>
+</header>
+<main class="pt-24 px-margin-page max-w-2xl mx-auto space-y-section-gap pb-12">
+
+<!-- Profile Header Card -->
+<div class="flex items-center gap-4 bg-surface-container-lowest p-5 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.06)] border border-surface-container">
+  <div class="w-[64px] h-[64px] rounded-full overflow-hidden shrink-0 border border-outline-variant">
+    <img alt="Foto de perfil" class="w-full h-full object-cover"
+         th:src="${usuario.fotoPerfil != null ? usuario.fotoPerfil : 'https://lh3.googleusercontent.com/aida-public/AB6AXuD2QdYZwU6VSmypkf44ns6Yaqm4WiEgXYZetMy1mUO8OoPWMV_yGQpDFVHnMBz1M6_GUZEeiZ927oxtWeW1CDgUzuNRKkt7fgT3lpRIYhOWF94ivp2nILQtEqn6uQrsOt9BhCVsL2BxTTKNT_6OrNxc_4ZAm0sxRTO70df6umnMJgEu2OBhg2hkzw2ElmGlopLXFKKvtHM7hhGYr1Dpke5Z-FLehSfu4KBE1pxqYJu1S5qUDhtTn3EcXNhTK3jOJy8PzoZ8oQ9QHrB8'}"/>
+  </div>
+  <div class="flex flex-col flex-grow min-w-0">
+    <h2 class="font-headline-md text-on-surface truncate" th:text="${usuario.nombre}">Alex Mercer</h2>
+    <p class="font-body-md text-on-primary-container truncate" th:text="${usuario.email}">alex.mercer@montenero.sys</p>
+  </div>
+  <a aria-label="Editar Perfil" th:href="@{/perfil/editar}"
+     class="w-9 h-9 flex items-center justify-center rounded-full border border-outline-variant hover:bg-surface-container transition-colors shrink-0 bg-surface-container-low/50">
+    <span class="material-symbols-outlined text-on-surface-variant text-[20px]">edit</span>
+  </a>
+</div>
+
+<!-- Notificaciones -->
+<section class="space-y-stack-md">
+<h3 class="font-label-caps text-label-caps text-outline uppercase tracking-widest pl-2">Notificaciones</h3>
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 divide-y divide-outline-variant/10">
+<div class="p-stack-md flex items-center justify-between gap-4">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-secondary bg-secondary-fixed/30 p-2 rounded-lg h-fit">notifications_active</span>
+<div>
+<p class="font-body-lg font-semibold text-on-surface">Alertas en tiempo real</p>
+<p class="font-body-md text-on-surface-variant">Cambios de estado inmediatos</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="p-stack-md flex items-center justify-between gap-4">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-secondary bg-secondary-fixed/30 p-2 rounded-lg h-fit">sell</span>
+<div>
+<p class="font-body-lg font-semibold text-on-surface">Promociones y descuentos</p>
+<p class="font-body-md text-on-surface-variant">Ofertas exclusivas para ti</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<div class="p-stack-md flex items-center justify-between gap-4">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-secondary bg-secondary-fixed/30 p-2 rounded-lg h-fit">event_repeat</span>
+<div>
+<p class="font-body-lg font-semibold text-on-surface">Recordatorios de viaje</p>
+<p class="font-body-md text-on-surface-variant">Avisos antes de tu salida</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+</div>
+</section>
+
+<!-- Seguridad y Privacidad: UNA sola entrada consolidada (antes eran 3) -->
+<section class="space-y-stack-md">
+<h3 class="font-label-caps text-label-caps text-outline uppercase tracking-widest pl-2">Seguridad y Privacidad</h3>
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20">
+<a th:href="@{/ajustes/seguridad}"
+   class="w-full p-stack-md flex items-center justify-between hover:bg-surface-container-low transition-colors group">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant">admin_panel_settings</span>
+<div class="text-left">
+<p class="font-body-lg font-semibold text-on-surface">Seguridad de la cuenta</p>
+<p class="font-label-md text-on-surface-variant">Contraseña, sesiones y alertas</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">chevron_right</span>
+</a>
+</div>
+</section>
+
+<!-- Preferencias de viaje: usa los campos reales del perfil, ya existentes -->
+<section class="space-y-stack-md">
+<h3 class="font-label-caps text-label-caps text-outline uppercase tracking-widest pl-2">Preferencias</h3>
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 divide-y divide-outline-variant/10">
+<a th:href="@{/perfil/editar}"
+   class="w-full p-stack-md flex items-center justify-between hover:bg-surface-container-low transition-colors group">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant">directions_bus</span>
+<div class="text-left">
+<p class="font-body-lg font-semibold text-on-surface">Preferencias de viaje</p>
+<p class="font-label-md text-on-surface-variant"
+   th:text="${(usuario.preferenciaAsiento ?: 'Asiento no definido') + ' · ' + (usuario.preferenciaServicio ?: 'Servicio no definido')}">
+   Ventana · Económico
+</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-x-1 transition-transform">chevron_right</span>
+</a>
+<div class="p-stack-md flex items-center justify-between">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant">language</span>
+<p class="font-body-lg font-semibold text-on-surface">Idioma</p>
+</div>
+<p class="font-body-md text-secondary font-medium">Español</p>
+</div>
+</div>
+</section>
+
+<!-- Información -->
+<section class="space-y-stack-md">
+<h3 class="font-label-caps text-label-caps text-outline uppercase tracking-widest pl-2">Información</h3>
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/20 divide-y divide-outline-variant/10">
+<button class="w-full p-stack-md flex items-center justify-between hover:bg-surface-container-low transition-colors" type="button">
+<p class="font-body-lg font-semibold text-on-surface">Acerca de Montenero</p>
+<span class="material-symbols-outlined text-outline">info</span>
+</button>
+<div class="p-stack-md flex items-center justify-between">
+<p class="font-body-lg font-semibold text-on-surface">Versión</p>
+<p class="font-body-md text-on-surface-variant">v1.0.24</p>
+</div>
+<button class="w-full p-stack-md flex items-center justify-between hover:bg-surface-container-low transition-colors" type="button">
+<p class="font-body-lg font-semibold text-on-surface">Términos y condiciones</p>
+<span class="material-symbols-outlined text-outline">description</span>
+</button>
+<button class="w-full p-stack-md flex items-center justify-between hover:bg-surface-container-low transition-colors" type="button">
+<p class="font-body-lg font-semibold text-on-surface">Privacidad</p>
+<span class="material-symbols-outlined text-outline">policy</span>
+</button>
+<button class="w-full p-stack-md flex items-center justify-between hover:bg-surface-container-low transition-colors" type="button">
+<p class="font-body-lg font-semibold text-on-surface">Ayuda</p>
+<span class="material-symbols-outlined text-outline">help_outline</span>
+</button>
+<button class="w-full p-stack-md flex items-center justify-between hover:bg-surface-container-low transition-colors" type="button">
+<p class="font-body-lg font-semibold text-on-surface">Contacto</p>
+<span class="material-symbols-outlined text-outline">mail</span>
+</button>
+</div>
+</section>
+
+<!-- Logout: ahora es un POST real hacia /auth/logout -->
+<section class="pt-stack-lg">
+<form th:action="@{/auth/logout}" method="post">
+<button class="w-full flex items-center justify-center gap-3 bg-white border-2 border-secondary text-secondary py-4 rounded-xl font-headline-md hover:bg-secondary-fixed/20 active:scale-95 transition-all" type="submit">
+<span class="material-symbols-outlined">logout</span>
+                Cerrar sesión
+            </button>
+</form>
+</section>
+</main>
+
+<!-- Bottom Navigation Bar: reutiliza el fragmento compartido de toda la app -->
+<nav th:replace="~{fragments/navegacion :: bottom-nav('ajustes')}"></nav>
+
+<script>
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-md');
+                header.classList.remove('shadow-sm');
+            } else {
+                header.classList.add('shadow-sm');
+                header.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body></html>

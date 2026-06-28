@@ -3,7 +3,9 @@ package com.montero.app.controller;
 import com.montero.app.dto.LoginRequestDTO;
 import com.montero.app.dto.RegistroRequestDTO;
 import com.montero.app.model.Usuario;
+import com.montero.app.service.SesionService;
 import com.montero.app.service.UsuarioService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,9 @@ public class AuthController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private SesionService sesionService;
+
     @GetMapping("/login")
     public String mostrarLogin(Model model) {
         if (!model.containsAttribute("loginDTO")) {
@@ -32,18 +37,21 @@ public class AuthController {
     public String procesarLogin(@Valid @ModelAttribute("loginDTO") LoginRequestDTO loginDTO,
                                 BindingResult result,
                                 RedirectAttributes redirectAttributes,
-                                jakarta.servlet.http.HttpSession session) {
+                                jakarta.servlet.http.HttpSession session,
+                                HttpServletRequest request) {
         if (result.hasErrors()) {
             return "login";
         }
 
         Usuario usuario = usuarioService.autenticar(loginDTO);
         if (usuario == null) {
+            sesionService.registrarSesion(null, session.getId(), request.getHeader("User-Agent"), request.getRemoteAddr());
             result.rejectValue("email", "error.loginDTO", "Credenciales incorrectas");
             return "login";
         }
 
         session.setAttribute("usuarioLogueado", usuario);
+        sesionService.registrarSesion(usuario, session.getId(), request.getHeader("User-Agent"), request.getRemoteAddr());
         redirectAttributes.addFlashAttribute("mensajeExito", "¡Bienvenido de vuelta!");
         return "redirect:/viajes";
     }
@@ -76,6 +84,10 @@ public class AuthController {
 
     @PostMapping("/auth/logout")
     public String logout(jakarta.servlet.http.HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario != null) {
+            sesionService.cerrarSesionPorToken(session.getId(), usuario.getId());
+        }
         session.invalidate();
         return "redirect:/login";
     }

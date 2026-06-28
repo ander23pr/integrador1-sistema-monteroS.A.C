@@ -168,7 +168,7 @@
       min-height: max(884px, 100dvh);
     }
   </style>
-<style data-stitch-cursor="">*{cursor:crosshair!important}[contenteditable="true"]:focus,.cursor-text:focus{cursor:text!important}</style><style data-stitch-scroll-lock="">html,body{overflow:hidden!important}</style></head>
+<style data-stitch-cursor="">*{cursor:crosshair!important}[contenteditable="true"]:focus,.cursor-text:focus{cursor:text!important}</style></head>
 <body class="bg-surface-container-lowest text-on-background font-body-md antialiased md:bg-surface-container-low md:flex md:justify-center md:items-start md:pt-10 md:min-h-screen">
 <!-- Mobile Container Wrapper for Web View -->
 <div class="w-full md:max-w-md md:bg-surface-container-lowest md:shadow-lg md:rounded-[24px] md:overflow-hidden md:border md:border-outline-variant relative min-h-screen md:min-h-0 pb-32">
@@ -193,24 +193,102 @@
 <span class="font-body-md text-body-md text-on-surface-variant" th:text="${reserva.viaje.origen} + ' - ' + ${reserva.viaje.destino} + ' • ' + ${#lists.size(reserva.listaNumerosAsientos)} + ' Pasajero(s)'">Piura- Paita • 1 Pasajeros</span>
 </div>
 </section>
-<h2 class="font-body-lg text-montenero-blue mb-4">Seleccione la forma de pago</h2>
-<!-- Segmented Payment Selector -->
+<h2 class="font-body-lg text-montenero-blue mb-4">
+    Seleccione la forma de pago
+</h2>
+
 <style>
-  .payment-btn { transition: all 0.2s; }
-  .payment-btn.payment-active { background-color: #004395; color: #ffffff; border-color: #004395; }
-</style>
-<div class="flex flex-wrap gap-2 mb-stack-lg">
-<button type="button" class="payment-btn px-4 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/30 text-montenero-blue font-body-md shadow-sm" onclick="setPayment(this)">Tarjeta</button>
-<button type="button" class="payment-btn px-4 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/30 text-montenero-blue font-body-md shadow-sm" onclick="setPayment(this)">PagoEfectivo</button>
-<button type="button" class="payment-btn px-4 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/30 text-montenero-blue font-body-md shadow-sm" onclick="setPayment(this)">Pago con QR</button>
-<button type="button" class="payment-btn px-4 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant/30 text-montenero-blue font-body-md shadow-sm payment-active" onclick="setPayment(this)">Yape</button>
-</div>
-<script>
-function setPayment(btn) {
-  document.querySelectorAll('.payment-btn').forEach(b => b.classList.remove('payment-active'));
-  btn.classList.add('payment-active');
+.payment-btn{
+    flex:1;
+    min-width:120px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    padding:12px 16px;
+    border-radius:12px;
+    border:1px solid #d6dce8;
+    background:#fff;
+    color:#004395;
+    font-weight:600;
+    transition:.25s;
 }
-</script>
+
+.payment-btn:hover{
+    border-color:#004395;
+}
+
+.payment-active{
+    background:#004395;
+    color:#fff;
+    border-color:#004395;
+}
+
+.payment-btn .material-symbols-outlined{
+    font-size:20px;
+}
+
+.payment-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-bottom:24px;
+}
+</style>
+
+<div class="payment-grid">
+
+    <button type="button"
+            class="payment-btn"
+            onclick="window.location.href='/pagos/tarjeta/'">
+
+        <span class="material-symbols-outlined">
+            credit_card
+        </span>
+
+        Tarjeta
+
+    </button>
+
+
+    <button type="button"
+            class="payment-btn payment-active">
+
+        <span class="material-symbols-outlined">
+            smartphone
+        </span>
+
+        Yape
+
+    </button>
+
+
+    <button type="button"
+            class="payment-btn"
+            onclick="window.location.href='/pagos/efectivo/'">
+
+        <span class="material-symbols-outlined">
+            payments
+        </span>
+
+        PagoEfectivo
+
+    </button>
+
+
+    <button type="button"
+            class="payment-btn"
+            onclick="window.location.href='/pagos/qr/'">
+
+        <span class="material-symbols-outlined">
+            qr_code_2
+        </span>
+
+        Pago con QR
+
+    </button>
+
+</div>
 <!-- Yape Form -->
 <form th:action="@{/pagos/yape/procesar/{id}(id=${reserva.id})}" th:object="${pagoYapeDTO}" method="POST">
 <section class="space-y-stack-lg">
@@ -261,6 +339,4 @@ function setPayment(btn) {
 </div>
 </form>
 </div>
-
-
 </body></html>

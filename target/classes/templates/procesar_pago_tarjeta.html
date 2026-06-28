@@ -154,22 +154,86 @@
 </div>
 <!-- END: TripSummary -->
 <!-- BEGIN: PaymentMethods -->
-<section class="px-5 mt-6 mb-8">
-<h2 class="text-[13px] font-bold text-on-tertiary-container uppercase tracking-wider mb-4">Seleccione la forma de pago</h2>
-<div class="grid grid-cols-2 gap-3" data-purpose="payment-grid">
-<button class="bg-primary-container text-white py-3.5 rounded-xl text-sm font-semibold shadow-md ring-2 ring-primary-container transition-all">
-                    Tarjeta
-                </button>
-<button class="bg-white text-on-surface-variant border border-surface-container-high py-3.5 rounded-xl text-sm font-medium hover:border-primary-container transition-all">
-                    PagoEfectivo
-                </button>
-<button class="bg-white text-on-surface-variant border border-surface-container-high py-3.5 rounded-xl text-sm font-medium hover:border-primary-container transition-all">
-                    Pago con QR
-                </button>
-<button class="bg-white text-on-surface-variant border border-surface-container-high py-3.5 rounded-xl text-sm font-medium hover:border-primary-container transition-all">
-                    Yape
-                </button>
-</div>
+<!-- Payment Methods -->
+<section class="mt-6 mb-8">
+
+    <h2 class="font-body-lg text-[#004395] font-semibold mb-4">
+        Seleccione la forma de pago
+    </h2>
+
+    <style>
+        .payment-btn{
+            transition:.25s;
+        }
+
+        .payment-btn:hover{
+            transform:translateY(-1px);
+        }
+
+        .payment-btn-active{
+            background:#004395;
+            color:#fff;
+            border-color:#004395;
+            box-shadow:0 4px 10px rgba(0,67,149,.18);
+        }
+
+        .payment-btn .material-symbols-outlined{
+            font-size:20px;
+        }
+    </style>
+
+    <div class="grid grid-cols-2 gap-3">
+
+        <!-- Tarjeta -->
+        <a th:href="@{/pagos/tarjeta/{id}(id=${reserva.id})}"
+           class="payment-btn payment-btn-active flex items-center justify-center gap-2 rounded-xl border px-4 py-3 font-medium">
+
+            <span class="material-symbols-outlined">
+                credit_card
+            </span>
+
+            Tarjeta
+
+        </a>
+
+        <!-- Yape -->
+        <a th:href="@{/pagos/yape/{id}(id=${reserva.id})}"
+           class="payment-btn flex items-center justify-center gap-2 rounded-xl border border-outline-variant bg-white text-[#004395] px-4 py-3 font-medium">
+
+            <span class="material-symbols-outlined">
+                smartphone
+            </span>
+
+            Yape
+
+        </a>
+
+        <!-- PagoEfectivo -->
+        <a th:href="@{/pagos/pagoefectivo/{id}(id=${reserva.id})}"
+           class="payment-btn flex items-center justify-center gap-2 rounded-xl border border-outline-variant bg-white text-[#004395] px-4 py-3 font-medium">
+
+            <span class="material-symbols-outlined">
+                payments
+            </span>
+
+            PagoEfectivo
+
+        </a>
+
+        <!-- QR -->
+        <a th:href="@{/pagos/qr/{id}(id=${reserva.id})}"
+           class="payment-btn flex items-center justify-center gap-2 rounded-xl border border-outline-variant bg-white text-[#004395] px-4 py-3 font-medium">
+
+            <span class="material-symbols-outlined">
+                qr_code_2
+            </span>
+
+            Pago QR
+
+        </a>
+
+    </div>
+
 </section>
 <!-- END: PaymentMethods -->
 <!-- BEGIN: CardForm -->

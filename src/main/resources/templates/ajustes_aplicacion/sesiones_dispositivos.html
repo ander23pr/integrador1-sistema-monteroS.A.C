@@ -1,0 +1,231 @@
+<!DOCTYPE html><html class="light" lang="es" xmlns:th="http://www.thymeleaf.org"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Sesiones y Dispositivos - Montenero</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f8f9ff",
+                        "secondary-container": "#e21e49",
+                        "on-tertiary-fixed": "#001a42",
+                        "on-primary-container": "#7c839b",
+                        "primary-container": "#131b2e",
+                        "tertiary": "#000000",
+                        "on-surface": "#0d1c2f",
+                        "on-secondary-fixed-variant": "#920028",
+                        "surface-tint": "#565e74",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#3980f4",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#fffbff",
+                        "surface-variant": "#d5e3fd",
+                        "on-secondary-fixed": "#40000c",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#45464d",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#bec6e0",
+                        "outline-variant": "#c6c6cd",
+                        "outline": "#76777d",
+                        "tertiary-fixed-dim": "#adc6ff",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#001a42",
+                        "tertiary-fixed": "#d8e2ff",
+                        "primary-fixed": "#dae2fd",
+                        "surface-bright": "#f8f9ff",
+                        "surface-dim": "#ccdbf4",
+                        "secondary-fixed-dim": "#ffb3b6",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-high": "#dde9ff",
+                        "secondary-fixed": "#ffdada",
+                        "error-container": "#ffdad6",
+                        "background": "#f8f9ff",
+                        "on-primary-fixed": "#131b2e",
+                        "inverse-surface": "#233144",
+                        "inverse-on-surface": "#ebf1ff",
+                        "secondary": "#ba0035",
+                        "on-tertiary-fixed-variant": "#004395",
+                        "primary": "#000000",
+                        "surface-container-highest": "#d5e3fd",
+                        "inverse-primary": "#bec6e0",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#0d1c2f",
+                        "on-error": "#ffffff",
+                        "surface-container": "#e6eeff",
+                        "on-primary-fixed-variant": "#3f465c"
+                    },
+                    "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                    "spacing": {
+                        "section-gap": "40px", "gutter": "16px", "stack-sm": "8px",
+                        "stack-md": "16px", "margin-page": "20px", "unit": "4px", "stack-lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"], "label-caps": ["Inter"], "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"], "body-md": ["Inter"], "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-surface-bright border-b border-outline-variant top-0 z-10 sticky shadow-sm">
+<div class="flex justify-between items-center w-full px-margin-page py-stack-sm h-16">
+<a th:href="@{/ajustes/seguridad}" class="text-secondary hover:bg-surface-container p-2 rounded-full transition-colors active:opacity-80 flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</a>
+<h1 class="font-headline-md text-headline-md text-secondary font-bold flex-1 text-center pr-10">Sesiones y dispositivos</h1>
+</div>
+</header>
+
+<main class="px-margin-page py-stack-lg max-w-2xl mx-auto flex flex-col gap-section-gap">
+
+<!-- Aviso breve, sin alarmismo -->
+<div class="bg-surface-container-low rounded-xl p-stack-md flex gap-stack-sm items-start border border-surface-container-high">
+<span class="material-symbols-outlined text-secondary mt-0.5" style="font-variation-settings: 'FILL' 1;">info</span>
+<p class="font-body-md text-body-md text-on-surface-variant">
+    Estos son los dispositivos donde tu cuenta tiene una sesión abierta. Cierra las que no reconozcas.
+</p>
+</div>
+
+<!-- Sesión actual -->
+<section class="flex flex-col gap-stack-sm">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Este dispositivo</h2>
+<div class="relative bg-surface-container-lowest rounded-xl p-stack-md shadow-[0_2px_8px_rgba(0,0,0,0.05)] border border-outline-variant/40 flex items-center gap-stack-md overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-[#2e7d32]"></div>
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface shrink-0 ml-1">
+<span class="material-symbols-outlined text-[26px]" th:text="${sesionActual.icono ?: 'devices'}">computer</span>
+</div>
+<div class="flex-grow flex flex-col gap-0.5 min-w-0">
+<div class="flex items-center gap-2">
+<h3 class="font-body-lg text-body-lg font-semibold text-on-surface truncate" th:text="${sesionActual.nombreDispositivo ?: 'Este navegador'}">Windows · Chrome</h3>
+<span class="bg-[#2e7d32]/10 text-[#2e7d32] font-label-caps text-label-caps px-2 py-0.5 rounded-full whitespace-nowrap">ACTUAL</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant" th:text="'IP ' + (${sesionActual.ip} ?: '—')">IP 190.237.12.84</p>
+</div>
+</div>
+</section>
+
+<!-- Otras sesiones activas -->
+<section class="flex flex-col gap-stack-sm">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Otras sesiones activas</h2>
+
+<div class="flex flex-col gap-stack-sm" th:if="${otrasSesiones != null and !otrasSesiones.isEmpty()}">
+<div class="bg-surface-container-lowest rounded-xl p-stack-md shadow-[0_2px_8px_rgba(0,0,0,0.03)] border border-outline-variant/30 flex items-center gap-stack-md"
+     th:each="sesion : ${otrasSesiones}">
+<div class="w-12 h-12 rounded-full bg-surface-variant flex items-center justify-center text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined text-[26px]" th:text="${sesion.icono ?: 'devices'}">smartphone</span>
+</div>
+<div class="flex-grow flex flex-col gap-0.5 min-w-0">
+<h3 class="font-body-lg text-body-lg font-semibold text-on-surface truncate" th:text="${sesion.nombreDispositivo}">iPhone · App iOS</h3>
+<p class="font-body-md text-body-md text-on-surface-variant" th:text="'Último acceso: ' + ${sesion.ultimoAcceso}">Último acceso: Ayer, 14:30</p>
+<p class="font-label-md text-label-md text-outline" th:text="'IP ' + (${sesion.ip} ?: '—')">IP 84.122.10.9</p>
+</div>
+<form class="form-cerrar-sesion" th:attr="data-device-name=${sesion.nombreDispositivo}" th:action="@{/ajustes/seguridad/sesiones/{id}/cerrar(id=${sesion.id})}" method="post">
+<button aria-label="Cerrar esta sesión" class="p-2 rounded-full text-outline hover:text-secondary hover:bg-error-container/30 transition-colors" type="submit">
+<span class="material-symbols-outlined">logout</span>
+</button>
+</form>
+</div>
+</div>
+
+<!-- Estado vacío -->
+<div th:if="${otrasSesiones == null or otrasSesiones.isEmpty()}" class="bg-surface-container-lowest rounded-xl p-stack-lg text-center border border-outline-variant/30">
+<span class="material-symbols-outlined text-outline text-[32px]">check_circle</span>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">No hay otras sesiones abiertas además de esta.</p>
+</div>
+</section>
+
+<!-- Actividad reciente: versión simplificada, solo dispositivo + fecha -->
+<section class="flex flex-col gap-stack-sm" th:if="${actividadReciente != null and !actividadReciente.isEmpty()}">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Actividad reciente</h2>
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/30 divide-y divide-outline-variant/20">
+<div class="p-stack-md flex items-center gap-stack-md" th:each="evento : ${actividadReciente}">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant" th:text="${evento.icono ?: 'schedule'}">schedule</span>
+<div class="flex-grow min-w-0">
+<p class="font-body-md text-body-md text-on-surface truncate" th:text="${evento.nombreDispositivo}">Windows · Chrome</p>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap" th:text="${evento.fecha}">Hoy, 08:45</span>
+</div>
+</div>
+</section>
+
+</main>
+
+<!-- Acción global: cierra todas las sesiones MENOS la actual -->
+<div class="fixed bottom-0 left-0 w-full p-margin-page bg-gradient-to-t from-background via-background to-transparent flex justify-center">
+<form th:action="@{/ajustes/seguridad/sesiones/cerrar-todas}" method="post" class="w-full max-w-md">
+<button class="w-full bg-white border-2 border-secondary text-secondary px-stack-lg py-stack-md rounded-xl font-headline-md flex items-center justify-center gap-stack-sm hover:bg-secondary-fixed/20 active:scale-95 transition-all" type="submit">
+<span class="material-symbols-outlined">power_settings_new</span>
+            Cerrar sesión en los demás dispositivos
+        </button>
+</form>
+</div>
+
+<!-- Modal de confirmación: vive en esta misma pantalla, no navega a ningún lado -->
+<div id="modal-cerrar-sesion" class="hidden fixed inset-0 z-50 flex items-center justify-center px-margin-page">
+<div id="modal-overlay" class="absolute inset-0 bg-on-surface/50"></div>
+<div class="relative bg-surface-container-lowest rounded-xl shadow-lg max-w-sm w-full p-stack-lg flex flex-col items-center text-center gap-stack-md">
+<div class="w-12 h-12 rounded-full bg-error-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-error-container" style="font-variation-settings: 'FILL' 1;">logout</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Cerrar sesión</h3>
+<p id="modal-cerrar-sesion-texto" class="font-body-md text-body-md text-on-surface-variant">¿Cerrar la sesión de este dispositivo?</p>
+</div>
+<div class="flex gap-stack-sm w-full mt-2">
+<button id="modal-cancelar" type="button" class="flex-1 border border-outline-variant text-on-surface font-headline-md py-3 rounded-full hover:bg-surface-container transition-colors">Cancelar</button>
+<button id="modal-aceptar" type="button" class="flex-1 bg-secondary text-on-secondary font-headline-md py-3 rounded-full hover:opacity-90 transition-opacity">Aceptar</button>
+</div>
+</div>
+</div>
+
+<script>
+        var modal = document.getElementById('modal-cerrar-sesion');
+        var modalTexto = document.getElementById('modal-cerrar-sesion-texto');
+        var formPendiente = null;
+
+        document.querySelectorAll('.form-cerrar-sesion').forEach(function (form) {
+            form.addEventListener('submit', function (evento) {
+                evento.preventDefault();
+                formPendiente = form;
+                var nombreDispositivo = form.dataset.deviceName || 'este dispositivo';
+                modalTexto.textContent = '¿Cerrar la sesión de ' + nombreDispositivo + '?';
+                modal.classList.remove('hidden');
+            });
+        });
+
+        function cerrarModal() {
+            modal.classList.add('hidden');
+            formPendiente = null;
+        }
+
+        document.getElementById('modal-cancelar').addEventListener('click', cerrarModal);
+        document.getElementById('modal-overlay').addEventListener('click', cerrarModal);
+
+        document.getElementById('modal-aceptar').addEventListener('click', function () {
+            if (formPendiente) {
+                // form.submit() no vuelve a disparar el listener 'submit' de arriba,
+                // así que aquí sí se envía el formulario de verdad.
+                formPendiente.submit();
+            }
+        });
+    </script>
+</body></html>

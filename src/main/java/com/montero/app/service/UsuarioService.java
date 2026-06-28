@@ -57,4 +57,36 @@ public class UsuarioService {
         }
         return null;
     }
+
+    public boolean cambiarPassword(Long usuarioId, String passwordActual, String passwordNueva, String passwordConfirmacion) {
+        Usuario usuario = usuarioRepository.findById(usuarioId).orElse(null);
+        if (usuario == null) {
+            logger.warn("Intento de cambio de contraseña para usuario inexistente ID: {}", usuarioId);
+            throw new IllegalArgumentException("Usuario no encontrado.");
+        }
+
+        if (!passwordEncoder.matches(passwordActual, usuario.getPassword())) {
+            logger.warn("Intento de cambio de contraseña con contraseña actual incorrecta para usuario: {}", usuario.getEmail());
+            throw new IllegalArgumentException("La contraseña actual es incorrecta.");
+        }
+
+        if (!passwordNueva.equals(passwordConfirmacion)) {
+            throw new IllegalArgumentException("Las contraseñas nuevas no coinciden.");
+        }
+
+        if (!passwordNueva.matches(".*[A-Z].*")) {
+            throw new IllegalArgumentException("La nueva contraseña debe contener al menos una mayúscula.");
+        }
+        if (!passwordNueva.matches(".*\\d.*")) {
+            throw new IllegalArgumentException("La nueva contraseña debe contener al menos un número.");
+        }
+        if (!passwordNueva.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+            throw new IllegalArgumentException("La nueva contraseña debe contener al menos un carácter especial.");
+        }
+
+        usuario.setPassword(passwordEncoder.encode(passwordNueva));
+        usuarioRepository.save(usuario);
+        logger.info("Contraseña actualizada exitosamente para usuario: {}", usuario.getEmail());
+        return true;
+    }
 }
