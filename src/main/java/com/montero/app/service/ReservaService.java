@@ -303,4 +303,15 @@ public class ReservaService {
                     return new IllegalArgumentException("Reserva no encontrada con ID: " + id);
                 });
     }
+
+    @Transactional
+    public void cancelarReserva(Long id) {
+        Reserva reserva = obtenerReservaPorId(id);
+        if (reserva.getEstado() == EstadoReserva.PAGADO) {
+            throw new IllegalStateException("No se puede cancelar una reserva que ya fue pagada.");
+        }
+        reserva.setEstado(EstadoReserva.CANCELADO);
+        reservaRepository.save(reserva);
+        logger.info("Reserva cancelada exitosamente. Reserva ID: {}", id);
+    }
 }

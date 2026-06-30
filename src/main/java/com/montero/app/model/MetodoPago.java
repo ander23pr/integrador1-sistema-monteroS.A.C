@@ -7,5 +7,6 @@ public enum MetodoPago {
     YAPE,
     TARJETA,
     PAGO_EFECTIVO,
+    PAGO_QR,
     TRANSFERENCIA
 }

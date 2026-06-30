@@ -99,6 +99,11 @@ public class SesionUsuario {
         this.fechaCierre = fechaCierre;
     }
 
+    public String getFechaInicioFormateada() {
+        if (fechaInicio == null) return "—";
+        return fechaInicio.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+    }
+
     public String getIcono() {
         if (nombreDispositivo == null) return "devices";
         String lower = nombreDispositivo.toLowerCase();

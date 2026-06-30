@@ -110,7 +110,6 @@
 <header class="bg-surface shadow-sm docked full-width top-0 z-40 flex justify-between items-center w-full px-margin-page h-16">
 <div class="flex items-center gap-4">
 <button th:onclick="|window.location.href='@{/inicio}'|" class="material-symbols-outlined text-primary cursor-pointer hover:opacity-80 transition-opacity">arrow_back</button>
-<img alt="Montenero" class="h-8 object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0ujAzRTtBB5v9PRIr0Fzsf_Yg98cMYnTjDtt2hPnbh7sjcJHikMqqZABnlPIJXhmC1CcCfNCWwXKWof0_Ybg1uzRxw7fHPD3bxGQwyuG5u_JiOpM2ZPb9C8d82jvZaULukBUkf9NeyoWOD8sv2K0T2FqgjWjFBVNNP-mu-NAzpM7Ybw2Tq2gsEpkh66jEE9CoFXNZPvgHre_T9VmJWdBzYir9RKNxojVcepqPb4q7KJHnJ1iOEnXTY0JxnaSQ5EtL5LUepaL-5nA18Q">
 </div>
 </header>
 <main class="flex-1 px-margin-page py-stack-lg max-w-7xl mx-auto w-full flex flex-col gap-section-gap">
@@ -119,30 +118,65 @@
 <p class="font-body-lg text-body-lg text-on-surface-variant">Descubre cómo garantizamos comodidad, seguridad y rutas ejecutivas para cada viaje.</p>
 </section>
 <section class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
-<div class="bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
-<div class="flex items-center gap-stack-md mb-stack-md">
-<div class="bg-secondary text-on-secondary w-12 h-12 rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined">local_shipping</span>
-</div>
-<div>
-<h3 class="font-headline-md text-headline-md text-primary">Rutas Ejecutivas</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">Servicios diarios con horarios confiables, asientos confort y atención prioritario.</p>
-</div>
-</div>
-<p class="font-label-caps text-label-caps text-secondary bg-error-container px-2 py-1 rounded-full inline-block">Disponible</p>
-</div>
-<div class="bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
-<div class="flex items-center gap-stack-md mb-stack-md">
-<div class="bg-surface-container text-primary w-12 h-12 rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined">wifi</span>
-</div>
-<div>
-<h3 class="font-headline-md text-headline-md text-primary">WiFi en Terminales</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">Conecta antes de partir con wifi gratis en todas nuestras estaciones autorizadas.</p>
-</div>
-</div>
-<p class="font-label-caps text-label-caps text-primary bg-surface-container-high px-2 py-1 rounded-full inline-block">Gratis</p>
-</div>
+
+    <!-- Tarjeta 1 -->
+    <div class="bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
+
+        <div class="flex items-start gap-5 mb-stack-md">
+
+            <div class="bg-secondary text-on-secondary w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-[28px]">
+                    local_shipping
+                </span>
+            </div>
+
+            <div class="flex-1">
+                <h3 class="font-headline-md text-headline-md text-primary">
+                    Rutas Ejecutivas
+                </h3>
+
+                <p class="font-body-md text-body-md text-on-surface-variant leading-6 mt-1">
+                    Servicios diarios con horarios confiables, asientos confort y atención prioritaria.
+                </p>
+            </div>
+
+        </div>
+
+        <p class="font-label-caps text-label-caps text-secondary bg-error-container px-2 py-1 rounded-full inline-block">
+            Disponible
+        </p>
+
+    </div>
+
+    <!-- Tarjeta 2 -->
+    <div class="bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
+
+        <div class="flex items-start gap-5 mb-stack-md">
+
+            <div class="bg-surface-container text-primary w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-[28px]">
+                    wifi
+                </span>
+            </div>
+
+            <div class="flex-1">
+                <h3 class="font-headline-md text-headline-md text-primary">
+                    WiFi en Terminales
+                </h3>
+
+                <p class="font-body-md text-body-md text-on-surface-variant leading-6 mt-1">
+                    Conecta antes de partir con WiFi gratuito en todas nuestras estaciones autorizadas.
+                </p>
+            </div>
+
+        </div>
+
+        <p class="font-label-caps text-label-caps text-primary bg-surface-container-high px-2 py-1 rounded-full inline-block">
+            Gratis
+        </p>
+
+    </div>
+
 </section>
 <section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
 <div class="bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
@@ -156,15 +190,6 @@
 <div class="bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
 <h3 class="font-headline-md text-headline-md text-primary mb-unit">Experiencia Premium</h3>
 <p class="font-body-md text-body-md text-on-surface-variant">Viajes más cómodos, con atención personalizada y beneficios exclusivos.</p>
-</div>
-</section>
-<section class="w-full h-64 rounded-xl overflow-hidden relative shadow-[0_4px_24px_rgba(0,0,0,0.05)] border border-outline-variant">
-<img alt="Servicio Montero" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80">
-<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent flex items-end p-stack-lg">
-<div>
-<p class="font-headline-md text-headline-md text-on-primary font-semibold">Todo lo que necesitas para viajar con confianza.</p>
-<p class="font-body-md text-body-md text-on-primary/90">Servicios diseñados para el pasajero corporativo y el viajero frecuente.</p>
-</div>
 </div>
 </section>
 </main>

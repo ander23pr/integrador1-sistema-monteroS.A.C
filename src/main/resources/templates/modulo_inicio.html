@@ -186,51 +186,54 @@
 <div class="bg-surface-container-lowest rounded-xl p-stack-md border border-outline-variant shadow-[0_2px_12px_rgba(0,0,0,0.03)] flex items-center gap-stack-md relative overflow-hidden"><div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary-container"></div><div class="bg-surface-container w-10 h-10 rounded-full flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary">wifi</span></div><div class="flex-1"><h4 class="font-body-lg text-body-lg font-semibold text-primary">WiFi en Terminales</h4><p class="font-body-md text-body-md text-on-surface-variant">Conexión gratuita de alta velocidad en todos nuestros puntos de espera.</p></div><span class="font-label-caps text-label-caps text-primary px-2 py-1 bg-surface-container-high rounded-full">Gratis</span></div></div>
 <!-- Contextual Image Placeholder -->
 <div class="w-full rounded-xl overflow-hidden relative shadow-[0_4px_24px_rgba(0,0,0,0.05)] mt-stack-md border border-outline-variant">
-<div class="relative overflow-hidden h-56 md:h-64">
-<div class="carousel-track flex transition-transform duration-700 ease-out" data-carousel-track>
-<article data-carousel-slide class="min-w-full flex-shrink-0 relative">
-<img alt="Playa de Paita" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80">
-<div class="absolute inset-0 bg-gradient-to-t from-primary/70 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4 text-on-primary">
-<p class="font-label-caps text-label-caps uppercase tracking-widest text-on-primary/80">Tu próximo destino</p>
-<h3 class="font-headline-md text-headline-md text-on-primary font-semibold">Playas doradas de Paita</h3>
-<p class="font-body-md text-body-md text-on-primary/90">Viajes ejecutivos y comodidad total rumbo al norte.</p>
+<div id="carousel-wrapper" class="block w-full relative overflow-hidden h-56 md:h-64">
+
+    <div class="carousel-track flex w-full h-full transition-transform duration-700 ease-out" data-carousel-track>
+        
+        <article data-carousel-slide class="min-w-full w-full h-full flex-shrink-0 relative">
+            <img alt="Imagen Montenero" class="w-full h-full object-cover" th:src="@{/images/carrusel_imagen.jpg}">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 text-white">
+                <p class="font-label-caps text-label-caps uppercase tracking-widest text-white/80">Tu próximo destino</p>
+                <h3 class="font-headline-md text-headline-md text-white font-semibold">Viaja con Montenero</h3>
+                <p class="font-body-md text-body-md text-white/90">La experiencia ejecutiva que mereces en cada viaje.</p>
+            </div>
+        </article>
+
+        <article data-carousel-slide class="min-w-full flex-shrink-0 relative">
+<img alt="Máncora" class="w-full h-full object-cover" th:src="@{/images/carrusel_mancora.jpg}">
+<div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4 text-white">
+<p class="font-label-caps text-label-caps uppercase tracking-widest text-white/80">Próximo destino</p>
+<h3 class="font-headline-md text-headline-md text-white font-semibold">Máncora</h3>
+<p class="font-body-md text-body-md text-white/90">Disfruta de las mejores playas del norte peruano.</p>
 </div>
 </article>
 <article data-carousel-slide class="min-w-full flex-shrink-0 relative">
-<img alt="Terminal de bus moderna" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1543168250-6d6e8ce4d22f?auto=format&fit=crop&w=1200&q=80">
-<div class="absolute inset-0 bg-gradient-to-t from-primary/70 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4 text-on-primary">
-<p class="font-label-caps text-label-caps uppercase tracking-widest text-on-primary/80">Tu próximo destino</p>
-<h3 class="font-headline-md text-headline-md text-on-primary font-semibold">Estación central de Talara</h3>
-<p class="font-body-md text-body-md text-on-primary/90">Conexiones rápidas entre destinos clave del norte.</p>
+<img alt="Los Órganos" class="w-full h-full object-cover" th:src="@{/images/carrusel_organos.jpg}">
+<div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4 text-white">
+<p class="font-label-caps text-label-caps uppercase tracking-widest text-white/80">Próximo destino</p>
+<h3 class="font-headline-md text-headline-md text-white font-semibold">Los Órganos</h3>
+<p class="font-body-md text-body-md text-white/90">Un paraíso escondido en la costa norte de Perú.</p>
 </div>
 </article>
 <article data-carousel-slide class="min-w-full flex-shrink-0 relative">
-<img alt="Ruta panorámica" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80">
-<div class="absolute inset-0 bg-gradient-to-t from-primary/70 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4 text-on-primary">
-<p class="font-label-caps text-label-caps uppercase tracking-widest text-on-primary/80">Tu próximo destino</p>
-<h3 class="font-headline-md text-headline-md text-on-primary font-semibold">Ruta Panorámica</h3>
-<p class="font-body-md text-body-md text-on-primary/90">Disfruta paisajes y servicio premium en cada trayecto.</p>
+<img alt="Paita" class="w-full h-full object-cover" th:src="@{/images/carrusel_paita.jpg}">
+<div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4 text-white">
+<p class="font-label-caps text-label-caps uppercase tracking-widest text-white/80">Próximo destino</p>
+<h3 class="font-headline-md text-headline-md text-white font-semibold">Paita</h3>
+<p class="font-body-md text-body-md text-white/90">Conectamos Paita con los principales destinos del norte.</p>
 </div>
 </article>
 <article data-carousel-slide class="min-w-full flex-shrink-0 relative">
-<img alt="Viaje de negocios" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1200&q=80">
-<div class="absolute inset-0 bg-gradient-to-t from-primary/70 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4 text-on-primary">
-<p class="font-label-caps text-label-caps uppercase tracking-widest text-on-primary/80">Tu próximo destino</p>
-<h3 class="font-headline-md text-headline-md text-on-primary font-semibold">Viaje ejecutivo seguro</h3>
-<p class="font-body-md text-body-md text-on-primary/90">Confort, puntualidad y servicios a bordo.</p>
-</div>
-</article>
-<article data-carousel-slide class="min-w-full flex-shrink-0 relative">
-<img alt="Atención al cliente" class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80">
-<div class="absolute inset-0 bg-gradient-to-t from-primary/70 to-transparent"></div>
-<div class="absolute bottom-4 left-4 right-4 text-on-primary">
-<p class="font-label-caps text-label-caps uppercase tracking-widest text-on-primary/80">Tu próximo destino</p>
-<h3 class="font-headline-md text-headline-md text-on-primary font-semibold">Servicio integral 24/7</h3>
-<p class="font-body-md text-body-md text-on-primary/90">Asistencia en ruta y atención personalizada para tu viaje.</p>
+<img alt="Sullana" class="w-full h-full object-cover" th:src="@{/images/carrusel_sullana.jpg}">
+<div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4 text-white">
+<p class="font-label-caps text-label-caps uppercase tracking-widest text-white/80">Próximo destino</p>
+<h3 class="font-headline-md text-headline-md text-white font-semibold">Sullana</h3>
+<p class="font-body-md text-body-md text-white/90">Tu mejor opción para viajar a Sullana con total comodidad.</p>
 </div>
 </article>
 </div>
@@ -240,6 +243,9 @@
 <button type="button" data-carousel-next class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 text-primary rounded-full p-2 shadow-lg hover:bg-white transition-colors">
 <span class="material-symbols-outlined">chevron_right</span>
 </button>
+</div>
+</div>
+
 <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
 <button type="button" data-carousel-indicator="0" class="w-2 h-2 rounded-full bg-white/80 ring-1 ring-white/70"></button>
 <button type="button" data-carousel-indicator="1" class="w-2 h-2 rounded-full bg-white/40 ring-1 ring-white/40"></button>
@@ -255,64 +261,73 @@
 <nav th:replace="~{fragments/navegacion :: bottom-nav('inicio')}"></nav>
 <script>
 window.addEventListener('DOMContentLoaded', function() {
-  const track = document.querySelector('[data-carousel-track]');
-  const slides = Array.from(document.querySelectorAll('[data-carousel-slide]'));
-  const indicators = Array.from(document.querySelectorAll('[data-carousel-indicator]'));
-  const prevButton = document.querySelector('[data-carousel-prev]');
-  const nextButton = document.querySelector('[data-carousel-next]');
-  let currentIndex = 0;
-  let autoPlayInterval = null;
+    var track = document.querySelector('[data-carousel-track]');
+    var wrapper = document.getElementById('carousel-wrapper'); // Referencia clara
+    var slides = document.querySelectorAll('[data-carousel-slide]');
+    var indicators = document.querySelectorAll('[data-carousel-indicator]');
+    var prevButton = document.querySelector('[data-carousel-prev]');
+    var nextButton = document.querySelector('[data-carousel-next]');
+    var currentIndex = 0;
+    var autoPlayInterval = null;
 
-  function updateCarousel(index) {
-    currentIndex = index;
-    if (track) {
-      track.style.transform = `translateX(-${index * 100}%)`;
+    function updateCarousel(index) {
+        currentIndex = index;
+        if (track && wrapper) {
+            // Usamos el ancho del contenedor externo detectado por ID
+            var slideWidth = wrapper.clientWidth; 
+            track.style.transform = 'translateX(-' + (index * slideWidth) + 'px)';
+        }
+        
+        // Actualizar indicadores
+        indicators.forEach(function(ind, i) {
+            if (i === index) {
+                ind.classList.add('bg-secondary');
+                ind.classList.remove('bg-white/40');
+            } else {
+                ind.classList.remove('bg-secondary');
+                ind.classList.add('bg-white/40');
+            }
+        });
     }
-    indicators.forEach((button, idx) => {
-      button.classList.toggle('bg-secondary', idx === index);
-      button.classList.toggle('bg-white/40', idx !== index);
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % slides.length;
+        updateCarousel(currentIndex);
+    }
+
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        updateCarousel(currentIndex);
+    }
+
+    function resetAutoPlay() {
+        clearInterval(autoPlayInterval);
+        autoPlayInterval = setInterval(nextSlide, 6000);
+    }
+
+    // Eventos de click
+    indicators.forEach(function(ind) {
+        ind.addEventListener('click', function() {
+            var idx = Number(this.getAttribute('data-carousel-indicator'));
+            updateCarousel(idx);
+            resetAutoPlay();
+        });
     });
-  }
 
-  function nextSlide() {
-    updateCarousel((currentIndex + 1) % slides.length);
-  }
+    if (nextButton) nextButton.addEventListener('click', function() { nextSlide(); resetAutoPlay(); });
+    if (prevButton) prevButton.addEventListener('click', function() { prevSlide(); resetAutoPlay(); });
 
-  function prevSlide() {
-    updateCarousel((currentIndex - 1 + slides.length) % slides.length);
-  }
+    // Corrección al redimensionar
+    window.addEventListener('resize', function() {
+        updateCarousel(currentIndex);
+    });
 
-  function resetAutoPlay() {
-    clearInterval(autoPlayInterval);
+    // Inicialización con un pequeño delay para asegurar el cálculo del ancho
+    setTimeout(function() {
+        updateCarousel(0);
+    }, 100);
+    
     autoPlayInterval = setInterval(nextSlide, 6000);
-  }
-
-  if (indicators.length) {
-    indicators.forEach((button) => {
-      button.addEventListener('click', function() {
-        const index = Number(button.getAttribute('data-carousel-indicator'));
-        updateCarousel(index);
-        resetAutoPlay();
-      });
-    });
-  }
-
-  if (nextButton) {
-    nextButton.addEventListener('click', function() {
-      nextSlide();
-      resetAutoPlay();
-    });
-  }
-
-  if (prevButton) {
-    prevButton.addEventListener('click', function() {
-      prevSlide();
-      resetAutoPlay();
-    });
-  }
-
-  updateCarousel(0);
-  autoPlayInterval = setInterval(nextSlide, 6000);
 });
 </script>
 </body></html>

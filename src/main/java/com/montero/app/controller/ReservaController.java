@@ -171,13 +171,37 @@ public class ReservaController {
 /** Finalmente, se envía toda esa información a la vista ‘confirmacion_de_pago.html’ para mostrar un resumen final de la reserva 
  * y el estado del pago. */
 
+    @GetMapping("/{id}/cancelar")
+    public String cancelarReserva(@PathVariable("id") Long id) {
+        try {
+            reservaService.cancelarReserva(id);
+        } catch (Exception e) {
+            // Si ya está pagada o no existe, igual redirigimos
+        }
+        return "redirect:/viajes";
+    }
+
     @GetMapping("/{id}/confirmacion")
-    public String mostrarConfirmacion(@PathVariable("id") Long id, Model model) {
+    public String mostrarConfirmacion(@PathVariable("id") Long id, Model model,
+                                       jakarta.servlet.http.HttpServletRequest request) {
         Reserva reserva = reservaService.obtenerReservaPorId(id);
         model.addAttribute("reserva", reserva);
         model.addAttribute("metodoPago",
                 pagoService.obtenerPagoPorReserva(id).map(p -> p.getMetodoPago().name()).orElse("PENDIENTE"));
+
+        // URL pública que el QR codificará: al escanearlo, cualquiera puede verificar
+        // el ticket contra la base de datos real (no contra datos "congelados" en el QR).
+        String urlVerificacion = org.springframework.web.servlet.support.ServletUriComponentsBuilder
+                .fromContextPath(request)
+                .path("/ticket/verificar/MNT-" + reserva.getId())
+                .toUriString();
+        model.addAttribute("urlVerificacion", urlVerificacion);
+
+        // El QR se genera en el servidor (ZXing) y se envía ya como imagen lista,
+        // para que siempre aparezca sin depender de librerías externas del navegador.
+        String qrCodeBase64 = com.montero.app.util.QrCodeGenerator.generarComoBase64(urlVerificacion, 400);
+        model.addAttribute("qrCodeBase64", qrCodeBase64);
+
         return "confirmacion_de_pago"; // Vista Thymeleaf existente
     }
 }
-

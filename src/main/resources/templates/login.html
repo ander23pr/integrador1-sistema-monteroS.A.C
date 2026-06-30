@@ -1,4 +1,4 @@
-<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org" class="light" lang="en" style=""><head>
+<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org" class="light" lang="en"><head>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>Montero - Login</title>
@@ -64,7 +64,7 @@
 <div class="flex flex-col items-center">
 <div class="mb-4">
 <!-- Using the same logo source but styled for visibility -->
-<img alt="Montero Logo" class="h-16 md:h-20 w-auto object-contain" src="">
+<img alt="Montero Logo" class="h-110 md:h-110 w-auto object-contain" th:src="@{/images/montero_logo.png}">
 </div>
 </div>
 <!-- "Login" text matching IMAGE_9 layout -->
@@ -86,12 +86,34 @@
 </div>
 <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-red-500 text-xs mt-1 px-4"></p>
 
-<!-- Password Input -->
 <div class="relative mt-4">
-<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-<span class="material-symbols-outlined text-[#94A3B8]" data-stitch-orig-opacity="0">lock</span>
-</div>
-<input th:field="*{password}" class="block w-full pl-12 pr-4 py-4 bg-white border border-zinc-200 rounded-full text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary shadow-sm transition-all" placeholder="Contraseña" required="" type="password">
+
+    <!-- Icono izquierdo -->
+    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+        <span class="material-symbols-outlined text-[#94A3B8]">lock</span>
+    </div>
+
+    <!-- Campo contraseña -->
+    <input
+        id="password"
+        th:field="*{password}"
+        type="password"
+        placeholder="Contraseña"
+        required
+        class="block w-full pl-12 pr-12 py-4 bg-white border border-zinc-200 rounded-full text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary shadow-sm transition-all">
+
+    <!-- Botón ojito -->
+    <button
+        type="button"
+        id="togglePassword"
+        class="absolute inset-y-0 right-0 pr-4 flex items-center text-[#94A3B8] hover:text-secondary transition-colors">
+
+        <span id="eyeIcon" class="material-symbols-outlined">
+            visibility_off
+        </span>
+
+    </button>
+
 </div>
 <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-red-500 text-xs mt-1 px-4"></p>
 
@@ -108,9 +130,26 @@
 <div class="text-center mt-section-gap">
 <p class="text-xs font-medium text-zinc-500">¿No tienes una cuenta? <a class="text-secondary font-bold ml-1 hover:underline" th:href="@{/registro}">Registrate</a></p>
 </div>
-</div><div class="relative"><div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><span class="material-symbols-outlined text-[#94A3B8]">phone</span></div></div>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
+    const passwordInput = document.getElementById("password");
+    const toggleButton = document.getElementById("togglePassword");
+    const eyeIcon = document.getElementById("eyeIcon");
 
+    toggleButton.addEventListener("click", function () {
 
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            eyeIcon.textContent = "visibility";
+        } else {
+            passwordInput.type = "password";
+            eyeIcon.textContent = "visibility_off";
+        }
+
+    });
+
+});
+</script>
 </body></html>

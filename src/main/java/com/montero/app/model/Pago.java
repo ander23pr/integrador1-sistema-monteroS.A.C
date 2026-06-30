@@ -29,6 +29,12 @@ public class Pago {
     @Column(length = 20)
     private String codigoAprobacion;
 
+    @Column(length = 100)
+    private String nombreTitular;
+
+    @Column(length = 50)
+    private String correo;
+
     @Column(nullable = false)
     private LocalDateTime fechaPago;
 
@@ -43,6 +49,22 @@ public class Pago {
         this.numeroTelefono = numeroTelefono;
         this.codigoAprobacion = codigoAprobacion;
         this.fechaPago = fechaPago;
+    }
+
+    public String getNombreTitular() {
+        return nombreTitular;
+    }
+
+    public void setNombreTitular(String nombreTitular) {
+        this.nombreTitular = nombreTitular;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public Long getId() {

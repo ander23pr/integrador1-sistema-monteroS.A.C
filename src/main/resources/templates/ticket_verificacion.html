@@ -1,0 +1,88 @@
+<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Verificación de Ticket - Montenero</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f8f9ff",
+                        "on-surface": "#0d1c2f",
+                        "on-surface-variant": "#45464d",
+                        "outline-variant": "#c6c6cd",
+                        "outline": "#76777d",
+                        "secondary": "#ba0035",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-high": "#dde9ff",
+                        "on-tertiary-container": "#3980f4",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex items-center justify-center px-5 py-10">
+<main class="w-full max-w-sm">
+
+<!-- Caso: ticket VÁLIDO -->
+<div th:if="${esValido}" class="bg-surface-container-lowest rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] border border-outline-variant/30 overflow-hidden">
+<div class="bg-[#2e7d32] px-6 py-8 flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-white text-5xl mb-2" style="font-variation-settings: 'FILL' 1;">verified</span>
+<h1 class="text-white text-xl font-bold">Ticket Válido</h1>
+<p class="text-white/90 text-sm mt-1">Pago confirmado</p>
+</div>
+<div class="p-6 flex flex-col gap-4">
+<div class="text-center pb-4 border-b border-outline-variant/20">
+<p class="text-xs uppercase tracking-widest text-on-surface-variant">Código</p>
+<p class="text-2xl font-bold tracking-widest text-on-surface" th:text="${codigo}">MNT-56</p>
+</div>
+<div class="flex items-center justify-center gap-2 pb-4 border-b border-outline-variant/20">
+<span class="text-lg font-semibold" th:text="${reserva.viaje.origen}">Piura</span>
+<span class="material-symbols-outlined text-outline">arrow_forward</span>
+<span class="text-lg font-semibold" th:text="${reserva.viaje.destino}">Máncora</span>
+</div>
+<div class="grid grid-cols-2 gap-4 pb-4 border-b border-outline-variant/20 text-center">
+<div>
+<p class="text-xs uppercase tracking-widest text-on-surface-variant mb-1">Fecha y hora</p>
+<p class="font-medium" th:text="${reserva.viaje.fechaSalida}">2026-07-11</p>
+<p class="text-sm text-on-surface-variant" th:text="${reserva.viaje.horaSalida}">09:00</p>
+</div>
+<div>
+<p class="text-xs uppercase tracking-widest text-on-surface-variant mb-1">Asientos</p>
+<p class="font-bold text-lg" th:text="${#strings.listJoin(reserva.listaNumerosAsientos, ', ')}">8</p>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-on-surface-variant">Pasajero</span>
+<span class="font-medium" th:text="${nombrePasajeroCorto}">María G.</span>
+</div>
+</div>
+</div>
+
+<!-- Caso: ticket NO válido (cancelado, no encontrado, o pago pendiente) -->
+<div th:unless="${esValido}" class="bg-surface-container-lowest rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] border border-outline-variant/30 overflow-hidden">
+<div class="bg-error px-6 py-8 flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-white text-5xl mb-2" style="font-variation-settings: 'FILL' 1;">cancel</span>
+<h1 class="text-white text-xl font-bold">Ticket No Válido</h1>
+</div>
+<div class="p-6 text-center">
+<p class="text-on-surface-variant" th:text="${motivo}">No se encontró ningún ticket con este código.</p>
+<p class="text-xs text-outline mt-4" th:if="${codigo != null}" th:text="'Código escaneado: ' + ${codigo}">Código escaneado: MNT-56</p>
+</div>
+</div>
+
+<p class="text-center text-xs text-outline mt-6">Sistema de Reservas Montero S.A.C.</p>
+</main>
+</body></html>

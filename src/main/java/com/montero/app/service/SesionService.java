@@ -90,7 +90,7 @@ public class SesionService {
 
     @Transactional(readOnly = true)
     public List<SesionUsuario> obtenerActividadReciente(Long usuarioId) {
-        return sesionRepository.findTop100ByUsuarioIdOrUsuarioIdIsNullOrderByFechaInicioDesc(usuarioId);
+        return sesionRepository.findTop3ByUsuarioIdOrUsuarioIdIsNullOrderByFechaInicioDesc(usuarioId);
     }
 
     private String parsearDispositivo(String userAgent) {

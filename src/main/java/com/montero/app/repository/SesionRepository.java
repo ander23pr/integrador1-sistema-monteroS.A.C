@@ -14,7 +14,7 @@ public interface SesionRepository extends JpaRepository<SesionUsuario, Long> {
 
     Optional<SesionUsuario> findBySessionIdAndActivaTrue(String sessionId);
 
-    List<SesionUsuario> findTop100ByUsuarioIdOrUsuarioIdIsNullOrderByFechaInicioDesc(Long usuarioId);
+    List<SesionUsuario> findTop3ByUsuarioIdOrUsuarioIdIsNullOrderByFechaInicioDesc(Long usuarioId);
 
     long countByUsuarioIdAndActivaTrue(Long usuarioId);
 }

@@ -39,11 +39,11 @@
 <!-- Top Curved Section -->
 <div class="relative bg-[#0B1120] h-[40vh] min-h-[300px] flex flex-col items-center justify-center header-curve px-10">
 <!-- Logo -->
-<div class="mb-8">
-<img alt="Montenero Logo" class="h-24 w-auto object-contain brightness-0 invert" src="https://lh3.googleusercontent.com/aida/ADBb0ujAzRTtBB5v9PRIr0Fzsf_Yg98cMYnTjDtt2hPnbh7sjcJHikMqqZABnlPIJXhmC1CcCfNCWwXKWof0_Ybg1uzRxw7fHPD3bxGQwyuG5u_JiOpM2ZPb9C8d82jvZaULukBUkf9NeyoWOD8sv2K0T2FqgjWjFBVNNP-mu-NAzpM7Ybw2Tq2gsEpkh66jEE9CoFXNZPvgHre_T9VmJWdBzYir9RKNxojVcepqPb4q7KJHnJ1iOEnXTY0JxnaSQ5EtL5LUepaL-5nA18Q">
+<div class="mb-4">
+<!-- Using the same logo source but styled for visibility -->
+<img alt="Montero Logo" class="h-[400px] w-auto object-contain" th:src="@{/images/montero_logo.png}">
 </div>
 <!-- Heading -->
-
 </div>
 <!-- Form Section -->
 <main class="flex-grow px-8 pt-12 pb-10 flex flex-col items-center">
@@ -75,12 +75,36 @@
 </div>
 <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="text-red-500 text-xs px-4"></p>
 
-<!-- Password -->
 <div class="relative group mt-4">
-<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-<span class="material-symbols-outlined text-[#94A3B8] text-[20px]">lock</span>
-</div>
-<input th:field="*{password}" class="w-full bg-white border border-gray-100 rounded-full py-4 pl-12 pr-4 text-[15px] text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/5 shadow-lg shadow-gray-100 transition-all" placeholder="Contraseña" required="" type="password">
+
+    <!-- Icono izquierdo -->
+    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+        <span class="material-symbols-outlined text-[#94A3B8] text-[20px]">
+            lock
+        </span>
+    </div>
+
+    <!-- Campo contraseña -->
+    <input
+        id="password"
+        th:field="*{password}"
+        type="password"
+        placeholder="Contraseña"
+        required
+        class="w-full bg-white border border-gray-100 rounded-full py-4 pl-12 pr-12 text-[15px] text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/5 shadow-lg shadow-gray-100 transition-all">
+
+    <!-- Botón mostrar/ocultar -->
+    <button
+        type="button"
+        id="togglePassword"
+        class="absolute inset-y-0 right-0 pr-4 flex items-center text-[#94A3B8] hover:text-[#C00037] transition-colors">
+
+        <span id="eyeIcon" class="material-symbols-outlined">
+            visibility_off
+        </span>
+
+    </button>
+
 </div>
 <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-red-500 text-xs px-4"></p>
 
@@ -95,7 +119,25 @@
 </form>
 </main>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
+    const passwordInput = document.getElementById("password");
+    const toggleButton = document.getElementById("togglePassword");
+    const eyeIcon = document.getElementById("eyeIcon");
 
+    toggleButton.addEventListener("click", function () {
 
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            eyeIcon.textContent = "visibility";
+        } else {
+            passwordInput.type = "password";
+            eyeIcon.textContent = "visibility_off";
+        }
+
+    });
+
+});
+</script>
 </body></html>

@@ -2,7 +2,12 @@ package com.montero.app.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +66,26 @@ public class NotificacionService {
         if (!notificaciones.isEmpty()) {
             notificacionRepository.saveAll(notificaciones);
         }
+    }
+
+    /**
+     * Elimina una notificación puntual, verificando primero que pertenezca al
+     * usuario que solicita el borrado (evita que alguien elimine notificaciones
+     * ajenas adivinando IDs desde el endpoint).
+     */
+    @Transactional
+    public void eliminarNotificacion(Long notificacionId, Long usuarioId) {
+        Notificacion notificacion = notificacionRepository.findById(notificacionId)
+                .orElseThrow(() -> new IllegalArgumentException("Notificación no encontrada con ID: " + notificacionId));
+
+        if (notificacion.getUsuario() == null || !notificacion.getUsuario().getId().equals(usuarioId)) {
+            logger.warn("Intento de eliminar una notificación que no pertenece al usuario. Notificación ID: {}, Usuario ID: {}",
+                    notificacionId, usuarioId);
+            throw new SecurityException("No tienes permiso para eliminar esta notificación.");
+        }
+
+        notificacionRepository.delete(notificacion);
+        logger.info("Notificación eliminada. ID: {}", notificacionId);
     }
 
     /**
@@ -156,22 +181,43 @@ public class NotificacionService {
         }
     }
 
+    /**
+     * Devuelve las notificaciones del usuario agrupadas por fecha, en el mismo
+     * estilo que apps como WhatsApp o Gmail: "Hoy", "Ayer" y luego "8 julio",
+     * "15 junio", etc. para fechas más antiguas.
+     *
+     * Se usa LinkedHashMap para conservar el orden de inserción: como la lista
+     * de origen ya viene ordenada por fecha descendente, los grupos quedan en
+     * el orden correcto sin necesidad de ordenarlos aparte.
+     */
     @Transactional(readOnly = true)
-    public String obtenerGrupoFecha(LocalDateTime fecha) {
+    public Map<String, List<Notificacion>> obtenerNotificacionesAgrupadas(Long usuarioId) {
+        List<Notificacion> notificaciones = obtenerNotificacionesPorUsuario(usuarioId);
+
+        Map<String, List<Notificacion>> agrupadas = new LinkedHashMap<>();
+        for (Notificacion notificacion : notificaciones) {
+            String etiquetaGrupo = calcularEtiquetaGrupo(notificacion.getFechaCreacion());
+            agrupadas.computeIfAbsent(etiquetaGrupo, clave -> new ArrayList<>()).add(notificacion);
+        }
+        return agrupadas;
+    }
+
+    private static final DateTimeFormatter FORMATO_FECHA_ANTIGUA =
+            DateTimeFormatter.ofPattern("d 'de' MMMM", new Locale("es", "ES"));
+
+    private String calcularEtiquetaGrupo(LocalDateTime fecha) {
         if (fecha == null) {
             return "Más antiguos";
         }
         LocalDate hoy = LocalDate.now();
         LocalDate fechaNotificacion = fecha.toLocalDate();
+
         if (fechaNotificacion.equals(hoy)) {
             return "Hoy";
         }
         if (fechaNotificacion.equals(hoy.minusDays(1))) {
             return "Ayer";
         }
-        if (!fechaNotificacion.isBefore(hoy.minusDays(7))) {
-            return "A principios de esta semana";
-        }
-        return "Más antiguos";
+        return fechaNotificacion.format(FORMATO_FECHA_ANTIGUA);
     }
 }

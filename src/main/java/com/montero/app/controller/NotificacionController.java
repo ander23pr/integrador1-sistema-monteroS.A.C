@@ -3,6 +3,8 @@ package com.montero.app.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,9 +36,10 @@ public class NotificacionController {
             return "redirect:/login";
         }
 
-        List<Notificacion> notificaciones = notificacionService.obtenerNotificacionesPorUsuario(usuarioSesion.getId());
+        Map<String, List<Notificacion>> notificacionesAgrupadas =
+                notificacionService.obtenerNotificacionesAgrupadas(usuarioSesion.getId());
 
-        model.addAttribute("notificaciones", notificaciones);
+        model.addAttribute("notificacionesAgrupadas", notificacionesAgrupadas);
         model.addAttribute("usuario", usuarioSesion);
         return "notificaciones_dinamica";
     }
@@ -53,6 +56,25 @@ public class NotificacionController {
     @GetMapping("/reservas/{id}")
     public String verReserva(@PathVariable Long id) {
         return "redirect:/reservas/" + id + "/confirmacion";
+    }
+
+    /**
+     * Elimina una notificación puntual. Se llama vía fetch() desde el gesto de
+     * "deslizar para eliminar" en la vista, sin recargar la página.
+     */
+    @PostMapping("/{id}/eliminar")
+    @ResponseBody
+    public ResponseEntity<Void> eliminarNotificacion(@PathVariable Long id, HttpSession session) {
+        Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioSesion == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        try {
+            notificacionService.eliminarNotificacion(id, usuarioSesion.getId());
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException | SecurityException excepcionNotificacionInvalida) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     /**

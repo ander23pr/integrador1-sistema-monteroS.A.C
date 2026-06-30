@@ -173,7 +173,6 @@
     </span>
 
 </button>
-</button>
 <h1 class="font-headline-lg text-headline-lg font-bold tracking-tight text-primary dark:text-on-surface"><br></h1>
 <button class="hover:opacity-80 transition-opacity flex items-center justify-center p-2 rounded-full">
 <span class="material-symbols-outlined text-2xl" data-icon="account_circle">account_circle</span>
@@ -189,7 +188,7 @@
 <p class="font-body-lg text-body-lg text-on-surface-variant mt-unit">Tu reserva ha sido procesada exitosamente.</p>
 </div>
 <!-- Ticket Card -->
-<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.05)] border border-outline-variant/30 overflow-hidden relative mb-stack-lg">
+<div id="ticket-card" class="bg-surface-container-lowest rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.05)] border border-outline-variant/30 overflow-hidden relative mb-stack-lg">
 <!-- Status Strip -->
 <div class="absolute left-0 top-0 bottom-0 w-1 bg-on-tertiary-container"></div>
 <div class="p-stack-lg pl-[28px]">
@@ -244,16 +243,20 @@
 <!-- Reservation Code & QR -->
 <div class="flex flex-col items-center justify-center">
 <span class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-unit">Código de Reserva</span>
-<span class="font-headline-xl text-headline-xl text-primary font-bold tracking-widest mb-stack-md" th:text="'MNT-' + ${reserva.id}">MNT-987654</span>
+<span id="codigo-reserva" class="font-headline-xl text-headline-xl text-primary font-bold tracking-widest mb-stack-md" th:text="'MNT-' + ${reserva.id}">MNT-987654</span>
 <div class="w-48 h-48 bg-white border border-outline-variant/30 rounded-lg p-4 shadow-sm flex items-center justify-center">
-<img alt="A crisp, high-contrast QR code centered on a stark white square background, symbolizing digital ticketing and modern transport logistics. The QR code features precise black geometric modules, capturing the clean, functional aesthetic of corporate modernism. The lighting is flat and analytical, ensuring maximum clarity for scanning in a light-mode interface." class="w-full h-full object-contain opacity-90 mix-blend-multiply" data-alt="A crisp, high-contrast QR code centered on a stark white square background, symbolizing digital ticketing and modern transport logistics. The QR code features precise black geometric modules, capturing the clean, functional aesthetic of corporate modernism. The lighting is flat and analytical, ensuring maximum clarity for scanning in a light-mode interface." src="https://lh3.googleusercontent.com/aida/ADBb0uiDIGSL3nqkrLX5MKe2cwSL-oKqK8nN9x_J8WXi81hkhTH2CK3cjiHGvhtEWKgwH47bTp6OCF4IsrOHpqn7-GOrlc-dpipAgQ-9ZJjv4RQkvvlZ_tIxece5zNTHJN9ogf9geNdJFVkqKqxZbnhe8Dood9iHRpf_CXzB8CZvHVt3PQrXx1rGwoU_TOOlndyWiObAi-hqKqIcqwHBr36f-FES0S_D70erfKfnOA3mrOhS6R9pkgshRW4GoYFD8XcIg1jiyvqN0mzcjzI">
+<img th:if="${qrCodeBase64 != null}"
+     th:src="'data:image/png;base64,' + ${qrCodeBase64}"
+     alt="Código QR del ticket"
+     class="w-full h-full object-contain">
+<span th:unless="${qrCodeBase64 != null}" class="material-symbols-outlined text-outline text-5xl" title="No se pudo generar el código QR">qr_code_2</span>
 </div>
 <p class="font-label-md text-label-md text-on-surface-variant mt-stack-sm text-center">Muestra este código al abordar</p>
 </div>
 </div>
 </div>
 <div class="flex flex-col gap-stack-sm mt-stack-lg mb-section-gap">
-<button class="bg-secondary text-on-secondary font-label-md text-label-md font-bold py-[16px] px-gutter rounded-lg w-full flex items-center justify-center gap-2 shadow-sm hover:opacity-90 transition-opacity">
+<button id="btn-descargar-ticket" type="button" class="bg-secondary text-on-secondary font-label-md text-label-md font-bold py-[16px] px-gutter rounded-lg w-full flex items-center justify-center gap-2 shadow-sm hover:opacity-90 transition-opacity">
 <span class="material-symbols-outlined" data-icon="download">download</span>
                 Descargar Ticket
             </button>
@@ -262,6 +265,13 @@
 </main>
 
 <script th:src="@{/js/notificaciones.js}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.MonteneroTemporizador) {
+    MonteneroTemporizador.detener();
+  }
+});
+</script>
 <script th:if="${mostrarToastReserva}">
 document.addEventListener('DOMContentLoaded', function () {
   if (window.MonteneroNotificaciones) {
@@ -272,6 +282,79 @@ document.addEventListener('DOMContentLoaded', function () {
       duracionMs: 5000
     });
   }
+});
+</script>
+
+<!-- Librerías para generar el código QR real y el PDF del ticket -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var botonDescargar = document.getElementById('btn-descargar-ticket');
+    var tarjetaTicket = document.getElementById('ticket-card');
+    if (!botonDescargar || !tarjetaTicket) {
+        return;
+    }
+
+    botonDescargar.addEventListener('click', function () {
+        if (!window.html2canvas || !window.jspdf) {
+            alert('No se pudo generar el ticket en este momento. Intenta nuevamente.');
+            return;
+        }
+
+        var contenidoOriginalBoton = botonDescargar.innerHTML;
+        botonDescargar.disabled = true;
+        botonDescargar.classList.add('opacity-70', 'cursor-not-allowed');
+        botonDescargar.innerHTML =
+            '<span class="material-symbols-outlined animate-spin">progress_activity</span> Generando...';
+
+        var generarPDF = function () {
+            html2canvas(tarjetaTicket, {
+                scale: 3,
+                backgroundColor: '#ffffff',
+                useCORS: true
+            }).then(function (canvas) {
+                var imagenTicket = canvas.toDataURL('image/png');
+
+                // Ancho tipo "boarding pass" pensado para verse completo en una
+                // pantalla de celular sin necesidad de hacer zoom al abrir el PDF.
+                var anchoMM = 90;
+                var altoMM = anchoMM * (canvas.height / canvas.width);
+
+                var JsPDFConstructor = window.jspdf.jsPDF;
+                var documentoPDF = new JsPDFConstructor({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: [anchoMM, altoMM]
+                });
+
+                documentoPDF.addImage(imagenTicket, 'PNG', 0, 0, anchoMM, altoMM);
+
+                var codigoReservaEl = document.getElementById('codigo-reserva');
+                var codigoTexto = codigoReservaEl ? codigoReservaEl.textContent.trim() : 'Montero';
+                documentoPDF.save('Ticket-' + codigoTexto + '.pdf');
+
+                botonDescargar.disabled = false;
+                botonDescargar.classList.remove('opacity-70', 'cursor-not-allowed');
+                botonDescargar.innerHTML = contenidoOriginalBoton;
+            }).catch(function (error) {
+                console.error('Error generando el ticket en PDF:', error);
+                alert('Ocurrio un problema al generar el PDF. Intenta nuevamente.');
+                botonDescargar.disabled = false;
+                botonDescargar.classList.remove('opacity-70', 'cursor-not-allowed');
+                botonDescargar.innerHTML = contenidoOriginalBoton;
+            });
+        };
+
+        // Espera a que las fuentes (incluidos los iconos) esten listas antes de
+        // capturar la tarjeta, para que el PDF no salga con iconos en blanco.
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(generarPDF);
+        } else {
+            generarPDF();
+        }
+    });
 });
 </script>
 

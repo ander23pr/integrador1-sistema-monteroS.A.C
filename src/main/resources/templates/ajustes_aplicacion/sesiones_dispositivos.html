@@ -135,7 +135,7 @@
 </div>
 <div class="flex-grow flex flex-col gap-0.5 min-w-0">
 <h3 class="font-body-lg text-body-lg font-semibold text-on-surface truncate" th:text="${sesion.nombreDispositivo}">iPhone · App iOS</h3>
-<p class="font-body-md text-body-md text-on-surface-variant" th:text="'Último acceso: ' + ${sesion.ultimoAcceso}">Último acceso: Ayer, 14:30</p>
+<p class="font-body-md text-body-md text-on-surface-variant" th:text="'Inicio: ' + ${sesion.fechaInicioFormateada}">Inicio: 09/07/2026 14:30</p>
 <p class="font-label-md text-label-md text-outline" th:text="'IP ' + (${sesion.ip} ?: '—')">IP 84.122.10.9</p>
 </div>
 <form class="form-cerrar-sesion" th:attr="data-device-name=${sesion.nombreDispositivo}" th:action="@{/ajustes/seguridad/sesiones/{id}/cerrar(id=${sesion.id})}" method="post">
@@ -162,7 +162,7 @@
 <div class="flex-grow min-w-0">
 <p class="font-body-md text-body-md text-on-surface truncate" th:text="${evento.nombreDispositivo}">Windows · Chrome</p>
 </div>
-<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap" th:text="${evento.fecha}">Hoy, 08:45</span>
+<span class="font-label-md text-label-md text-on-surface-variant whitespace-nowrap" th:text="${evento.fechaInicioFormateada}">09/07/2026 08:45</span>
 </div>
 </div>
 </section>

@@ -5,6 +5,7 @@ C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\ja
 C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\java\com\montero\app\controller\ViajeController.java
 C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\java\com\montero\app\controller\ReservaController.java
 C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\java\com\montero\app\repository\UsuarioRepository.java
+C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\java\com\montero\app\util\QrCodeGenerator.java
 C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\java\com\montero\app\model\Reserva.java
 C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\java\com\montero\app\model\Usuario.java
 C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\java\com\montero\app\controller\HomeController.java
@@ -23,6 +24,7 @@ C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\ja
 C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\java\com\montero\app\controller\PerfilUsuarioController.java
 C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\java\com\montero\app\service\PagoService.java
 C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\java\com\montero\app\repository\ReservaRepository.java
+C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\java\com\montero\app\controller\TicketverificacionController.java
 C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\java\com\montero\app\dto\LoginRequestDTO.java
 C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\java\com\montero\app\dto\PerfilUsuarioDTO.java
 C:\integrador1-sistema-monteroS.A.C\integrador1-sistema-monteroS.A.C\src\main\java\com\montero\app\controller\NavegacionModelAdvice.java

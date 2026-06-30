@@ -1,6 +1,7 @@
 package com.montero.app.controller;
 
 import com.montero.app.dto.CambioPasswordDTO;
+import com.montero.app.dto.PerfilUsuarioDTO;
 import com.montero.app.model.SesionUsuario;
 import com.montero.app.model.Usuario;
 import com.montero.app.service.PerfilUsuarioService;
@@ -128,5 +129,42 @@ public class AjustesController {
         sesionService.cerrarTodasExcepto(session.getId(), usuario.getId());
         redirectAttributes.addFlashAttribute("mensajeExito", "Sesiones cerradas en los demás dispositivos.");
         return "redirect:/ajustes/seguridad/sesiones";
+    }
+
+    @GetMapping("/preferencias")
+    public String verPreferencias(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+        PerfilUsuarioDTO dto = perfilUsuarioService.obtenerPerfilPorUsuarioId(usuario.getId());
+        if (dto == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("preferencias", dto);
+        return "ajustes_aplicacion/preferencias_viaje";
+    }
+
+    @PostMapping("/preferencias/actualizar")
+    public String actualizarPreferencias(@RequestParam("preferenciaAsiento") String preferenciaAsiento,
+                                          @RequestParam("preferenciaServicio") String preferenciaServicio,
+                                          HttpSession session,
+                                          RedirectAttributes redirectAttributes) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        boolean actualizado = perfilUsuarioService.actualizarPreferencias(usuario.getId(), preferenciaAsiento, preferenciaServicio);
+
+        if (actualizado) {
+            Usuario usuarioActualizado = perfilUsuarioService.obtenerUsuarioActualizado(usuario.getId());
+            session.setAttribute("usuarioLogueado", usuarioActualizado);
+            redirectAttributes.addFlashAttribute("mensajeExito", "Preferencias actualizadas correctamente.");
+        } else {
+            redirectAttributes.addFlashAttribute("mensajeError", "No se pudieron actualizar las preferencias.");
+        }
+
+        return "redirect:/ajustes/preferencias";
     }
 }

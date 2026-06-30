@@ -78,6 +78,15 @@ public class PerfilUsuarioService {
         return usuarioRepository.findById(id).orElse(null);
     }
 
+    public boolean actualizarPreferencias(Long usuarioId, String preferenciaAsiento, String preferenciaServicio) {
+        Usuario usuario = usuarioRepository.findById(usuarioId).orElse(null);
+        if (usuario == null) return false;
+        usuario.setPreferenciaAsiento(preferenciaAsiento);
+        usuario.setPreferenciaServicio(preferenciaServicio);
+        usuarioRepository.save(usuario);
+        return true;
+    }
+
     public void actualizarFotoPerfil(Long id, String fotoUrl) {
         Usuario usuario = usuarioRepository.findById(id).orElse(null);
         if (usuario != null) {

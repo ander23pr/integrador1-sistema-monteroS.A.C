@@ -1,0 +1,165 @@
+<!DOCTYPE html><html class="light" lang="es" xmlns:th="http://www.thymeleaf.org"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Preferencias de Viaje - Montenero</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f8f9ff",
+                        "secondary-container": "#e21e49",
+                        "on-primary-container": "#7c839b",
+                        "primary-container": "#131b2e",
+                        "on-surface": "#0d1c2f",
+                        "surface-tint": "#565e74",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#fffbff",
+                        "surface-variant": "#d5e3fd",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#45464d",
+                        "outline-variant": "#c6c6cd",
+                        "outline": "#76777d",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-high": "#dde9ff",
+                        "secondary-fixed": "#ffdada",
+                        "background": "#f8f9ff",
+                        "secondary": "#ba0035",
+                        "primary": "#000000",
+                        "surface-container-highest": "#d5e3fd",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#0d1c2f",
+                        "surface-container": "#e6eeff",
+                        "on-primary-fixed-variant": "#3f465c"
+                    },
+                    "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                    "spacing": {
+                        "section-gap": "40px", "gutter": "16px", "stack-sm": "8px",
+                        "stack-md": "16px", "margin-page": "20px", "unit": "4px", "stack-lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"], "label-caps": ["Inter"], "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"], "body-md": ["Inter"], "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .opcion-card input:checked + label {
+            border-color: #ba0035;
+            background-color: #ffdada;
+        }
+        .opcion-card input:checked + label .opcion-icon {
+            color: #ba0035;
+        }
+        .opcion-card input:checked + label .opcion-check {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-surface-bright border-b border-outline-variant top-0 z-10 sticky shadow-sm">
+<div class="flex justify-between items-center w-full px-margin-page py-stack-sm h-16">
+<a th:href="@{/ajustes}" class="text-secondary hover:bg-surface-container p-2 rounded-full transition-colors active:opacity-80 flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</a>
+<h1 class="font-headline-md text-headline-md text-secondary font-bold flex-1 text-center pr-10">Preferencias de viaje</h1>
+</div>
+</header>
+
+<main class="px-margin-page py-stack-lg max-w-2xl mx-auto flex flex-col gap-section-gap">
+
+<p class="font-body-md text-body-md text-on-surface-variant -mt-2">Usaremos estas preferencias para sugerirte asientos y servicios al momento de reservar.</p>
+
+<form th:action="@{/ajustes/preferencias/actualizar}" method="post" class="flex flex-col gap-section-gap">
+
+<!-- Asiento preferido -->
+<section class="flex flex-col gap-stack-sm">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Asiento preferido</h2>
+<div class="grid grid-cols-2 gap-stack-sm">
+
+<div class="opcion-card">
+<input class="sr-only peer" id="asiento-ventanilla" name="preferenciaAsiento" type="radio" value="Ventanilla"
+       th:checked="${preferencias.preferenciaAsiento == 'Ventanilla'}">
+<label class="flex flex-col items-center gap-stack-sm text-center p-stack-md rounded-xl border-2 border-outline-variant/40 bg-surface-container-lowest cursor-pointer transition-colors" for="asiento-ventanilla">
+<span class="material-symbols-outlined opcion-icon text-[28px] text-on-surface-variant transition-colors">window</span>
+<span class="font-body-lg text-body-lg font-semibold text-on-surface">Ventanilla</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Vista al paisaje</span>
+</label>
+</div>
+
+<div class="opcion-card">
+<input class="sr-only peer" id="asiento-pasillo" name="preferenciaAsiento" type="radio" value="Pasillo"
+       th:checked="${preferencias.preferenciaAsiento == 'Pasillo'}">
+<label class="flex flex-col items-center gap-stack-sm text-center p-stack-md rounded-xl border-2 border-outline-variant/40 bg-surface-container-lowest cursor-pointer transition-colors" for="asiento-pasillo">
+<span class="material-symbols-outlined opcion-icon text-[28px] text-on-surface-variant transition-colors">directions_walk</span>
+<span class="font-body-lg text-body-lg font-semibold text-on-surface">Pasillo</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Fácil acceso</span>
+</label>
+</div>
+
+</div>
+</section>
+
+<!-- Tipo de servicio -->
+<section class="flex flex-col gap-stack-sm">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Tipo de servicio</h2>
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.05)] border border-surface-container-high overflow-hidden">
+
+<div class="opcion-card">
+<input class="sr-only peer" id="servicio-regular" name="preferenciaServicio" type="radio" value="Regular"
+       th:checked="${preferencias.preferenciaServicio == 'Regular'}">
+<label class="flex items-center justify-between p-stack-md border-b border-surface-container-high cursor-pointer transition-colors" for="servicio-regular">
+<div class="flex items-center gap-stack-md">
+<span class="material-symbols-outlined opcion-icon text-on-surface-variant transition-colors" style="font-variation-settings: 'FILL' 0;">directions_bus</span>
+<div class="text-left">
+<p class="font-body-lg text-body-lg font-semibold text-on-surface">Regular</p>
+<p class="font-label-md text-label-md text-on-surface-variant">La opción más económica</p>
+</div>
+</div>
+<span class="material-symbols-outlined opcion-check text-secondary opacity-0 scale-75 transition-all">check_circle</span>
+</label>
+</div>
+
+</div>
+</section>
+
+<button class="w-full bg-secondary text-on-secondary font-headline-md py-4 rounded-full shadow-md hover:opacity-90 transition-opacity" type="submit">
+    Guardar preferencias
+</button>
+
+</form>
+</main>
+
+<script th:src="@{/js/notificaciones.js}"></script>
+<script th:if="${mensajeExito != null}">
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.MonteneroNotificaciones) {
+    MonteneroNotificaciones.mostrarToast({
+      titulo: 'Preferencias actualizadas',
+      mensaje: 'Tus preferencias de viaje se actualizaron correctamente.',
+      retrasoMs: 500,
+      duracionMs: 3000
+    });
+  }
+});
+</script>
+</body></html>
