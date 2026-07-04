@@ -38,11 +38,18 @@ public class Reserva {
     @JoinColumn(name = "viaje_id", nullable = false)
     private Viaje viaje;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "viaje_retorno_id")
+    private Viaje viajeRetorno;
+
     @Column(nullable = false)
     private Integer numeroAsiento;
 
     @Column(name = "numeros_asientos", nullable = false, length = 255)
     private String numerosAsientos;
+
+    @Column(name = "numeros_asientos_retorno", length = 255)
+    private String numerosAsientosRetorno;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
@@ -53,6 +60,9 @@ public class Reserva {
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal precioTotal;
+
+    @Column(precision = 10, scale = 2)
+    private BigDecimal precioRetorno;
 
     @Column(nullable = false, length = 100)
     private String nombresPasajero;
@@ -97,6 +107,17 @@ public class Reserva {
                 .collect(Collectors.toList());
     }
 
+    public List<Integer> getListaNumerosAsientosRetorno() {
+        if (numerosAsientosRetorno == null || numerosAsientosRetorno.isBlank()) {
+            return Collections.emptyList();
+        }
+        return Arrays.stream(numerosAsientosRetorno.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .map(Integer::valueOf)
+                .collect(Collectors.toList());
+    }
+
     public Long getId() {
         return id;
     }
@@ -119,6 +140,30 @@ public class Reserva {
 
     public void setViaje(Viaje viaje) {
         this.viaje = viaje;
+    }
+
+    public Viaje getViajeRetorno() {
+        return viajeRetorno;
+    }
+
+    public void setViajeRetorno(Viaje viajeRetorno) {
+        this.viajeRetorno = viajeRetorno;
+    }
+
+    public String getNumerosAsientosRetorno() {
+        return numerosAsientosRetorno;
+    }
+
+    public void setNumerosAsientosRetorno(String numerosAsientosRetorno) {
+        this.numerosAsientosRetorno = numerosAsientosRetorno;
+    }
+
+    public BigDecimal getPrecioRetorno() {
+        return precioRetorno;
+    }
+
+    public void setPrecioRetorno(BigDecimal precioRetorno) {
+        this.precioRetorno = precioRetorno;
     }
 
     public Integer getNumeroAsiento() {

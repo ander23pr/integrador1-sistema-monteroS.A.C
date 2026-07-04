@@ -219,7 +219,7 @@
 <div class="flex justify-between items-center pl-2">
 <div class="flex items-center gap-stack-sm">
 <span class="material-symbols-outlined text-primary" data-icon="directions_bus">directions_bus</span>
-<span class="font-label-caps text-label-caps text-on-surface-variant">IDA</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant" th:text="${esRetorno} ? 'RETORNO' : 'IDA'">IDA</span>
 </div>
 <span class="font-label-md text-label-md text-on-surface-variant" th:text="${fechaSeleccionada} + ' • ' + ${viaje.horaSalida}">10 Jun 2025 • 08:00 AM</span>
 </div>
@@ -293,27 +293,8 @@
 <input type="hidden" th:field="*{origenSeleccionado}">
 <input type="hidden" th:field="*{destinoSeleccionado}">
 <input type="hidden" th:field="*{fechaSeleccionada}">
+<input type="hidden" th:field="*{fechaRetorno}">
 <div id="asientos-hidden-container"></div>
-
-<h3 class="font-bold text-on-surface mb-2">Datos del Pasajero</h3>
-<div class="space-y-3">
-    <div>
-        <input type="text" th:field="*{nombresPasajero}" placeholder="Nombres" class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg p-3 text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary focus:outline-none" required>
-        <p th:if="${#fields.hasErrors('nombresPasajero')}" th:errors="*{nombresPasajero}" class="text-red-500 text-sm"></p>
-    </div>
-    <div>
-        <input type="text" th:field="*{apellidosPasajero}" placeholder="Apellidos" class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg p-3 text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary focus:outline-none" required>
-        <p th:if="${#fields.hasErrors('apellidosPasajero')}" th:errors="*{apellidosPasajero}" class="text-red-500 text-sm"></p>
-    </div>
-    <div>
-        <input type="text" th:field="*{dniPasajero}" placeholder="DNI (8 dígitos)" class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg p-3 text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary focus:outline-none" required maxlength="8">
-        <p th:if="${#fields.hasErrors('dniPasajero')}" th:errors="*{dniPasajero}" class="text-red-500 text-sm"></p>
-    </div>
-    <div>
-        <input type="email" th:field="*{emailPasajero}" placeholder="Correo Electrónico" class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg p-3 text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary focus:outline-none">
-        <p th:if="${#fields.hasErrors('emailPasajero')}" th:errors="*{emailPasajero}" class="text-red-500 text-sm"></p>
-    </div>
-</div>
 </section>
 </main>
 <!-- Bottom Price Summary & Action (Footer) -->

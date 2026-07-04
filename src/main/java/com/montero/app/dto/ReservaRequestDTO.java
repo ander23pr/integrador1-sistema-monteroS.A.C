@@ -5,12 +5,8 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 /**
  * DTO para capturar los datos del pasajero y los asientos seleccionados
@@ -33,22 +29,25 @@ public class ReservaRequestDTO {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fechaSeleccionada;
 
-    @NotBlank(message = "Los nombres son obligatorios")
-    @Size(min = 3, max = 100, message = "Los nombres deben tener entre 3 y 100 caracteres")
+    private Long viajeRetornoId;
+
+    private List<Integer> numerosAsientosRetorno;
+
+    private String origenRetorno;
+    private String destinoRetorno;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate fechaRetorno;
+
     private String nombresPasajero;
 
-    @NotBlank(message = "Los apellidos son obligatorios")
-    @Size(min = 3, max = 100, message = "Los apellidos deben tener entre 3 y 100 caracteres")
     private String apellidosPasajero;
 
-    @NotBlank(message = "El DNI es obligatorio")
-    @Size(min = 8, max = 8, message = "El DNI debe tener exactamente 8 dígitos")
-    @Pattern(regexp = "^\\d{8}$", message = "El DNI debe contener solo números")
     private String dniPasajero;
 
-    @NotBlank(message = "El email es obligatorio")
-    @Email(message = "Debe ingresar un email válido")
     private String emailPasajero;
+
+    private String telefonoPasajero;
 
     public ReservaRequestDTO() {
     }
@@ -93,6 +92,46 @@ public class ReservaRequestDTO {
         this.fechaSeleccionada = fechaSeleccionada;
     }
 
+    public Long getViajeRetornoId() {
+        return viajeRetornoId;
+    }
+
+    public void setViajeRetornoId(Long viajeRetornoId) {
+        this.viajeRetornoId = viajeRetornoId;
+    }
+
+    public List<Integer> getNumerosAsientosRetorno() {
+        return numerosAsientosRetorno;
+    }
+
+    public void setNumerosAsientosRetorno(List<Integer> numerosAsientosRetorno) {
+        this.numerosAsientosRetorno = numerosAsientosRetorno;
+    }
+
+    public String getOrigenRetorno() {
+        return origenRetorno;
+    }
+
+    public void setOrigenRetorno(String origenRetorno) {
+        this.origenRetorno = origenRetorno;
+    }
+
+    public String getDestinoRetorno() {
+        return destinoRetorno;
+    }
+
+    public void setDestinoRetorno(String destinoRetorno) {
+        this.destinoRetorno = destinoRetorno;
+    }
+
+    public LocalDate getFechaRetorno() {
+        return fechaRetorno;
+    }
+
+    public void setFechaRetorno(LocalDate fechaRetorno) {
+        this.fechaRetorno = fechaRetorno;
+    }
+
     public String getNombresPasajero() {
         return nombresPasajero;
     }
@@ -123,5 +162,13 @@ public class ReservaRequestDTO {
 
     public void setEmailPasajero(String emailPasajero) {
         this.emailPasajero = emailPasajero;
+    }
+
+    public String getTelefonoPasajero() {
+        return telefonoPasajero;
+    }
+
+    public void setTelefonoPasajero(String telefonoPasajero) {
+        this.telefonoPasajero = telefonoPasajero;
     }
 }

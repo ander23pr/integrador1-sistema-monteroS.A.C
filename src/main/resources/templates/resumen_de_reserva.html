@@ -201,13 +201,13 @@
 <div class="mb-stack-lg">
 <span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">ORIGEN</span>
 <p class="font-headline-md text-headline-md text-on-surface" th:text="${reserva.viaje.origen}">Piura</p>
-<p class="font-body-md text-body-md text-on-surface-variant" th:text="${reserva.viaje.fechaSalida} + ' | ' + ${reserva.viaje.horaSalida}">24 Oct 2023, 10:15</p>
+                <p class="font-body-md text-body-md text-on-surface-variant" th:text="${#temporals.format(reserva.viaje.fechaSalida, 'dd MMM yyyy')} + ' | ' + ${#temporals.format(reserva.viaje.horaSalida, 'hh:mm a')}">24 Oct 2023, 10:15</p>
 </div>
 <div class="absolute w-3 h-3 rounded-full bg-tertiary-container border-2 border-tertiary-container -left-[7px] bottom-3"></div>
 <div>
 <span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">DESTINO</span>
 <p class="font-headline-md text-headline-md text-on-surface" th:text="${reserva.viaje.destino}">Paita</p>
-<p class="font-body-md text-body-md text-on-surface-variant">-</p>
+<p class="font-body-md text-body-md text-on-surface-variant" th:text="'Asientos: ' + ${#strings.listJoin(reserva.listaNumerosAsientos, ', ')}">22</p>
 </div>
 </div>
 <!-- Decorative/Context Image -->
@@ -217,6 +217,31 @@
 </div>
 </div>
 </section>
+<!-- Return Trip Card (solo si aplica) -->
+<section th:if="${reserva.viajeRetorno != null}" class="bg-surface-container-lowest rounded-xl card-shadow border border-outline-variant overflow-hidden relative">
+    <div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+    <div class="p-stack-md flex flex-col gap-stack-md ml-1">
+        <div class="flex items-center gap-stack-sm mb-2">
+            <span class="material-symbols-outlined text-secondary fill-icon">sync_alt</span>
+            <h2 class="font-headline-md text-headline-md text-on-surface">Viaje de Retorno</h2>
+        </div>
+        <div class="flex-1 relative pl-6 border-l-2 border-dashed border-outline-variant ml-3 py-2">
+            <div class="absolute w-3 h-3 rounded-full bg-surface border-2 border-secondary -left-[7px] top-2"></div>
+            <div class="mb-stack-lg">
+                <span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">ORIGEN</span>
+                <p class="font-headline-md text-headline-md text-on-surface" th:text="${reserva.viajeRetorno.origen}">Piura</p>
+                <p class="font-body-md text-body-md text-on-surface-variant" th:text="${#temporals.format(reserva.viajeRetorno.fechaSalida, 'dd MMM yyyy')} + ' | ' + ${#temporals.format(reserva.viajeRetorno.horaSalida, 'hh:mm a')}">24 Oct 2023, 10:15</p>
+            </div>
+            <div class="absolute w-3 h-3 rounded-full bg-secondary border-2 border-secondary -left-[7px] bottom-3"></div>
+            <div>
+                <span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">DESTINO</span>
+                <p class="font-headline-md text-headline-md text-on-surface" th:text="${reserva.viajeRetorno.destino}">Paita</p>
+                <p class="font-body-md text-body-md text-on-surface-variant" th:text="'Asientos: ' + ${#strings.listJoin(reserva.listaNumerosAsientosRetorno, ', ')}">22</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Passenger Details Card -->
 <section class="bg-surface-container-lowest rounded-xl card-shadow border border-outline-variant p-stack-md flex flex-col gap-stack-md">
 <div class="flex items-center gap-stack-sm mb-2">
@@ -231,7 +256,10 @@
 <div class="bg-surface rounded-lg p-stack-sm border border-outline-variant flex justify-between items-center">
 <div>
 <span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">ASIENTOS</span>
-<p class="font-body-lg text-body-lg text-on-surface" th:text="${#strings.listJoin(reserva.listaNumerosAsientos, ', ')}">22</p>
+<p class="font-body-lg text-body-lg text-on-surface">
+<span th:text="'Ida: ' + ${#strings.listJoin(reserva.listaNumerosAsientos, ', ')}">22</span>
+<span th:if="${reserva.viajeRetorno != null}" th:text="' | Retorno: ' + ${#strings.listJoin(reserva.listaNumerosAsientosRetorno, ', ')}"></span>
+</p>
 </div>
 <span class="bg-surface-container-high text-on-tertiary-container font-label-caps text-label-caps px-3 py-1 rounded-full">ESTÁNDAR</span>
 </div>
@@ -245,8 +273,12 @@
 </div>
 <div class="flex flex-col gap-stack-sm">
 <div class="flex justify-between items-center py-2">
-<span class="font-body-lg text-body-lg text-on-surface-variant">Pasaje</span>
-<span class="font-body-lg text-body-lg text-on-surface" th:text="'S/ ' + ${reserva.precioTotal}">S/. 6.00</span>
+<span class="font-body-lg text-body-lg text-on-surface-variant">Pasaje Ida</span>
+<span class="font-body-lg text-body-lg text-on-surface" th:text="'S/ ' + (${reserva.viajeRetorno != null} ? (${reserva.precioTotal} - ${reserva.precioRetorno}) : ${reserva.precioTotal})">S/. 6.00</span>
+</div>
+<div th:if="${reserva.viajeRetorno != null}" class="flex justify-between items-center py-2">
+<span class="font-body-lg text-body-lg text-on-surface-variant">Pasaje Retorno</span>
+<span class="font-body-lg text-body-lg text-on-surface" th:text="'S/ ' + ${reserva.precioRetorno}">S/. 6.00</span>
 </div>
 <div class="flex justify-between items-center py-2">
 <span class="font-body-lg text-body-lg text-on-surface-variant">Tasas y servicio</span>
@@ -267,9 +299,14 @@
 <span class="font-label-caps text-label-caps text-on-surface-variant">TOTAL A PAGAR</span>
 <span class="font-headline-lg text-headline-lg text-secondary" th:text="'S/ ' + ${reserva.precioTotal}">S/. 138.00</span>
 </div>
-<a th:href="@{/pagos/yape/{id}(id=${reserva.id})}" class="w-full md:w-auto flex-1 bg-secondary text-on-secondary font-headline-md text-headline-md py-4 px-6 rounded-xl text-center hover:bg-secondary-container transition-colors shadow-sm">SIGUIENTE</a>
+<form th:if="${desdeSesion}" th:action="@{/reservas/confirmar}" method="POST" class="w-full md:w-auto flex-1">
+    <button type="submit" class="w-full bg-secondary text-on-secondary font-headline-md text-headline-md py-4 px-6 rounded-xl text-center hover:bg-secondary-container transition-colors shadow-sm">CONFIRMAR RESERVA</button>
+</form>
+<a th:unless="${desdeSesion}" th:href="@{/pagos/yape/{id}(id=${reserva.id})}" class="w-full md:w-auto flex-1 bg-secondary text-on-secondary font-headline-md text-headline-md py-4 px-6 rounded-xl text-center hover:bg-secondary-container transition-colors shadow-sm">SIGUIENTE</a>
 </div>
 </div>
+
+<div th:if="${error}" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-error-container text-on-error-container px-6 py-3 rounded-xl shadow-lg font-bold text-sm max-w-md mx-auto text-center" th:text="${error}"></div>
 
 <script th:src="@{/js/notificaciones.js}"></script>
 </body></html>

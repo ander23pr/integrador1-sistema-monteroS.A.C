@@ -165,15 +165,57 @@ public class ReservaService {
         reserva.setFechaCreacion(LocalDateTime.now());
 
         // 14. Calcular el precio total según la cantidad de asientos
-        reserva.setPrecioTotal(viaje.getPrecio().multiply(BigDecimal.valueOf(asientosOrdenados.size())));
+        BigDecimal precioIda = viaje.getPrecio().multiply(BigDecimal.valueOf(asientosOrdenados.size()));
+        reserva.setPrecioTotal(precioIda);
 
-        // 15. Guardar los datos del pasajero en la reserva
+        // 15. Si hay viaje de retorno, validar y procesar
+        if (dto.getViajeRetornoId() != null) {
+            Viaje viajeRetorno = viajeService.obtenerViajePorId(dto.getViajeRetornoId());
+            List<Integer> asientosRetorno = dto.getNumerosAsientosRetorno();
+
+            if (asientosRetorno == null || asientosRetorno.isEmpty()) {
+                throw new IllegalArgumentException("Debe seleccionar al menos un asiento para el viaje de retorno.");
+            }
+
+            long asientosRetornoUnicos = asientosRetorno.stream().distinct().count();
+            if (asientosRetornoUnicos > 5) {
+                throw new IllegalArgumentException("No se pueden reservar más de 5 asientos por operación.");
+            }
+
+            boolean asientoRetornoFueraDeRango = asientosRetorno.stream()
+                    .anyMatch(numero -> numero == null || numero < 1 || numero > viajeRetorno.getAsientosTotales());
+            if (asientoRetornoFueraDeRango) {
+                throw new IllegalArgumentException("Uno o más asientos de retorno son inválidos o están fuera de rango.");
+            }
+
+            List<Integer> asientosOcupadosRetorno = viajeService.obtenerAsientosOcupados(viajeRetorno.getId());
+            boolean hayAsientoOcupadoRetorno = asientosRetorno.stream().anyMatch(asientosOcupadosRetorno::contains);
+            if (hayAsientoOcupadoRetorno) {
+                throw new IllegalStateException("Uno o más asientos de retorno ya se encuentran ocupados.");
+            }
+
+            reserva.setViajeRetorno(viajeRetorno);
+
+            List<Integer> asientosRetornoOrdenados = asientosRetorno.stream()
+                    .distinct()
+                    .sorted(Comparator.naturalOrder())
+                    .collect(Collectors.toList());
+            reserva.setNumerosAsientosRetorno(
+                    asientosRetornoOrdenados.stream().map(String::valueOf).collect(Collectors.joining(","))
+            );
+
+            BigDecimal precioRetorno = viajeRetorno.getPrecio().multiply(BigDecimal.valueOf(asientosRetornoOrdenados.size()));
+            reserva.setPrecioRetorno(precioRetorno);
+            reserva.setPrecioTotal(precioIda.add(precioRetorno));
+        }
+
+        // 17. Guardar los datos del pasajero en la reserva
         reserva.setNombresPasajero(dto.getNombresPasajero());
         reserva.setApellidosPasajero(dto.getApellidosPasajero());
         reserva.setDniPasajero(dto.getDniPasajero());
         reserva.setEmailPasajero(dto.getEmailPasajero());
 
-        // 16. Guardar finalmente la reserva en la base de datos
+        // 18. Guardar finalmente la reserva en la base de datos
         Reserva reservaGuardada = reservaRepository.save(reserva);
         logger.info("Reserva creada exitosamente. Reserva ID: {}, DNI Pasajero: {}, Asientos: {}", 
                 reservaGuardada.getId(), dniPasajero, reserva.getNumerosAsientos());

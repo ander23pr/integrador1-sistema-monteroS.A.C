@@ -5,7 +5,6 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
 <style>
         .material-symbols-outlined {
             font-family: 'Material Symbols Outlined';
@@ -64,7 +63,6 @@
                       "primary": "#000000",
                       "on-tertiary-fixed-variant": "#004395",
                       "tertiary-fixed": "#d8e2ff",
-                      "secondary-fixed-dim": "#ffb3b6",
                       "surface-dim": "#ccdbf4",
                       "surface-tint": "#565e74",
                       "on-surface-variant": "#45464d",
@@ -92,104 +90,62 @@
                       "stack-sm": "8px"
               },
               "fontFamily": {
-                      "label-md": [
-                              "Inter"
-                      ],
-                      "headline-xl": [
-                              "Inter"
-                      ],
-                      "label-caps": [
-                              "Inter"
-                      ],
-                      "headline-lg": [
-                              "Inter"
-                      ],
-                      "body-lg": [
-                              "Inter"
-                      ],
-                      "headline-md": [
-                              "Inter"
-                      ],
-                      "body-md": [
-                              "Inter"
-                      ]
+                      "label-md": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-md": ["Inter"]
               },
               "fontSize": {
-                      "label-md": [
-                              "12px",
-                              {
-                                      "lineHeight": "16px",
-                                      "fontWeight": "500"
-                              }
-                      ],
-                      "headline-xl": [
-                              "32px",
-                              {
-                                      "lineHeight": "40px",
-                                      "letterSpacing": "-0.02em",
-                                      "fontWeight": "700"
-                              }
-                      ],
-                      "label-caps": [
-                              "12px",
-                              {
-                                      "lineHeight": "16px",
-                                      "letterSpacing": "0.05em",
-                                      "fontWeight": "700"
-                              }
-                      ],
-                      "headline-lg": [
-                              "24px",
-                              {
-                                      "lineHeight": "32px",
-                                      "letterSpacing": "-0.01em",
-                                      "fontWeight": "600"
-                              }
-                      ],
-                      "body-lg": [
-                              "16px",
-                              {
-                                      "lineHeight": "24px",
-                                      "fontWeight": "400"
-                              }
-                      ],
-                      "headline-md": [
-                              "20px",
-                              {
-                                      "lineHeight": "28px",
-                                      "fontWeight": "600"
-                              }
-                      ],
-                      "body-md": [
-                              "14px",
-                              {
-                                      "lineHeight": "20px",
-                                      "fontWeight": "400"
-                              }
-                      ]
+                      "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                      "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                      "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                      "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                      "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                      "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                      "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
               }
-      },
           },
-        }
+        },
+      }
       </script>
 </head>
 <body class="bg-background text-on-background font-body-md min-h-screen pb-24">
-<!-- TopAppBar -->
 <header class="bg-surface dark:bg-surface-dim shadow-sm flex justify-between items-center w-full px-margin-page h-16 sticky top-0 z-50">
-<button class="text-primary dark:text-primary-fixed hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-150">
-
-</button>
+<button class="text-primary dark:text-primary-fixed hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-150"></button>
 <h1 class="font-headline-lg text-headline-lg font-bold tracking-tight text-primary dark:text-on-surface"><br></h1>
 <button class="hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-150 rounded-full overflow-hidden w-10 h-10 border border-outline-variant/30">
 <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDirPqir_d2O6kvzDNLMI6g-m7_wyuI7oNYEq7wzttmDBCJg7fD5EqIQhb0wifmeNu1WI8qh67v_REerIykDWSZZNKfHaMj8OzUARJj3-bS7KZhhgUHi5mvkO8-fdM2Ig0iV2cudV2VSBRCt90mm7p6szHHKSFcGdQB010ZPBdkpV8B_yBiYwM9yUiSg40qLET8OpTGXdqKmRwaacFIvLub9HQFu4Sb3nH_tnWEv33ifZj504NWpynRSS48NzECU8-ZAxahgWzTyzCg" alt="User profile" class="w-full h-full object-cover">
 </button>
 </header>
 <main class="px-margin-page pt-stack-lg max-w-3xl mx-auto w-full">
+<!-- Progress Indicator -->
+<div th:if="${fechaRetornoBuscada != null}" class="mb-stack-lg">
+  <div class="flex items-center gap-3">
+    <div th:classappend="${modo == 'ida'} ? 'bg-secondary text-white' : 'bg-surface-container-high text-on-surface-variant'" class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors">1</div>
+    <span th:class="${modo == 'ida'} ? 'text-secondary font-bold' : 'text-on-surface-variant'" class="text-sm transition-colors">Viaje de ida</span>
+    <div class="h-px flex-1 bg-outline-variant/50"></div>
+    <div th:classappend="${modo == 'retorno'} ? 'bg-secondary text-white' : 'bg-surface-container-high text-on-surface-variant'" class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors">2</div>
+    <span th:class="${modo == 'retorno'} ? 'text-secondary font-bold' : 'text-on-surface-variant'" class="text-sm transition-colors">Viaje de retorno</span>
+  </div>
+</div>
+
 <!-- Search Summary -->
 <div class="mb-section-gap flex items-center justify-between bg-surface-container-lowest p-stack-md rounded-xl shadow-sm border border-outline-variant/30">
 <div>
 <p class="font-label-caps text-label-caps text-on-surface-variant uppercase" th:text="${origenBuscado} + ' → ' + ${destinoBuscado}">piura - paita</p>
-<p class="font-body-md text-body-md text-on-surface mt-unit" th:text="'Ida: ' + ${#temporals.format(fechaBuscada, 'dd MMM yyyy')} + (${fechaRetornoBuscada} != null ? ' | Retorno: ' + ${#temporals.format(fechaRetornoBuscada, 'dd MMM yyyy')} : '') + ' • 1 Pasajero'">Mar 12, 2025 • 1 Pasajero</p>
+<p class="font-body-md text-body-md text-on-surface mt-unit">
+  <span th:if="${modo != 'retorno'}">
+    <span th:text="'Ida: ' + ${#temporals.format(fechaBuscada, 'dd MMM yyyy')}">Ida: 11 jul 2026</span>
+    <span th:if="${fechaRetornoBuscada != null}" th:text="' | Retorno: ' + ${#temporals.format(fechaRetornoBuscada, 'dd MMM yyyy')}"></span>
+  </span>
+  <span th:if="${modo == 'retorno'}">
+    <span th:text="'Retorno: ' + ${#temporals.format(fechaBuscada, 'dd MMM yyyy')}">Retorno: 11 jul 2026</span>
+  </span>
+  <span> • 1 Pasajero</span>
+</p>
 </div>
 <a th:href="@{/viajes}" class="text-on-tertiary-container hover:opacity-80 transition-opacity flex items-center gap-1">
 <span class="material-symbols-outlined" data-icon="edit">edit</span>
@@ -197,11 +153,7 @@
 </a>
 </div>
 <div class="flex items-center justify-between mb-stack-md">
-<h2 class="font-headline-md text-headline-md text-on-surface">Selecciona tu viaje</h2>
-<button class="flex items-center gap-unit text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md">
-<span class="material-symbols-outlined text-[18px]" data-icon="filter_list">filter_list</span>
-                Filtros
-            </button>
+<h2 class="font-headline-md text-headline-md text-on-surface" th:text="${modo == 'retorno'} ? 'Selecciona tu viaje de retorno' : 'Selecciona tu viaje de ida'">Selecciona tu viaje</h2>
 </div>
 <!-- Ticket Cards List -->
 <div class="flex flex-col gap-stack-md">
@@ -211,44 +163,57 @@
     <a th:href="@{/viajes}" class="mt-4 inline-block bg-secondary text-white py-2 px-4 rounded-lg">Realizar nueva búsqueda</a>
 </div>
 
-<!-- Card iterada con Thymeleaf -->
-<article th:each="viaje : ${viajes}" class="bg-surface-container-lowest rounded-xl p-stack-md shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-outline-variant/20 relative overflow-hidden flex flex-col md:flex-row gap-stack-md">
-<div class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary-container"></div>
+<article th:each="viaje : ${viajes}"
+         class="bg-surface-container-lowest rounded-2xl p-5 shadow-sm border border-outline-variant/30 flex flex-col gap-5 transition-all hover:border-primary/30"
+         th:attr="data-es-ida=true">
 
-<div class="flex-1 flex flex-col justify-between">
-<div class="flex items-center justify-between mb-stack-md pt-stack-sm md:pt-0">
-<div class="flex items-center gap-stack-sm">
-<img alt="Montero Bus" class="w-12 h-12 rounded-full object-cover border border-outline-variant/30" src="viaje.jpg">
-<div>
-<p class="font-headline-md text-headline-md text-on-surface" th:text="${viaje.horaSalida}">18:00</p>
-<p class="font-label-md text-label-md text-on-surface-variant" th:text="${viaje.origen}">Piura (Terminal Montero)</p>
-</div>
-</div>
-</div>
-<div class="flex items-center gap-stack-sm text-on-surface-variant font-label-md text-label-md pl-14 md:pl-0 my-stack-sm">
-<span class="material-symbols-outlined text-[16px]" data-icon="schedule">schedule</span>Directo • Asientos libres: <span th:text="${viaje.asientosTotales}"></span>
-</div>
-<div class="flex items-center gap-stack-sm mt-stack-sm">
-<div class="w-12 h-12 flex-shrink-0"></div> <!-- Spacer for alignment -->
-<div>
-<p class="font-headline-md text-headline-md text-on-surface" th:text="${#temporals.format(viaje.fechaSalida, 'dd MMM yyyy')}">29 May 2026</p>
-<p class="font-label-md text-label-md text-on-surface-variant" th:text="${viaje.destino}">Paita (Terminal Terrestre)</p>
-</div>
-</div>
-</div>
-<div class="md:w-1/3 flex flex-col justify-between border-t md:border-t-0 md:border-l border-outline-variant/20 pt-stack-md md:pt-0 md:pl-stack-md">
-<div class="flex justify-between items-end mb-stack-md md:mb-0 md:flex-col md:items-end">
-<span class="font-body-md text-body-md text-on-surface-variant">Precio</span>
-<span class="font-headline-lg text-headline-lg font-bold text-secondary" th:text="'S/ ' + ${viaje.precio}">S/. 6.00</span>
-</div>
-<a th:href="@{/reservas/viaje/{id}/asientos(id=${viaje.id},origen=${origenBuscado},destino=${destinoBuscado},fecha=${#temporals.format(fechaBuscada, 'yyyy-MM-dd')})}" class="w-full bg-secondary text-on-secondary font-label-caps text-label-caps uppercase py-3 rounded-xl hover:opacity-90 transition-opacity focus:ring-2 focus:ring-secondary focus:ring-offset-2 text-center block">
-                        Seleccionar
-</a>
-</div>
+    <div class="grid grid-cols-[auto_1fr] gap-4">
+        <div class="flex flex-col items-center pt-1">
+            <span class="material-symbols-outlined text-primary text-xl">radio_button_checked</span>
+            <div class="w-px h-8 bg-outline-variant/50 my-1"></div>
+            <span class="material-symbols-outlined text-secondary text-xl">location_on</span>
+        </div>
+
+        <div class="flex flex-col gap-4">
+            <div>
+                <p class="font-bold text-lg text-on-surface" th:text="${#temporals.format(viaje.horaSalida, 'hh:mm a')}">09:00 AM</p>
+                <p class="text-sm text-on-surface-variant" th:text="${viaje.origen}">Piura</p>
+            </div>
+            <div>
+                <p class="font-bold text-lg text-on-surface">--:--</p>
+                <p class="text-sm text-on-surface-variant" th:text="${viaje.destino}">Máncora</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="border-t border-outline-variant/20 pt-4 flex flex-col gap-3">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-[11px] uppercase tracking-wider font-bold text-outline">Fecha</p>
+                <p class="text-sm font-semibold text-on-surface" th:text="${#temporals.format(viaje.fechaSalida, 'dd MMM yyyy')}">11 jul 2026</p>
+            </div>
+            <div class="flex items-center gap-1.5 text-sm text-on-surface-variant">
+                <span class="material-symbols-outlined text-base">event_seat</span>
+                <span th:text="${viaje.asientosTotales + ' asientos'}">40 asientos</span>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between mt-1">
+            <span class="text-2xl font-bold text-secondary" th:text="'S/ ' + ${viaje.precio}">S/ 35.00</span>
+            <a th:if="${modo == 'retorno'}"
+               th:href="@{/reservas/viaje/{id}/asientos-retorno(id=${viaje.id}, origen=${origenBuscado}, destino=${destinoBuscado}, fecha=${#temporals.format(fechaBuscada, 'yyyy-MM-dd')})}"
+               class="bg-secondary text-white px-8 py-3 rounded-xl font-bold text-sm tracking-wide hover:opacity-90 transition-colors">SELECCIONAR</a>
+            <a th:if="${modo != 'retorno' and fechaRetornoBuscada != null}"
+               th:href="@{/reservas/viaje/{id}/asientos(id=${viaje.id}, origen=${origenBuscado}, destino=${destinoBuscado}, fecha=${#temporals.format(fechaBuscada, 'yyyy-MM-dd')}, fechaRetorno=${#temporals.format(fechaRetornoBuscada, 'yyyy-MM-dd')})}"
+               class="bg-secondary text-white px-8 py-3 rounded-xl font-bold text-sm tracking-wide hover:opacity-90 transition-colors">SELECCIONAR</a>
+            <a th:if="${modo != 'retorno' and fechaRetornoBuscada == null}"
+               th:href="@{/reservas/viaje/{id}/asientos(id=${viaje.id}, origen=${origenBuscado}, destino=${destinoBuscado}, fecha=${#temporals.format(fechaBuscada, 'yyyy-MM-dd')})}"
+               class="bg-secondary text-white px-8 py-3 rounded-xl font-bold text-sm tracking-wide hover:opacity-90 transition-colors">SELECCIONAR</a>
+        </div>
+    </div>
 </article>
 </div>
 </main>
-<!-- BottomNavBar -->
 <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-4 pb-2 border-t border-outline-variant bg-surface-container-lowest dark:bg-surface-container-low shadow-lg md:hidden">
 <button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-variant/10 rounded-lg p-2 transition-colors">
 <span class="material-symbols-outlined mb-1" data-icon="home">home</span>
@@ -271,12 +236,4 @@
 <span class="font-label-md text-label-md">Ajustes</span>
 </button>
 </nav>
-
-
-
-
-
-
-
-
 </body></html>

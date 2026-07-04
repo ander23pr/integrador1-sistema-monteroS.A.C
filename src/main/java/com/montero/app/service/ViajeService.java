@@ -33,6 +33,14 @@ public class ViajeService {
     }
 
     /**
+     * Busca viajes de retorno invirtiendo origen y destino (ej: si el usuario
+     * busca Piura→Lima para ida, el retorno será Lima→Piura).
+     */
+    public List<Viaje> buscarViajeRetorno(String destinoIda, String origenIda, LocalDate fechaRetorno) {
+        return viajeRepository.findByOrigenAndDestinoAndFechaSalida(destinoIda, origenIda, fechaRetorno);
+    }
+
+    /**
      * Obtiene todos los viajes disponibles (útil para el listado inicial).
      */
     public List<Viaje> obtenerTodos() {

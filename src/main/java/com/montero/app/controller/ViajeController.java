@@ -50,19 +50,23 @@ public class ViajeController {
             @RequestParam("fecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
             @RequestParam(value = "fechaRetorno", required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaRetorno,
+            @RequestParam(value = "modo", required = false) String modo,
             Model model) {
 
-        List<Viaje> resultados = viajeService.buscarViajes(origen, destino, fecha);
-
-        // Enviamos los resultados a la vista
-        model.addAttribute("viajes", resultados);
-
-        // Criterios de búsqueda para mostrar en el resumen de seleccion_pasaje
         model.addAttribute("origenBuscado", origen);
         model.addAttribute("destinoBuscado", destino);
         model.addAttribute("fechaBuscada", fecha);
-        // Fecha de retorno es opcional; puede ser null
         model.addAttribute("fechaRetornoBuscada", fechaRetorno);
+        model.addAttribute("modo", modo != null ? modo : "ida");
+
+        if ("retorno".equals(modo)) {
+            // Los parámetros ya vienen invertidos (origen=destinoIda, destino=origenIda)
+            List<Viaje> resultados = viajeService.buscarViajes(origen, destino, fecha);
+            model.addAttribute("viajes", resultados);
+        } else {
+            List<Viaje> resultados = viajeService.buscarViajes(origen, destino, fecha);
+            model.addAttribute("viajes", resultados);
+        }
 
         return "seleccion_pasaje";
     }
