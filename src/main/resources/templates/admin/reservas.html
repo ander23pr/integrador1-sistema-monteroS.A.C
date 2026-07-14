@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reservas · Montero Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script th:inline="none">
+    tailwind.config = {
+        theme: { extend: {
+            colors: {
+                primary: "#0B1120", "primary-light": "#141F38", secondary: "#C00037", "secondary-dark": "#920028",
+                "secondary-soft": "#FDE6EB", surface: "#FFFFFF", background: "#F7F8FA",
+                "on-surface-variant": "#71717A", "outline-variant": "#E4E4E7",
+                success: "#15803D", "success-bg": "#DCFCE7", warning: "#B45309", "warning-bg": "#FEF3C7",
+                danger: "#B91C1C", "danger-bg": "#FEE2E2", info: "#1D4ED8", "info-bg": "#DBEAFE"
+            },
+            borderRadius: { DEFAULT: "0.375rem", lg: "0.625rem", xl: "0.875rem", "2xl": "1.25rem", "3xl": "1.75rem", full: "9999px" },
+            fontFamily: { sans: ["Inter", "sans-serif"] },
+            boxShadow: { card: "0 1px 2px rgba(15,23,42,0.04), 0 6px 20px rgba(15,23,42,0.06)", pop: "0 12px 32px rgba(11,17,32,0.16)" }
+        } }
+    }
+</script>
+<style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 20; font-size: 20px; line-height:1; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    [x-cloak] { display: none !important; }
+</style>
+</head>
+
+<body class="bg-background font-sans antialiased">
+
+<aside class="hidden lg:flex w-64 shrink-0 bg-primary min-h-screen flex-col fixed left-0 top-0 bottom-0 z-30">
+<div class="h-16 flex items-center gap-3 px-5 border-b border-white/10">
+<div class="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center font-extrabold text-white text-base">M</div>
+<div class="leading-tight">
+<p class="text-white font-bold text-sm tracking-tight">Montero S.A.C.</p>
+<p class="text-[#8890A0] text-[11px] font-medium">Panel de Administración</p>
+</div>
+</div>
+<nav class="flex-1 px-3 py-5 flex flex-col gap-1 overflow-y-auto">
+<a th:href="@{/admin/dashboard}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">space_dashboard</span><span>Dashboard</span></a>
+<a th:href="@{/admin/viajes}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">event</span><span>Viajes y Horarios</span></a>
+<a th:href="@{/admin/usuarios}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">group</span><span>Usuarios</span></a>
+<a th:href="@{/admin/reservas}" class="nav-item-active flex items-center gap-3 px-4 py-2.5 rounded-lg bg-secondary/15 text-white text-sm font-medium shadow-[inset_3px_0_0_#C00037]"><span class="material-symbols-outlined text-[#FF4D6D]">confirmation_number</span><span>Reservas</span></a>
+<a th:href="@{/admin/pagos}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">payments</span><span>Pagos</span></a></nav>
+<div class="p-3 border-t border-white/10">
+<a th:href="@{/admin/logout}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium">
+<span class="material-symbols-outlined">logout</span><span>Cerrar sesión</span></a>
+</div>
+</aside>
+<div class="lg:ml-64 min-h-screen flex flex-col">
+
+<header class="hidden lg:flex h-16 border-b border-outline-variant bg-surface/90 backdrop-blur sticky top-0 z-20 items-center justify-between px-8">
+<div>
+<h1 class="text-lg font-bold text-primary tracking-tight leading-none">Reservas</h1>
+<p class="text-xs text-on-surface-variant mt-1">Historial de reservas de pasajeros</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-background transition-colors">
+<span class="material-symbols-outlined text-primary">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-secondary rounded-full ring-2 ring-surface"></span>
+</button>
+<div class="flex items-center gap-2.5 pl-4 border-l border-outline-variant">
+<img src="https://i.pravatar.cc/64?img=12" class="w-9 h-9 rounded-full object-cover" alt="Admin">
+<div class="leading-tight">
+<p class="text-sm font-semibold text-primary" th:text="${admin != null ? admin.nombre : 'Administrador'}">Administrador</p>
+<p class="text-[11px] text-on-surface-variant">Administrador</p>
+</div>
+</div>
+</div>
+</header>
+
+<header class="lg:hidden px-5 pt-6 pb-4 flex items-start justify-between bg-surface">
+<div class="flex items-start gap-1">
+<a th:href="@{/admin/dashboard}" class="w-9 h-9 rounded-full hover:bg-background flex items-center justify-center text-primary -ml-1.5"><span class="material-symbols-outlined">arrow_back</span></a>
+<div><h1 class="text-[22px] font-extrabold text-secondary tracking-tight leading-none">Reservas</h1>
+<p class="text-xs text-on-surface-variant mt-0.5">Historial de reservas de pasajeros</p></div>
+</div>
+<a th:href="@{#}" class="w-9 h-9 rounded-full bg-background flex items-center justify-center text-primary relative shrink-0">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</a>
+</header>
+<main class="flex-1">
+<div class="lg:hidden px-5 pb-6">
+
+<div class="relative mb-3">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input type="text" id="buscadorM" onkeyup="filtrarReservas('buscadorM','reserva-card-m')" placeholder="Buscar por pasajero o DNI…"
+       class="w-full pl-9 pr-4 py-2.5 bg-surface border border-outline-variant rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition">
+</div>
+<p class="text-xs text-on-surface-variant mb-3" th:text="${total} + ' reservas registradas'">0</p>
+<div th:if="${#lists.isEmpty(reservas)}" class="text-center py-10 text-on-surface-variant text-sm">Aún no hay reservas registradas.</div>
+<div th:each="reserva : ${reservas}" class="reserva-card-m bg-surface border border-outline-variant rounded-2xl p-4 shadow-card mb-3">
+<div class="flex items-start justify-between mb-2">
+<div><p class="text-sm font-bold text-primary reserva-nombre" th:text="${reserva.nombresPasajero} + ' ' + ${reserva.apellidosPasajero}">Pasajero</p>
+<p class="text-xs text-on-surface-variant mt-0.5" th:text="'DNI ' + ${reserva.dniPasajero}">DNI</p></div>
+
+<span th:switch="${reserva.estado.name()}">
+<span th:case="'PAGADO'" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-success-bg text-success"><span class="w-1.5 h-1.5 rounded-full bg-current"></span>Pagada</span>
+<span th:case="'PENDIENTE'" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-warning-bg text-warning"><span class="w-1.5 h-1.5 rounded-full bg-current"></span>Pendiente</span>
+<span th:case="*" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-danger-bg text-danger"><span class="w-1.5 h-1.5 rounded-full bg-current"></span>Cancelada</span>
+</span>
+</div>
+<p class="text-xs text-primary font-medium mb-1" th:if="${reserva.viaje} != null" th:text="${reserva.viaje.origen} + ' → ' + ${reserva.viaje.destino}">Ruta</p>
+<div class="flex items-center justify-between text-xs text-on-surface-variant mb-3">
+<span th:if="${reserva.viaje} != null" th:text="${#temporals.format(reserva.viaje.fechaSalida, 'dd MMM')} + ', ' + ${#temporals.format(reserva.viaje.horaSalida, 'HH:mm')}">Fecha</span>
+<span th:text="'Asiento(s) ' + ${reserva.numerosAsientos}">Asientos</span>
+</div>
+<div class="flex items-center justify-between">
+<p class="text-sm font-extrabold text-primary" th:text="'S/ ' + ${#numbers.formatDecimal(reserva.precioTotal, 1, 2)}">S/ 0.00</p>
+<form th:if="${reserva.estado.name() != 'CANCELADO'}" th:action="@{/admin/reservas/{id}/cancelar(id=${reserva.id})}" method="post" onsubmit="return confirm('¿Cancelar esta reserva?');">
+<button type="submit" class="px-3 py-1.5 rounded-lg bg-danger-bg text-danger text-xs font-semibold">Cancelar</button>
+</form>
+</div>
+</div>
+
+</div>
+<div class="hidden lg:block p-8">
+
+<div class="flex items-center justify-between mb-5">
+<div class="relative w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input type="text" id="buscadorD" onkeyup="filtrarReservas('buscadorD','reserva-row-d')" placeholder="Buscar por pasajero o DNI…"
+       class="pl-9 pr-4 py-2.5 w-full bg-surface border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition">
+</div>
+<p class="text-xs text-on-surface-variant" th:text="${total} + ' reservas registradas'">0</p>
+</div>
+<div th:if="${#lists.isEmpty(reservas)}" class="text-center py-16 text-on-surface-variant text-sm bg-surface border border-outline-variant rounded-xl">Aún no hay reservas registradas.</div>
+<div th:unless="${#lists.isEmpty(reservas)}" class="bg-surface border border-outline-variant rounded-xl shadow-card overflow-hidden">
+<table class="w-full">
+<thead>
+<tr class="text-left text-[11px] uppercase tracking-wider text-on-surface-variant border-b border-outline-variant bg-background/60">
+<th class="pb-3 pt-3.5 pl-6 font-semibold">Pasajero</th>
+<th class="pb-3 pt-3.5 font-semibold">Ruta</th>
+<th class="pb-3 pt-3.5 font-semibold">Salida</th>
+<th class="pb-3 pt-3.5 font-semibold">Asientos</th>
+<th class="pb-3 pt-3.5 font-semibold">Monto</th>
+<th class="pb-3 pt-3.5 font-semibold">Estado</th>
+<th class="pb-3 pt-3.5 pr-6 font-semibold text-right">Acciones</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="reserva : ${reservas}" class="reserva-row-d border-b border-outline-variant last:border-0 hover:bg-background/50">
+<td class="py-3.5 pl-6">
+<p class="text-sm font-semibold text-primary reserva-nombre" th:text="${reserva.nombresPasajero} + ' ' + ${reserva.apellidosPasajero}">Pasajero</p>
+<p class="text-xs text-on-surface-variant reserva-nombre" th:text="'DNI ' + ${reserva.dniPasajero}">DNI</p>
+</td>
+<td class="py-3.5 text-sm text-on-surface-variant" th:text="${reserva.viaje} != null ? (${reserva.viaje.origen} + ' → ' + ${reserva.viaje.destino}) : '—'">Ruta</td>
+<td class="py-3.5 text-sm text-on-surface-variant" th:text="${reserva.viaje} != null ? (${#temporals.format(reserva.viaje.fechaSalida, 'dd MMM')} + ', ' + ${#temporals.format(reserva.viaje.horaSalida, 'HH:mm')}) : '—'">Fecha</td>
+<td class="py-3.5 text-sm text-on-surface-variant" th:text="${reserva.numerosAsientos}">Asientos</td>
+<td class="py-3.5 text-sm font-semibold text-primary" th:text="'S/ ' + ${#numbers.formatDecimal(reserva.precioTotal, 1, 2)}">S/ 0.00</td>
+<td class="py-3.5">
+<span th:switch="${reserva.estado.name()}">
+<span th:case="'PAGADO'" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-success-bg text-success"><span class="w-1.5 h-1.5 rounded-full bg-current"></span>Pagada</span>
+<span th:case="'PENDIENTE'" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-warning-bg text-warning"><span class="w-1.5 h-1.5 rounded-full bg-current"></span>Pendiente</span>
+<span th:case="*" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-danger-bg text-danger"><span class="w-1.5 h-1.5 rounded-full bg-current"></span>Cancelada</span>
+</span></td>
+<td class="py-3.5 pr-6">
+<div class="flex items-center justify-end gap-1">
+<form th:if="${reserva.estado.name() != 'CANCELADO'}" th:action="@{/admin/reservas/{id}/cancelar(id=${reserva.id})}" method="post" onsubmit="return confirm('¿Cancelar esta reserva?');" class="inline">
+<button type="submit" class="w-8 h-8 rounded-lg hover:bg-danger-bg flex items-center justify-center text-danger" title="Cancelar"><span class="material-symbols-outlined text-[18px]">cancel</span></button>
+</form>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+</main>
+</div>
+
+<nav class="lg:hidden sticky bottom-0 left-0 right-0 bg-surface border-t border-outline-variant flex items-stretch px-1 z-30">
+<a th:href="@{/admin/dashboard}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">space_dashboard</span>
+<span class="text-[10px] font-semibold">Panel</span>
+</a>
+<a th:href="@{/admin/viajes}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">event</span>
+<span class="text-[10px] font-semibold">Viajes</span>
+</a>
+<a th:href="@{/admin/usuarios}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">group</span>
+<span class="text-[10px] font-semibold">Usuarios</span>
+</a>
+<a th:href="@{/admin/reservas}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1, 'wght' 500;">confirmation_number</span>
+<span class="text-[10px] font-semibold">Reservas</span>
+</a>
+<a th:href="@{/admin/pagos}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">payments</span>
+<span class="text-[10px] font-semibold">Pagos</span>
+</a></nav>
+
+<script th:inline="none">
+function filtrarReservas(inputId, cardClass) {
+    const q = document.getElementById(inputId).value.toLowerCase();
+    document.querySelectorAll('.' + cardClass).forEach(card => {
+        const texto = card.textContent.toLowerCase();
+        card.style.display = texto.includes(q) ? '' : 'none';
+    });
+}
+</script>
+</body>
+</html>

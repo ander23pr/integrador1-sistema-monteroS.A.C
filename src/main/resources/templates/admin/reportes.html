@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reportes · Montero Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script th:inline="none">
+    tailwind.config = {
+        theme: { extend: {
+            colors: {
+                primary: "#0B1120", "primary-light": "#141F38", secondary: "#C00037", "secondary-dark": "#920028",
+                "secondary-soft": "#FDE6EB", surface: "#FFFFFF", background: "#F7F8FA",
+                "on-surface-variant": "#71717A", "outline-variant": "#E4E4E7",
+                success: "#15803D", "success-bg": "#DCFCE7", warning: "#B45309", "warning-bg": "#FEF3C7",
+                danger: "#B91C1C", "danger-bg": "#FEE2E2", info: "#1D4ED8", "info-bg": "#DBEAFE"
+            },
+            borderRadius: { DEFAULT: "0.375rem", lg: "0.625rem", xl: "0.875rem", "2xl": "1.25rem", "3xl": "1.75rem", full: "9999px" },
+            fontFamily: { sans: ["Inter", "sans-serif"] },
+            boxShadow: { card: "0 1px 2px rgba(15,23,42,0.04), 0 6px 20px rgba(15,23,42,0.06)", pop: "0 12px 32px rgba(11,17,32,0.16)" }
+        } }
+    }
+</script>
+<style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 20; font-size: 20px; line-height:1; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    [x-cloak] { display: none !important; }
+</style>
+</head>
+
+<body class="bg-background font-sans antialiased">
+
+<aside class="hidden lg:flex w-64 shrink-0 bg-primary min-h-screen flex-col fixed left-0 top-0 bottom-0 z-30">
+<div class="h-16 flex items-center gap-3 px-5 border-b border-white/10">
+<div class="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center font-extrabold text-white text-base">M</div>
+<div class="leading-tight">
+<p class="text-white font-bold text-sm tracking-tight">Montero S.A.C.</p>
+<p class="text-[#8890A0] text-[11px] font-medium">Panel de Administración</p>
+</div>
+</div>
+<nav class="flex-1 px-3 py-5 flex flex-col gap-1 overflow-y-auto">
+<a th:href="@{/admin/dashboard}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">space_dashboard</span><span>Dashboard</span></a>
+<a th:href="@{/admin/buses}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">directions_bus</span><span>Buses y Flota</span></a>
+<a th:href="@{/admin/rutas}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">alt_route</span><span>Rutas</span></a>
+<a th:href="@{/admin/viajes}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">event</span><span>Viajes y Horarios</span></a>
+<a th:href="@{/admin/choferes}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">assignment_ind</span><span>Choferes</span></a>
+<a th:href="@{/admin/usuarios}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">group</span><span>Usuarios</span></a>
+<a th:href="@{/admin/reservas}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">confirmation_number</span><span>Reservas</span></a>
+<a th:href="@{/admin/pagos}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">payments</span><span>Pagos</span></a>
+<a th:href="@{/admin/reportes}" class="nav-item-active flex items-center gap-3 px-4 py-2.5 rounded-lg bg-secondary/15 text-white text-sm font-medium shadow-[inset_3px_0_0_#C00037]"><span class="material-symbols-outlined text-[#FF4D6D]">monitoring</span><span>Reportes</span></a></nav>
+<div class="p-3 border-t border-white/10">
+<a th:href="@{/ajustes}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium">
+<span class="material-symbols-outlined">settings</span><span>Ajustes</span></a>
+<a th:href="@{/admin/logout}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium">
+<span class="material-symbols-outlined">logout</span><span>Cerrar sesión</span></a>
+</div>
+</aside>
+<div class="lg:ml-64 min-h-screen flex flex-col">
+
+<header class="hidden lg:flex h-16 border-b border-outline-variant bg-surface/90 backdrop-blur sticky top-0 z-20 items-center justify-between px-8">
+<div>
+<h1 class="text-lg font-bold text-primary tracking-tight leading-none">Reportes</h1>
+<p class="text-xs text-on-surface-variant mt-1">Desempeño comercial y operativo</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-background transition-colors">
+<span class="material-symbols-outlined text-primary">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-secondary rounded-full ring-2 ring-surface"></span>
+</button>
+<div class="flex items-center gap-2.5 pl-4 border-l border-outline-variant">
+<img src="https://i.pravatar.cc/64?img=12" class="w-9 h-9 rounded-full object-cover" alt="Admin">
+<div class="leading-tight">
+<p class="text-sm font-semibold text-primary" th:text="${admin != null ? admin.nombre : 'Administrador'}">Administrador</p>
+<p class="text-[11px] text-on-surface-variant">Administrador</p>
+</div>
+</div>
+</div>
+</header>
+
+<header class="lg:hidden px-5 pt-6 pb-4 flex items-start justify-between bg-surface">
+<div class="flex items-start gap-1">
+<a th:href="@{/admin/mas}" class="w-9 h-9 rounded-full hover:bg-background flex items-center justify-center text-primary -ml-1.5"><span class="material-symbols-outlined">arrow_back</span></a>
+<div><h1 class="text-[22px] font-extrabold text-secondary tracking-tight leading-none">Reportes</h1>
+<p class="text-xs text-on-surface-variant mt-0.5">Desempeño comercial y operativo</p></div>
+</div>
+<a th:href="@{/admin/mas}" class="w-9 h-9 rounded-full bg-background flex items-center justify-center text-primary relative shrink-0">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</a>
+</header>
+<main class="flex-1">
+<div class="lg:hidden px-5 pb-6">
+
+<div class="grid grid-cols-2 gap-3 mb-5">
+
+<div class="bg-surface border border-outline-variant rounded-2xl p-4 shadow-card">
+<div class="w-9 h-9 rounded-xl bg-primary/5 text-primary flex items-center justify-center mb-3"><span class="material-symbols-outlined text-[20px]">payments</span></div>
+<p class="text-xl font-extrabold text-primary leading-none" th:text="'S/ ' + ${#numbers.formatDecimal(ingresosMes, 1, 2)}">0</p>
+<p class="text-[11px] text-on-surface-variant mt-1.5 font-medium">Ingresos del mes</p>
+</div>
+
+<div class="bg-surface border border-outline-variant rounded-2xl p-4 shadow-card">
+<div class="w-9 h-9 rounded-xl bg-secondary-soft text-secondary flex items-center justify-center mb-3"><span class="material-symbols-outlined text-[20px]">confirmation_number</span></div>
+<p class="text-xl font-extrabold text-primary leading-none" th:text="${pasajesVendidosMes}">0</p>
+<p class="text-[11px] text-on-surface-variant mt-1.5 font-medium">Pasajes vendidos</p>
+</div>
+
+<div class="bg-surface border border-outline-variant rounded-2xl p-4 shadow-card">
+<div class="w-9 h-9 rounded-xl bg-primary/5 text-primary flex items-center justify-center mb-3"><span class="material-symbols-outlined text-[20px]">event_seat</span></div>
+<p class="text-xl font-extrabold text-primary leading-none" th:text="${ocupacionPromedio} + '%'">0</p>
+<p class="text-[11px] text-on-surface-variant mt-1.5 font-medium">Ocupación promedio</p>
+</div>
+
+<div class="bg-surface border border-outline-variant rounded-2xl p-4 shadow-card">
+<div class="w-9 h-9 rounded-xl bg-secondary-soft text-secondary flex items-center justify-center mb-3"><span class="material-symbols-outlined text-[20px]">cancel</span></div>
+<p class="text-xl font-extrabold text-primary leading-none" th:text="${tasaCancelacion} + '%'">0</p>
+<p class="text-[11px] text-on-surface-variant mt-1.5 font-medium">Tasa de cancelación</p>
+</div>
+</div>
+
+<div class="bg-surface border border-outline-variant rounded-2xl p-4 lg:p-6 shadow-card mb-4">
+<h2 class="font-bold text-primary text-sm mb-0.5">Ingresos mensuales</h2>
+<p class="text-[11px] text-on-surface-variant mb-4">Últimos 7 meses</p>
+<div th:if="${#lists.isEmpty(datosMensuales)}" class="text-center py-6 text-on-surface-variant text-xs">Sin datos todavía.</div>
+<div th:unless="${#lists.isEmpty(datosMensuales)}" class="flex items-end gap-2 lg:gap-3 h-32 lg:h-48">
+<div th:each="m : ${datosMensuales}" class="flex flex-col items-center gap-1.5 flex-1 h-full justify-end">
+<div class="w-full rounded-t-md bg-gradient-to-t from-secondary to-secondary/60" th:style="'height:' + ${m.alturaPct} + '%'"></div>
+<span class="text-[10px] lg:text-xs font-medium text-on-surface-variant" th:text="${m.mes}">Mes</span>
+</div>
+</div>
+</div>
+
+<div class="bg-surface border border-outline-variant rounded-2xl p-4 lg:p-6 shadow-card mb-4">
+<h2 class="font-bold text-primary text-sm mb-0.5">Métodos de pago</h2>
+<p class="text-[11px] text-on-surface-variant mb-4">Distribución histórica</p>
+<div th:if="${#lists.isEmpty(metodosPago)}" class="text-center py-6 text-on-surface-variant text-xs">Sin pagos registrados todavía.</div>
+<div th:unless="${#lists.isEmpty(metodosPago)}">
+<div class="flex w-full h-3 rounded-full overflow-hidden mb-4">
+<div th:each="m : ${metodosPago}" th:style="'width:' + ${m.porcentaje} + '%; background:' + ${m.color}"></div>
+</div>
+<div class="flex flex-col gap-2">
+<div th:each="m : ${metodosPago}" class="flex items-center justify-between text-xs">
+<span class="flex items-center gap-2 text-primary font-medium"><span class="w-2.5 h-2.5 rounded-full" th:style="'background:' + ${m.color}"></span><span th:text="${m.metodo}">Método</span></span>
+<span class="text-on-surface-variant font-semibold" th:text="${m.porcentaje} + '% (' + ${m.cantidad} + ')'">0%</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="bg-surface border border-outline-variant rounded-2xl p-4 lg:p-6 shadow-card mb-4">
+<h2 class="font-bold text-primary text-sm mb-0.5">Rutas con mayor recaudación</h2>
+<p class="text-[11px] text-on-surface-variant mb-1">Top 5 histórico</p>
+<div th:if="${#lists.isEmpty(topRutas)}" class="text-center py-6 text-on-surface-variant text-xs">Sin recaudación registrada todavía.</div>
+<div th:each="r, iter : ${topRutas}" class="flex items-center gap-3 py-2.5 border-b border-outline-variant last:border-0">
+<span class="w-5 h-5 rounded-full bg-primary/5 text-primary text-[10px] font-bold flex items-center justify-center shrink-0" th:text="${iter.index + 1}">1</span>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between text-xs mb-1">
+<span class="font-medium text-primary truncate" th:text="${r.ruta}">Ruta</span>
+<span class="font-semibold text-primary shrink-0 ml-2" th:text="'S/ ' + ${#numbers.formatDecimal(r.monto, 1, 2)}">S/ 0.00</span>
+</div>
+<div class="w-full h-1.5 bg-background rounded-full overflow-hidden"><div class="h-full bg-secondary rounded-full" th:style="'width:' + ${r.porcentaje} + '%'"></div></div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="hidden lg:block p-8">
+
+<div class="grid grid-cols-4 gap-5 mb-6">
+
+<div class="bg-surface border border-outline-variant rounded-2xl p-4 shadow-card">
+<div class="w-9 h-9 rounded-xl bg-primary/5 text-primary flex items-center justify-center mb-3"><span class="material-symbols-outlined text-[20px]">payments</span></div>
+<p class="text-xl font-extrabold text-primary leading-none" th:text="'S/ ' + ${#numbers.formatDecimal(ingresosMes, 1, 2)}">0</p>
+<p class="text-[11px] text-on-surface-variant mt-1.5 font-medium">Ingresos del mes</p>
+</div>
+
+<div class="bg-surface border border-outline-variant rounded-2xl p-4 shadow-card">
+<div class="w-9 h-9 rounded-xl bg-secondary-soft text-secondary flex items-center justify-center mb-3"><span class="material-symbols-outlined text-[20px]">confirmation_number</span></div>
+<p class="text-xl font-extrabold text-primary leading-none" th:text="${pasajesVendidosMes}">0</p>
+<p class="text-[11px] text-on-surface-variant mt-1.5 font-medium">Pasajes vendidos</p>
+</div>
+
+<div class="bg-surface border border-outline-variant rounded-2xl p-4 shadow-card">
+<div class="w-9 h-9 rounded-xl bg-primary/5 text-primary flex items-center justify-center mb-3"><span class="material-symbols-outlined text-[20px]">event_seat</span></div>
+<p class="text-xl font-extrabold text-primary leading-none" th:text="${ocupacionPromedio} + '%'">0</p>
+<p class="text-[11px] text-on-surface-variant mt-1.5 font-medium">Ocupación promedio</p>
+</div>
+
+<div class="bg-surface border border-outline-variant rounded-2xl p-4 shadow-card">
+<div class="w-9 h-9 rounded-xl bg-secondary-soft text-secondary flex items-center justify-center mb-3"><span class="material-symbols-outlined text-[20px]">cancel</span></div>
+<p class="text-xl font-extrabold text-primary leading-none" th:text="${tasaCancelacion} + '%'">0</p>
+<p class="text-[11px] text-on-surface-variant mt-1.5 font-medium">Tasa de cancelación</p>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-6">
+<div class="col-span-2">
+<div class="bg-surface border border-outline-variant rounded-2xl p-4 lg:p-6 shadow-card mb-4">
+<h2 class="font-bold text-primary text-sm mb-0.5">Ingresos mensuales</h2>
+<p class="text-[11px] text-on-surface-variant mb-4">Últimos 7 meses</p>
+<div th:if="${#lists.isEmpty(datosMensuales)}" class="text-center py-6 text-on-surface-variant text-xs">Sin datos todavía.</div>
+<div th:unless="${#lists.isEmpty(datosMensuales)}" class="flex items-end gap-2 lg:gap-3 h-32 lg:h-48">
+<div th:each="m : ${datosMensuales}" class="flex flex-col items-center gap-1.5 flex-1 h-full justify-end">
+<div class="w-full rounded-t-md bg-gradient-to-t from-secondary to-secondary/60" th:style="'height:' + ${m.alturaPct} + '%'"></div>
+<span class="text-[10px] lg:text-xs font-medium text-on-surface-variant" th:text="${m.mes}">Mes</span>
+</div>
+</div>
+</div>
+<div class="bg-surface border border-outline-variant rounded-2xl p-4 lg:p-6 shadow-card mb-4">
+<h2 class="font-bold text-primary text-sm mb-0.5">Rutas con mayor recaudación</h2>
+<p class="text-[11px] text-on-surface-variant mb-1">Top 5 histórico</p>
+<div th:if="${#lists.isEmpty(topRutas)}" class="text-center py-6 text-on-surface-variant text-xs">Sin recaudación registrada todavía.</div>
+<div th:each="r, iter : ${topRutas}" class="flex items-center gap-3 py-2.5 border-b border-outline-variant last:border-0">
+<span class="w-5 h-5 rounded-full bg-primary/5 text-primary text-[10px] font-bold flex items-center justify-center shrink-0" th:text="${iter.index + 1}">1</span>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between text-xs mb-1">
+<span class="font-medium text-primary truncate" th:text="${r.ruta}">Ruta</span>
+<span class="font-semibold text-primary shrink-0 ml-2" th:text="'S/ ' + ${#numbers.formatDecimal(r.monto, 1, 2)}">S/ 0.00</span>
+</div>
+<div class="w-full h-1.5 bg-background rounded-full overflow-hidden"><div class="h-full bg-secondary rounded-full" th:style="'width:' + ${r.porcentaje} + '%'"></div></div>
+</div>
+</div>
+</div></div>
+<div>
+<div class="bg-surface border border-outline-variant rounded-2xl p-4 lg:p-6 shadow-card mb-4">
+<h2 class="font-bold text-primary text-sm mb-0.5">Métodos de pago</h2>
+<p class="text-[11px] text-on-surface-variant mb-4">Distribución histórica</p>
+<div th:if="${#lists.isEmpty(metodosPago)}" class="text-center py-6 text-on-surface-variant text-xs">Sin pagos registrados todavía.</div>
+<div th:unless="${#lists.isEmpty(metodosPago)}">
+<div class="flex w-full h-3 rounded-full overflow-hidden mb-4">
+<div th:each="m : ${metodosPago}" th:style="'width:' + ${m.porcentaje} + '%; background:' + ${m.color}"></div>
+</div>
+<div class="flex flex-col gap-2">
+<div th:each="m : ${metodosPago}" class="flex items-center justify-between text-xs">
+<span class="flex items-center gap-2 text-primary font-medium"><span class="w-2.5 h-2.5 rounded-full" th:style="'background:' + ${m.color}"></span><span th:text="${m.metodo}">Método</span></span>
+<span class="text-on-surface-variant font-semibold" th:text="${m.porcentaje} + '% (' + ${m.cantidad} + ')'">0%</span>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+
+</div>
+</main>
+</div>
+
+<nav class="lg:hidden sticky bottom-0 left-0 right-0 bg-surface border-t border-outline-variant flex items-stretch px-1 z-30">
+<a th:href="@{/admin/dashboard}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">space_dashboard</span>
+<span class="text-[10px] font-semibold">Panel</span>
+</a>
+<a th:href="@{/admin/buses}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">directions_bus</span>
+<span class="text-[10px] font-semibold">Buses</span>
+</a>
+<a th:href="@{/admin/rutas}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">alt_route</span>
+<span class="text-[10px] font-semibold">Rutas</span>
+</a>
+<a th:href="@{/admin/viajes}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">event</span>
+<span class="text-[10px] font-semibold">Viajes</span>
+</a>
+<a th:href="@{/admin/mas}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1, 'wght' 500;">grid_view</span>
+<span class="text-[10px] font-semibold">Más</span>
+</a></nav>
+
+</body>
+</html>

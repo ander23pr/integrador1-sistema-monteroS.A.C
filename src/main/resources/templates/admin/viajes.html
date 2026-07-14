@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viajes y Horarios · Montero Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script th:inline="none">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#0B1120", "primary-light": "#141F38", secondary: "#C00037", "secondary-dark": "#920028",
+                        "secondary-soft": "#FDE6EB", surface: "#FFFFFF", background: "#F7F8FA",
+                        "on-surface-variant": "#71717A", "outline-variant": "#E4E4E7",
+                        success: "#15803D", "success-bg": "#DCFCE7", warning: "#B45309", "warning-bg": "#FEF3C7",
+                        danger: "#B91C1C", "danger-bg": "#FEE2E2", info: "#1D4ED8", "info-bg": "#DBEAFE"
+                    },
+                    borderRadius: { DEFAULT: "0.375rem", lg: "0.625rem", xl: "0.875rem", "2xl": "1.25rem", "3xl": "1.75rem", full: "9999px" },
+                    fontFamily: { sans: ["Inter", "sans-serif"] },
+                    boxShadow: { card: "0 1px 2px rgba(15,23,42,0.04), 0 6px 20px rgba(15,23,42,0.06)", pop: "0 12px 32px rgba(11,17,32,0.16)" }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 20;
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body class="bg-background font-sans antialiased">
+
+    <aside class="hidden lg:flex w-64 shrink-0 bg-primary min-h-screen flex-col fixed left-0 top-0 bottom-0 z-30">
+        <div class="h-16 flex items-center gap-3 px-5 border-b border-white/10">
+            <div
+                class="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center font-extrabold text-white text-base">
+                M</div>
+            <div class="leading-tight">
+                <p class="text-white font-bold text-sm tracking-tight">Montero S.A.C.</p>
+                <p class="text-[#8890A0] text-[11px] font-medium">Panel de Administración</p>
+            </div>
+        </div>
+        <nav class="flex-1 px-3 py-5 flex flex-col gap-1 overflow-y-auto">
+            <a th:href="@{/admin/dashboard}"
+                class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span
+                    class="material-symbols-outlined">space_dashboard</span><span>Dashboard</span></a>
+            <a th:href="@{/admin/viajes}"
+                class="nav-item-active flex items-center gap-3 px-4 py-2.5 rounded-lg bg-secondary/15 text-white text-sm font-medium shadow-[inset_3px_0_0_#C00037]"><span
+                    class="material-symbols-outlined text-[#FF4D6D]">event</span><span>Viajes y Horarios</span></a>
+            <a th:href="@{/admin/usuarios}"
+                class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span
+                    class="material-symbols-outlined">group</span><span>Usuarios</span></a>
+            <a th:href="@{/admin/reservas}"
+                class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span
+                    class="material-symbols-outlined">confirmation_number</span><span>Reservas</span></a>
+            <a th:href="@{/admin/pagos}"
+                class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span
+                    class="material-symbols-outlined">payments</span><span>Pagos</span></a>
+        </nav>
+        <div class="p-3 border-t border-white/10">
+            <a th:href="@{/admin/logout}"
+                class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium">
+                <span class="material-symbols-outlined">logout</span><span>Cerrar sesión</span></a>
+        </div>
+    </aside>
+    <div class="lg:ml-64 min-h-screen flex flex-col">
+
+        <header
+            class="hidden lg:flex h-16 border-b border-outline-variant bg-surface/90 backdrop-blur sticky top-0 z-20 items-center justify-between px-8">
+            <div>
+                <h1 class="text-lg font-bold text-primary tracking-tight leading-none">Viajes y Horarios</h1>
+                <p class="text-xs text-on-surface-variant mt-1">Programación de salidas</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <button
+                    class="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-background transition-colors">
+                    <span class="material-symbols-outlined text-primary">notifications</span>
+                    <span
+                        class="absolute top-1.5 right-1.5 w-2 h-2 bg-secondary rounded-full ring-2 ring-surface"></span>
+                </button>
+                <div class="flex items-center gap-2.5 pl-4 border-l border-outline-variant">
+                    <img src="https://i.pravatar.cc/64?img=12" class="w-9 h-9 rounded-full object-cover" alt="Admin">
+                    <div class="leading-tight">
+                        <p class="text-sm font-semibold text-primary"
+                            th:text="${admin != null ? admin.nombre : 'Administrador'}">Administrador</p>
+                        <p class="text-[11px] text-on-surface-variant">Administrador</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <header class="lg:hidden px-5 pt-6 pb-4 flex items-start justify-between bg-surface">
+            <div class="flex items-start gap-1">
+                <div class="w-9"></div>
+                <div>
+                    <h1 class="text-[22px] font-extrabold text-secondary tracking-tight leading-none">Viajes y Horarios
+                    </h1>
+                    <p class="text-xs text-on-surface-variant mt-0.5">Programación de salidas</p>
+                </div>
+            </div>
+            <a th:href="@{#}"
+                class="w-9 h-9 rounded-full bg-background flex items-center justify-center text-primary relative shrink-0">
+                <span class="material-symbols-outlined text-[20px]">notifications</span>
+            </a>
+        </header>
+        <main class="flex-1">
+            <div class="lg:hidden px-5 pb-6">
+
+                <div class="relative mb-3">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+                    <input type="text" id="buscadorM" onkeyup="filtrarViajes('buscadorM','viaje-card-m')"
+                        placeholder="Buscar por ruta, bus o chofer…"
+                        class="w-full pl-9 pr-4 py-2.5 bg-surface border border-outline-variant rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition">
+                </div>
+                <p class="text-xs text-on-surface-variant mb-3"
+                    th:text="${#lists.size(viajes)} + ' viajes registrados'">0 viajes</p>
+                <div th:if="${#lists.isEmpty(viajes)}" class="text-center py-10 text-on-surface-variant text-sm">Aún no
+                    hay viajes programados.</div>
+                <div th:each="viaje : ${viajes}"
+                    class="viaje-card-m bg-surface border border-outline-variant rounded-2xl p-4 shadow-card mb-3">
+                    <div class="flex items-start justify-between mb-2.5">
+                        <div>
+                            <p class="text-sm font-bold text-primary viaje-nombre"
+                                th:text="${viaje.origen} + ' → ' + ${viaje.destino}">Origen → Destino</p>
+                            <p class="text-xs text-on-surface-variant mt-0.5"
+                                th:text="${#temporals.format(viaje.fechaSalida, 'dd MMM yyyy')} + ', ' + ${#temporals.format(viaje.horaSalida, 'HH:mm')}">
+                                Fecha</p>
+                        </div>
+
+                        <span th:switch="${viaje.estado}">
+                            <span th:case="'PROGRAMADO'"
+                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-success-bg text-success"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-current"></span>Programado</span>
+                            <span th:case="'EN_CURSO'"
+                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-info-bg text-info"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-current"></span>En curso</span>
+                            <span th:case="'CANCELADO'"
+                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-danger-bg text-danger"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-current"></span>Cancelado</span>
+                            <span th:case="*"
+                                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-zinc-100 text-zinc-600"><span
+                                    class="w-1.5 h-1.5 rounded-full bg-current"></span>Finalizado</span>
+                        </span>
+                    </div>
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-semibold text-primary"
+                            th:text="(${vendidosPorViaje.get(viaje.id)} ?: 0) + ' / ' + ${viaje.asientosTotales} + ' asientos'">0/0</span>
+                        <span class="text-sm font-extrabold text-primary"
+                            th:text="'S/ ' + ${#numbers.formatDecimal(viaje.precio, 1, 2)}">S/ 0.00</span>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex flex-col gap-2">
+
+                            <button type="button" th:data-id="${viaje.id}" th:data-origen="${viaje.origen}"
+                                th:data-destino="${viaje.destino}" th:data-fecha="${viaje.fechaSalida}"
+                                th:data-hora="${viaje.horaSalida}" th:data-precio="${viaje.precio}"
+                                th:data-asientos="${viaje.asientosTotales}" onclick="abrirFormularioEditar(
+this.dataset.id,
+this.dataset.origen,
+this.dataset.destino,
+this.dataset.fecha,
+this.dataset.hora,
+this.dataset.precio,
+this.dataset.asientos
+)" class="w-full py-2 rounded-lg bg-primary/5 text-primary text-xs font-semibold">
+                                Editar viaje
+                            </button>
+                            <form th:if="${viaje.estado != 'CANCELADO'}"
+                                th:action="@{/admin/viajes/{id}/cancelar(id=${viaje.id})}" method="post"
+                                onsubmit="return confirm('¿Cancelar este viaje?');" class="flex-1">
+                                <button type="submit"
+                                    class="w-full py-2 rounded-lg bg-danger-soft text-danger text-xs font-semibold">Cancelar</button>
+                            </form>
+                            <a th:href="@{/admin/viajes/eliminar/{id}(id=${viaje.id})}"
+                                onclick="return confirm('¿Eliminar este viaje?');"
+                                class="flex-1 py-2 rounded-lg bg-danger text-white text-xs font-semibold text-center flex items-center justify-center">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="hidden lg:block p-8">
+
+                <div class="flex items-center justify-between mb-5">
+                    <div class="relative w-80">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+                        <input type="text" id="buscadorD" onkeyup="filtrarViajes('buscadorD','viaje-row-d')"
+                            placeholder="Buscar por ruta, bus o chofer…"
+                            class="pl-9 pr-4 py-2.5 w-full bg-surface border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition">
+                    </div>
+                    <button type="button" onclick="abrirFormularioNuevo()"
+                        class="flex items-center gap-2 bg-secondary hover:bg-secondary-dark text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors shadow-sm">
+                        <span class="material-symbols-outlined text-[18px]">add</span>Programar viaje</button>
+                </div>
+                <div th:if="${#lists.isEmpty(viajes)}"
+                    class="text-center py-16 text-on-surface-variant text-sm bg-surface border border-outline-variant rounded-xl">
+                    Aún no hay viajes programados.</div>
+                <div th:unless="${#lists.isEmpty(viajes)}"
+                    class="bg-surface border border-outline-variant rounded-xl shadow-card overflow-hidden">
+                    <table class="w-full">
+                        <thead>
+                            <tr
+                                class="text-left text-[11px] uppercase tracking-wider text-on-surface-variant border-b border-outline-variant bg-background/60">
+                                <th class="pb-3 pt-3.5 pl-6 font-semibold">Ruta</th>
+                                <th class="pb-3 pt-3.5 font-semibold">Salida</th>
+                                <th class="pb-3 pt-3.5 font-semibold">Ocupación</th>
+                                <th class="pb-3 pt-3.5 font-semibold">Precio</th>
+                                <th class="pb-3 pt-3.5 font-semibold">Estado</th>
+                                <th class="pb-3 pt-3.5 pr-6 font-semibold text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="viaje : ${viajes}"
+                                class="viaje-row-d border-b border-outline-variant last:border-0 hover:bg-background/50">
+                                <td class="py-3.5 pl-6 text-sm font-semibold text-primary viaje-nombre"
+                                    th:text="${viaje.origen} + ' → ' + ${viaje.destino}">Ruta</td>
+                                <td class="py-3.5 text-sm text-on-surface-variant"
+                                    th:text="${#temporals.format(viaje.fechaSalida, 'dd MMM')} + ', ' + ${#temporals.format(viaje.horaSalida, 'HH:mm')}">
+                                    Fecha</td>
+                                <td class="py-3.5 text-sm text-on-surface-variant"
+                                    th:text="(${vendidosPorViaje.get(viaje.id)} ?: 0) + ' / ' + ${viaje.asientosTotales}">
+                                    0/0
+                                </td>
+                                <td class="py-3.5 text-sm font-semibold text-primary"
+                                    th:text="'S/ ' + ${#numbers.formatDecimal(viaje.precio, 1, 2)}">S/ 0.00</td>
+                                <td class="py-3.5">
+                                    <span th:switch="${viaje.estado}">
+                                        <span th:case="'PROGRAMADO'"
+                                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-success-bg text-success"><span
+                                                class="w-1.5 h-1.5 rounded-full bg-current"></span>Programado</span>
+                                        <span th:case="'EN_CURSO'"
+                                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-info-bg text-info"><span
+                                                class="w-1.5 h-1.5 rounded-full bg-current"></span>En curso</span>
+                                        <span th:case="'CANCELADO'"
+                                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-danger-bg text-danger"><span
+                                                class="w-1.5 h-1.5 rounded-full bg-current"></span>Cancelado</span>
+                                        <span th:case="*"
+                                            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-zinc-100 text-zinc-600"><span
+                                                class="w-1.5 h-1.5 rounded-full bg-current"></span>Finalizado</span>
+                                    </span>
+                                </td>
+                                <td class="py-3.5 pr-6">
+                                    <div class="flex items-center justify-end gap-1">
+                                        <button type="button" th:data-id="${viaje.id}" th:data-origen="${viaje.origen}"
+                                            th:data-destino="${viaje.destino}" th:data-fecha="${viaje.fechaSalida}"
+                                            th:data-hora="${viaje.horaSalida}" th:data-precio="${viaje.precio}"
+                                            th:data-asientos="${viaje.asientosTotales}" onclick="abrirFormularioEditar(
+this.dataset.id,
+this.dataset.origen,
+this.dataset.destino,
+this.dataset.fecha,
+this.dataset.hora,
+this.dataset.precio,
+this.dataset.asientos
+)" class="w-full py-2 rounded-lg bg-primary/5 text-primary text-xs font-semibold text-center">
+                                            Editar viaje
+                                        </button>
+                                        <button type="submit"
+                                            class="w-8 h-8 rounded-lg hover:bg-danger-bg flex items-center justify-center text-danger"
+                                            title="Cancelar"><span
+                                                class="material-symbols-outlined text-[18px]">cancel</span></button>
+                                        </form>
+                                        <a th:href="@{/admin/viajes/eliminar/{id}(id=${viaje.id})}"
+                                            onclick="return confirm('¿Eliminar este viaje?');"
+                                            class="w-8 h-8 rounded-lg hover:bg-danger-bg flex items-center justify-center text-danger"
+                                            title="Eliminar"><span
+                                                class="material-symbols-outlined text-[18px]">delete</span></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <button onclick="abrirFormularioNuevo()"
+        class="lg:hidden fixed right-5 bottom-24 w-14 h-14 rounded-full bg-secondary text-white shadow-pop flex items-center justify-center z-20">
+        <span class="material-symbols-outlined text-[26px]">add</span></button>
+    <nav
+        class="lg:hidden sticky bottom-0 left-0 right-0 bg-surface border-t border-outline-variant flex items-stretch px-1 z-30">
+        <a th:href="@{/admin/dashboard}"
+            class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+            <span class="material-symbols-outlined"
+                style="font-variation-settings:'FILL' 0, 'wght' 500;">space_dashboard</span>
+            <span class="text-[10px] font-semibold">Panel</span>
+        </a>
+        <a th:href="@{/admin/viajes}"
+            class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-secondary">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1, 'wght' 500;">event</span>
+            <span class="text-[10px] font-semibold">Viajes</span>
+        </a>
+        <a th:href="@{/admin/usuarios}"
+            class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">group</span>
+            <span class="text-[10px] font-semibold">Usuarios</span>
+        </a>
+        <a th:href="@{/admin/reservas}"
+            class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+            <span class="material-symbols-outlined"
+                style="font-variation-settings:'FILL' 0, 'wght' 500;">confirmation_number</span>
+            <span class="text-[10px] font-semibold">Reservas</span>
+        </a>
+        <a th:href="@{/admin/pagos}"
+            class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+            <span class="material-symbols-outlined"
+                style="font-variation-settings:'FILL' 0, 'wght' 500;">payments</span>
+            <span class="text-[10px] font-semibold">Pagos</span>
+        </a>
+    </nav>
+
+    <div id="sheet-viaje"
+        class="fixed inset-0 z-50 hidden bg-primary/40 backdrop-blur-sm items-end lg:items-center justify-center">
+        <div
+            class="bg-surface rounded-t-3xl lg:rounded-2xl w-full max-w-[480px] lg:max-w-lg max-h-[85%] overflow-y-auto no-scrollbar lg:shadow-pop">
+            <div class="w-10 h-1.5 bg-outline-variant rounded-full mx-auto mt-3 lg:hidden"></div>
+            <div
+                class="flex items-start justify-between px-5 lg:px-6 pt-3 lg:pt-6 pb-4 border-b border-outline-variant">
+                <div>
+                    <h3 id="sheet-viaje-titulo" class="font-bold text-primary text-base">Programar nuevo viaje</h3>
+                    <p class="text-xs text-on-surface-variant mt-0.5">Asigna ruta y precio a una salida</p>
+                </div>
+                <button type="button" onclick="document.getElementById('sheet-viaje').classList.add('hidden')"
+                    class="w-8 h-8 rounded-full hover:bg-background flex items-center justify-center text-on-surface-variant"><span
+                        class="material-symbols-outlined text-[20px]">close</span></button>
+            </div>
+
+            <form th:action="@{/admin/viajes/guardar}" method="post" class="px-5 lg:px-6 py-5 flex flex-col gap-4">
+                <input type="hidden" name="id" id="form-viaje-id" />
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Origen</span>
+                        <input type="text" name="origen" id="form-viaje-origen" required placeholder="Ej. Lima"
+                            class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm bg-white"></label>
+                    <label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Destino</span>
+                        <input type="text" name="destino" id="form-viaje-destino" required placeholder="Ej. Trujillo"
+                            class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm bg-white"></label>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Fecha</span>
+                        <input type="date" name="fechaSalida" id="form-viaje-fecha" required
+                            class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm bg-white"></label>
+                    <label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Hora de
+                            salida</span>
+                        <input type="time" name="horaSalida" id="form-viaje-hora" required
+                            class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm bg-white"></label>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Precio
+                            (S/)</span>
+                        <input type="number" step="0.01" name="precio" id="form-viaje-precio" placeholder="Ej. 65.00"
+                            required
+                            class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm bg-white"></label>
+                    <label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Asientos
+                            totales</span>
+                        <input type="number" name="asientosTotales" id="form-viaje-asientos" placeholder="Ej. 44"
+                            required
+                            class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm bg-white"></label>
+                </div>
+                <button type="submit"
+                    class="w-full py-3.5 rounded-xl text-sm font-bold bg-secondary text-white shadow-sm mt-1">Guardar
+                    viaje</button>
+            </form>
+        </div>
+    </div>
+    <script th:inline="none">
+        function abrirFormularioNuevo() {
+            document.getElementById('form-viaje-id').value = '';
+            document.getElementById('form-viaje-origen').value = '';
+            document.getElementById('form-viaje-destino').value = '';
+            document.getElementById('form-viaje-fecha').value = '';
+            document.getElementById('form-viaje-hora').value = '';
+            document.getElementById('form-viaje-precio').value = '';
+            document.getElementById('form-viaje-asientos').value = '';
+            document.getElementById('sheet-viaje-titulo').textContent = 'Programar nuevo viaje';
+            document.getElementById('sheet-viaje').classList.remove('hidden');
+            document.getElementById('sheet-viaje').classList.add('flex');
+        }
+
+        function abrirFormularioEditar(id, origen, destino, fecha, hora, precio, asientos) {
+            document.getElementById('form-viaje-id').value = id;
+            document.getElementById('form-viaje-origen').value = origen;
+            document.getElementById('form-viaje-destino').value = destino;
+            document.getElementById('form-viaje-fecha').value = fecha;
+            document.getElementById('form-viaje-hora').value = hora.substring(0, 5);
+            document.getElementById('form-viaje-precio').value = precio;
+            document.getElementById('form-viaje-asientos').value = asientos;
+            document.getElementById('sheet-viaje-titulo').textContent = 'Editar viaje';
+            document.getElementById('sheet-viaje').classList.remove('hidden');
+            document.getElementById('sheet-viaje').classList.add('flex');
+        }
+
+        function filtrarViajes(inputId, cardClass) {
+            const q = document.getElementById(inputId).value.toLowerCase();
+            document.querySelectorAll('.' + cardClass).forEach(card => {
+                const texto = card.textContent.toLowerCase();
+                card.style.display = texto.includes(q) ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -40,6 +40,9 @@ public class Usuario {
     @Column(length = 255)
     private String fotoPerfil;
 
+    @Column(nullable = false)
+    private Boolean activo = true;
+
     public Usuario() {
     }
 
@@ -128,5 +131,13 @@ public class Usuario {
 
     public void setFotoPerfil(String fotoPerfil) {
         this.fotoPerfil = fotoPerfil;
+    }
+
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 }

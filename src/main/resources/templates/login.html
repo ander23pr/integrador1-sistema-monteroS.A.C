@@ -1,17 +1,22 @@
-<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org" class="light" lang="en"><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Montero - Login</title>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect">
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-<!-- Material Symbols -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<!-- Tailwind CSS -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Tailwind Configuration -->
-<script id="tailwind-config">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Montero - Login</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind Configuration -->
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -47,109 +52,234 @@
             }
         }
     </script>
-<style>
+    <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
             font-size: 20px;
         }
+
         .header-curve {
             border-bottom-left-radius: 80px;
         }
-    </style>
-</head>
-<body class="bg-background text-zinc-900 min-h-screen antialiased flex flex-col font-sans">
-<!-- Top Curved Section -->
-<div class="w-full bg-primary h-[40vh] flex flex-col items-center justify-center relative header-curve overflow-hidden">
-<!-- Logo Area -->
-<div class="flex flex-col items-center">
-<div class="mb-4">
-<!-- Using the same logo source but styled for visibility -->
-<img alt="Montero Logo" class="h-110 md:h-110 w-auto object-contain" th:src="@{/images/montero_logo.png}">
-</div>
-</div>
-<!-- "Login" text matching IMAGE_9 layout -->
-<div class="absolute right-margin-page bottom-12">
 
-</div>
-</div>
-<!-- Form Section -->
-<div class="flex-1 px-margin-page pt-section-gap pb-10 flex flex-col justify-between max-w-lg mx-auto w-full">
-<div th:if="${mensajeExito}" class="bg-green-100 text-green-700 p-3 rounded-lg text-center font-bold mb-4" th:text="${mensajeExito}"></div>
-
-<form th:action="@{/login}" th:object="${loginDTO}" class="flex flex-col gap-stack-lg" method="POST">
-<!-- Email Input -->
-<div class="relative">
-<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-<span class="material-symbols-outlined text-[#94A3B8]" data-stitch-orig-opacity="0">mail</span>
-</div>
-<input th:field="*{email}" class="block w-full pl-12 pr-4 py-4 bg-white border border-zinc-200 rounded-full text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary shadow-sm transition-all" placeholder="Correo electrónico" required="" type="email">
-</div>
-<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-red-500 text-xs mt-1 px-4"></p>
-
-<div class="relative mt-4">
-
-    <!-- Icono izquierdo -->
-    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-        <span class="material-symbols-outlined text-[#94A3B8]">lock</span>
-    </div>
-
-    <!-- Campo contraseña -->
-    <input
-        id="password"
-        th:field="*{password}"
-        type="password"
-        placeholder="Contraseña"
-        required
-        class="block w-full pl-12 pr-12 py-4 bg-white border border-zinc-200 rounded-full text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary shadow-sm transition-all">
-
-    <!-- Botón ojito -->
-    <button
-        type="button"
-        id="togglePassword"
-        class="absolute inset-y-0 right-0 pr-4 flex items-center text-[#94A3B8] hover:text-secondary transition-colors">
-
-        <span id="eyeIcon" class="material-symbols-outlined">
-            visibility_off
-        </span>
-
-    </button>
-
-</div>
-<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-red-500 text-xs mt-1 px-4"></p>
-
-<!-- Forgot Password -->
-<div class="flex justify-end mt-2">
-<a class="text-xs font-medium text-zinc-500 hover:text-secondary transition-colors" href="#">¿Olvidaste tu contraseña?</a>
-</div>
-<!-- Login Button -->
-<div class="mt-8">
-<button class="w-full bg-secondary text-white py-4 px-6 rounded-full font-bold text-lg shadow-lg shadow-secondary/20 hover:bg-[#A0002E] active:scale-[0.98] transition-all uppercase tracking-wider" type="submit">INICIAR SESIÓN</button>
-</div>
-</form>
-<!-- Footer -->
-<div class="text-center mt-section-gap">
-<p class="text-xs font-medium text-zinc-500">¿No tienes una cuenta? <a class="text-secondary font-bold ml-1 hover:underline" th:href="@{/registro}">Registrate</a></p>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const passwordInput = document.getElementById("password");
-    const toggleButton = document.getElementById("togglePassword");
-    const eyeIcon = document.getElementById("eyeIcon");
-
-    toggleButton.addEventListener("click", function () {
-
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-            eyeIcon.textContent = "visibility";
-        } else {
-            passwordInput.type = "password";
-            eyeIcon.textContent = "visibility_off";
+        .tab-button {
+            transition: all 0.3s ease;
         }
 
-    });
+        .tab-button.active {
+            color: #C00037;
+            border-bottom: 3px solid #C00037;
+        }
 
-});
-</script>
-</body></html>
+        .tab-button:not(.active) {
+            color: #71717A;
+            border-bottom: 3px solid transparent;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-zinc-900 min-h-screen antialiased flex flex-col font-sans">
+    <!-- Top Curved Section -->
+    <div
+        class="w-full bg-primary h-[40vh] flex flex-col items-center justify-center relative header-curve overflow-hidden">
+        <!-- Logo Area -->
+        <div class="flex flex-col items-center">
+            <div class="mb-4">
+                <!-- Using the same logo source but styled for visibility -->
+                <img alt="Montero Logo" class="h-110 md:h-110 w-auto object-contain"
+                    th:src="@{/images/montero_logo.png}">
+            </div>
+        </div>
+        <!-- "Login" text matching IMAGE_9 layout -->
+        <div class="absolute right-margin-page bottom-12">
+
+        </div>
+    </div>
+    <!-- Form Section -->
+    <div class="flex-1 px-margin-page pt-section-gap pb-10 flex flex-col justify-between max-w-lg mx-auto w-full">
+        <!-- Mensaje de éxito -->
+        <div th:if="${mensajeExito}" class="bg-green-100 text-green-700 p-3 rounded-lg text-center font-bold mb-4"
+            th:text="${mensajeExito}"></div>
+
+        <!-- Pestañas de Login Usuario / Administrador -->
+        <div class="flex gap-stack-md border-b border-outline-variant mb-stack-lg">
+            <button type="button" id="usuarioTab"
+                class="tab-button active py-3 px-4 font-semibold text-sm md:text-base cursor-pointer"
+                onclick="cambiarPestana('usuario')">
+                <span class="material-symbols-outlined inline mr-2 align-middle">person</span>
+                Usuario
+            </button>
+            <button type="button" id="adminTab"
+                class="tab-button py-3 px-4 font-semibold text-sm md:text-base cursor-pointer"
+                onclick="cambiarPestana('admin')">
+                <span class="material-symbols-outlined inline mr-2 align-middle">admin_panel_settings</span>
+                Administrador
+            </button>
+        </div>
+
+        <!-- Formulario Login Usuario -->
+        <form id="usuarioForm" th:action="@{/login}" th:object="${loginDTO}" class="flex flex-col gap-stack-lg"
+            method="POST">
+            <!-- Email Input -->
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <span class="material-symbols-outlined text-[#94A3B8]" data-stitch-orig-opacity="0">mail</span>
+                </div>
+                <input th:field="*{email}"
+                    class="block w-full pl-12 pr-4 py-4 bg-white border border-zinc-200 rounded-full text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary shadow-sm transition-all"
+                    placeholder="Correo electrónico" required="" type="email">
+            </div>
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-red-500 text-xs mt-1 px-4"></p>
+
+            <div class="relative mt-4">
+
+                <!-- Icono izquierdo -->
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <span class="material-symbols-outlined text-[#94A3B8]">lock</span>
+                </div>
+
+                <!-- Campo contraseña -->
+                <input id="password" th:field="*{password}" type="password" placeholder="Contraseña" required
+                    class="block w-full pl-12 pr-12 py-4 bg-white border border-zinc-200 rounded-full text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary shadow-sm transition-all">
+
+                <!-- Botón ojito -->
+                <button type="button" id="togglePassword"
+                    class="absolute inset-y-0 right-0 pr-4 flex items-center text-[#94A3B8] hover:text-secondary transition-colors">
+
+                    <span id="eyeIcon" class="material-symbols-outlined">
+                        visibility_off
+                    </span>
+
+                </button>
+
+            </div>
+            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-red-500 text-xs mt-1 px-4">
+            </p>
+
+            <!-- Forgot Password -->
+            <div class="flex justify-end mt-2">
+                <a class="text-xs font-medium text-zinc-500 hover:text-secondary transition-colors" href="#">¿Olvidaste
+                    tu contraseña?</a>
+            </div>
+            <!-- Login Button -->
+            <div class="mt-8">
+                <button
+                    class="w-full bg-secondary text-white py-4 px-6 rounded-full font-bold text-lg shadow-lg shadow-secondary/20 hover:bg-[#A0002E] active:scale-[0.98] transition-all uppercase tracking-wider"
+                    type="submit">INICIAR SESIÓN</button>
+            </div>
+        </form>
+
+        <!-- Formulario Login Administrador (Inicialmente oculto) -->
+        <form id="adminForm" th:action="@{/login}" th:object="${loginDTO}" class="flex flex-col gap-stack-lg hidden"
+            method="POST">
+            <!-- Email Input -->
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <span class="material-symbols-outlined text-[#94A3B8]" data-stitch-orig-opacity="0">mail</span>
+                </div>
+                <input th:field="*{email}"
+                    class="block w-full pl-12 pr-4 py-4 bg-white border border-zinc-200 rounded-full text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary shadow-sm transition-all"
+                    placeholder="Correo electrónico (Admin)" required="" type="email">
+            </div>
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-red-500 text-xs mt-1 px-4"></p>
+
+            <div class="relative mt-4">
+                <!-- Icono izquierdo -->
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <span class="material-symbols-outlined text-[#94A3B8]">lock</span>
+                </div>
+
+                <!-- Campo contraseña -->
+                <input id="passwordAdmin" th:field="*{password}" type="password" placeholder="Contraseña" required
+                    class="block w-full pl-12 pr-12 py-4 bg-white border border-zinc-200 rounded-full text-zinc-900 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary shadow-sm transition-all">
+
+                <!-- Botón ojito -->
+                <button type="button" id="togglePasswordAdmin"
+                    class="absolute inset-y-0 right-0 pr-4 flex items-center text-[#94A3B8] hover:text-secondary transition-colors">
+                    <span id="eyeIconAdmin" class="material-symbols-outlined">
+                        visibility_off
+                    </span>
+                </button>
+            </div>
+            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-red-500 text-xs mt-1 px-4">
+            </p>
+
+            <!-- Forgot Password -->
+            <div class="flex justify-end mt-2">
+                <a class="text-xs font-medium text-zinc-500 hover:text-secondary transition-colors" href="#">¿Olvidaste
+                    tu contraseña?</a>
+            </div>
+
+            <!-- Login Button -->
+            <div class="mt-8">
+                <button
+                    class="w-full bg-secondary text-white py-4 px-6 rounded-full font-bold text-lg shadow-lg shadow-secondary/20 hover:bg-[#A0002E] active:scale-[0.98] transition-all uppercase tracking-wider"
+                    type="submit">ACCESO ADMINISTRATIVO</button>
+            </div>
+        </form>
+
+        <!-- Footer -->
+        <div class="text-center mt-section-gap">
+            <p class="text-xs font-medium text-zinc-500">¿No tienes una cuenta? <a
+                    class="text-secondary font-bold ml-1 hover:underline" th:href="@{/registro}">Registrate</a></p>
+        </div>
+
+        <script>
+            function cambiarPestana(pestana) { // Corregido el espacio en el nombre de la función[cite: 2]
+                const usuarioTab = document.getElementById("usuarioTab");
+                const adminTab = document.getElementById("adminTab");
+                const usuarioForm = document.getElementById("usuarioForm");
+                const adminForm = document.getElementById("adminForm"); // CORREGIDO: Se eliminó el espacio en "adminForm"[cite: 2]
+
+                if (pestana === 'usuario') {
+                    usuarioTab.classList.add('active');
+                    adminTab.classList.remove('active');
+                    usuarioForm.classList.remove('hidden');
+                    adminForm.classList.add('hidden');
+                } else {
+                    adminTab.classList.add('active');
+                    usuarioTab.classList.remove('active');
+                    adminForm.classList.remove('hidden');
+                    usuarioForm.classList.add('hidden');
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                // Toggle para Usuario
+                const passwordInput = document.getElementById("password");
+                const toggleButton = document.getElementById("togglePassword");
+                const eyeIcon = document.getElementById("eyeIcon"); // Ojo: corrigiendo variable eyeIcon
+
+                if (toggleButton && passwordInput) {
+                    toggleButton.addEventListener("click", function () {
+                        if (passwordInput.type === "password") {
+                            passwordInput.type = "text";
+                            if (eyeIcon) eyeIcon.textContent = "visibility";
+                        } else {
+                            passwordInput.type = "password";
+                            if (eyeIcon) eyeIcon.textContent = "visibility_off";
+                        }
+                    });
+                }
+
+                // Toggle para Administrador
+                const passwordInputAdmin = document.getElementById("passwordAdmin");
+                const toggleButtonAdmin = document.getElementById("togglePasswordAdmin");
+                const eyeIconAdmin = document.getElementById("eyeIconAdmin"); // Ojo: corrigiendo variable eyeIconAdmin
+
+                if (toggleButtonAdmin && passwordInputAdmin) {
+                    toggleButtonAdmin.addEventListener("click", function () {
+                        if (passwordInputAdmin.type === "password") {
+                            passwordInputAdmin.type = "text";
+                            if (eyeIconAdmin) eyeIconAdmin.textContent = "visibility";
+                        } else {
+                            passwordInputAdmin.type = "password";
+                            if (eyeIconAdmin) eyeIconAdmin.textContent = "visibility_off";
+                        }
+                    });
+                }
+            });
+        </script>
+</body>
+
+</html>
