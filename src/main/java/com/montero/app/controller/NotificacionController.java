@@ -41,7 +41,7 @@ public class NotificacionController {
 
         model.addAttribute("notificacionesAgrupadas", notificacionesAgrupadas);
         model.addAttribute("usuario", usuarioSesion);
-        return "notificaciones_dinamica";
+        return "notificaciones/notificaciones_dinamica";
     }
 
     @PostMapping("/marcar-todo-leido")

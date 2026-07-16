@@ -11,6 +11,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -237,6 +241,17 @@ public class ReservaService {
                 .filter(reserva -> coincideFiltro(reserva, filtro))
                 .sorted(obtenerComparador(orden))
                 .collect(Collectors.toList());
+    }
+
+    public Page<Reserva> obtenerHistorialPorUsuarioPaginado(Long usuarioId, String busqueda, String filtro, String orden, int page, int size) {
+        List<Reserva> todas = obtenerHistorialPorUsuario(usuarioId, busqueda, filtro, orden);
+        int total = todas.size();
+        int start = page * size;
+        if (start >= total) {
+            return new PageImpl<>(List.of(), PageRequest.of(page, size), total);
+        }
+        int end = Math.min(start + size, total);
+        return new PageImpl<>(todas.subList(start, end), PageRequest.of(page, size), total);
     }
 
     private boolean coincideBusqueda(Reserva reserva, String busqueda) {

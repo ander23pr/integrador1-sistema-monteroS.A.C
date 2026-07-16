@@ -200,12 +200,12 @@
 </head>
 <body class="bg-background text-on-background font-body-md min-h-screen flex flex-col pb-[120px]">
 <!-- TopAppBar -->
-<header class="bg-surface dark:bg-primary-container text-on-surface dark:text-on-primary-container docked full-width top-0 border-b border-outline-variant dark:border-outline flex justify-between items-center w-full px-margin-page h-16 sticky z-50">
-<button class="text-on-surface hover:bg-surface-container-high rounded-full p-2 transition-colors">
+<header class="bg-primary-container text-white shadow-md border-b border-secondary/30 docked full-width top-0 flex justify-between items-center w-full px-margin-page h-16 sticky z-50 rounded-b-2xl">
+<a th:href="@{/viajes/buscar(origen=${origenBuscado}, destino=${destinoBuscado}, fecha=${fechaBuscada}, fechaRetorno=${fechaRetornoBuscada}, modo='ida')}" class="text-white hover:bg-white/10 transition-colors rounded-full p-2 inline-flex items-center justify-center">
 <span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
-</button>
-<h1 class="font-headline-md text-headline-md font-bold tracking-tight">Seleccionar asientos</h1>
-<div class="w-10"></div> <!-- Spacer for center alignment -->
+</a>
+<h1 class="font-headline-md text-headline-md font-bold tracking-tight text-white">Seleccionar asientos</h1>
+<div class="w-10"></div>
 </header>
 <!-- Main Content -->
 <main class="flex-1 px-margin-page py-stack-lg max-w-md mx-auto w-full">

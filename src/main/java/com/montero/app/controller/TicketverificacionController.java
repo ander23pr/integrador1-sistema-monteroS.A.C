@@ -41,7 +41,7 @@ public class TicketverificacionController {
             logger.warn("Código de ticket con formato inválido: {}", codigo);
             model.addAttribute("esValido", false);
             model.addAttribute("motivo", "El código de este ticket no tiene un formato reconocido.");
-            return "ticket_verificacion";
+            return "reserva/ticket_verificacion";
         }
 
         try {
@@ -64,7 +64,7 @@ public class TicketverificacionController {
             model.addAttribute("motivo", "No se encontró ningún ticket con este código.");
         }
 
-        return "ticket_verificacion";
+        return "reserva/ticket_verificacion";
     }
 
     /**

@@ -30,7 +30,7 @@ public class AuthController {
         if (!model.containsAttribute("loginDTO")) {
             model.addAttribute("loginDTO", new LoginRequestDTO());
         }
-        return "login";
+        return "auth/login";
     }
 
     @PostMapping("/login")
@@ -40,14 +40,14 @@ public class AuthController {
                                 jakarta.servlet.http.HttpSession session,
                                 HttpServletRequest request) {
         if (result.hasErrors()) {
-            return "login";
+            return "auth/login";
         }
 
         Usuario usuario = usuarioService.autenticar(loginDTO);
         if (usuario == null) {
             sesionService.registrarSesion(null, session.getId(), request.getHeader("User-Agent"), request.getRemoteAddr());
             result.rejectValue("email", "error.loginDTO", "Credenciales incorrectas");
-            return "login";
+            return "auth/login";
         }
 
         session.setAttribute("usuarioLogueado", usuario);
@@ -61,7 +61,7 @@ public class AuthController {
         if (!model.containsAttribute("registroDTO")) {
             model.addAttribute("registroDTO", new RegistroRequestDTO());
         }
-        return "registro_usuario";
+        return "auth/registro_usuario";
     }
 
     @PostMapping("/registro")
@@ -69,13 +69,13 @@ public class AuthController {
                                    BindingResult result,
                                    RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            return "registro_usuario";
+            return "auth/registro_usuario";
         }
 
         boolean registrado = usuarioService.registrarUsuario(registroDTO);
         if (!registrado) {
             result.rejectValue("email", "error.registroDTO", "El correo ya está registrado");
-            return "registro_usuario";
+            return "auth/registro_usuario";
         }
 
         redirectAttributes.addFlashAttribute("mensajeExito", "Registro exitoso. Inicia sesión.");

@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -59,6 +61,7 @@ public class ReservaController {
     public String mostrarHistorial(@RequestParam(value = "busqueda", required = false) String busqueda,
                                    @RequestParam(value = "filtro", required = false, defaultValue = "todos") String filtro,
                                    @RequestParam(value = "orden", required = false, defaultValue = "fecha_desc") String orden,
+                                   @RequestParam(value = "page", required = false, defaultValue = "0") int page,
                                    Model model,
                                    HttpSession session) {
         Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogueado");
@@ -66,12 +69,38 @@ public class ReservaController {
             return "redirect:/login";
         }
 
-        List<Reserva> reservas = reservaService.obtenerHistorialPorUsuario(usuarioSesion.getId(), busqueda, filtro, orden);
-        model.addAttribute("reservas", reservas);
+        Page<Reserva> pagina = reservaService.obtenerHistorialPorUsuarioPaginado(usuarioSesion.getId(), busqueda, filtro, orden, page, 5);
+        model.addAttribute("reservas", pagina.getContent());
+        model.addAttribute("page", pagina.getNumber());
+        model.addAttribute("totalPages", pagina.getTotalPages());
+        model.addAttribute("totalElements", pagina.getTotalElements());
+        model.addAttribute("hasMore", pagina.hasNext());
         model.addAttribute("busqueda", busqueda);
         model.addAttribute("filtro", filtro);
         model.addAttribute("orden", orden);
-        return "historial_viajes";
+        return "reserva/historial_viajes";
+    }
+
+    /**
+     * Devuelve el fragmento HTML de las tarjetas de viaje para el historial paginado.
+     */
+    @GetMapping("/historial/tarjetas")
+    public String obtenerTarjetasHistorial(@RequestParam(value = "busqueda", required = false) String busqueda,
+                                           @RequestParam(value = "filtro", required = false, defaultValue = "todos") String filtro,
+                                           @RequestParam(value = "orden", required = false, defaultValue = "fecha_desc") String orden,
+                                           @RequestParam("page") int page,
+                                           Model model,
+                                           HttpSession session) {
+        Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioSesion == null) {
+            return "reserva/fragments/historial_tarjetas :: empty";
+        }
+
+        Page<Reserva> pagina = reservaService.obtenerHistorialPorUsuarioPaginado(usuarioSesion.getId(), busqueda, filtro, orden, page, 5);
+        model.addAttribute("reservas", pagina.getContent());
+        model.addAttribute("page", pagina.getNumber());
+        model.addAttribute("hasMore", pagina.hasNext());
+        return "reserva/fragments/historial_tarjetas :: tarjetas";
     }
 
     /**
@@ -87,6 +116,9 @@ public class ReservaController {
                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaRetorno,
                                            Model model,
                                            HttpSession session) {
+
+        session.removeAttribute("reservaSession");
+        session.removeAttribute("reservaConfirmadaId");
 
         Viaje viaje = viajeService.obtenerViajePorId(viajeId);
         List<Integer> asientosOcupados = viajeService.obtenerAsientosOcupados(viajeId);
@@ -109,8 +141,12 @@ public class ReservaController {
 
         model.addAttribute("reservaDTO", reservaDTO);
         model.addAttribute("fechaSeleccionada", reservaDTO.getFechaSeleccionada());
+        model.addAttribute("origenBuscado", origen);
+        model.addAttribute("destinoBuscado", destino);
+        model.addAttribute("fechaBuscada", fecha);
+        model.addAttribute("fechaRetornoBuscada", fechaRetorno);
 
-        return "seleccion_asientos";
+        return "reserva/seleccion_asientos";
     }
 
     @GetMapping("/viaje/{id}/asientos-retorno")
@@ -137,8 +173,12 @@ public class ReservaController {
 
         model.addAttribute("reservaDTO", reservaDTO);
         model.addAttribute("fechaSeleccionada", reservaDTO.getFechaSeleccionada());
+        model.addAttribute("origenBuscado", origen);
+        model.addAttribute("destinoBuscado", destino);
+        model.addAttribute("fechaBuscada", fecha);
+        model.addAttribute("fechaRetornoBuscada", null);
 
-        return "seleccion_asientos";
+        return "reserva/seleccion_asientos";
     }
 
     @GetMapping("/pasajero")
@@ -156,7 +196,7 @@ public class ReservaController {
         pasajeroDTO.setTelefonoPasajero(dto.getTelefonoPasajero());
         model.addAttribute("pasajeroDTO", pasajeroDTO);
         model.addAttribute("usuarioLogueado", usuario);
-        return "pasajero";
+        return "reserva/pasajero";
     }
 
     @PostMapping("/pasajero")
@@ -165,7 +205,7 @@ public class ReservaController {
                                   Model model,
                                   HttpSession session) {
         if (bindingResult.hasErrors()) {
-            return "pasajero";
+            return "reserva/pasajero";
         }
         ReservaRequestDTO dto = (ReservaRequestDTO) session.getAttribute("reservaSession");
         if (dto == null) {
@@ -202,7 +242,7 @@ public class ReservaController {
                 model.addAttribute("asientosOcupados", viajeService.obtenerAsientosOcupados(viaje.getId()));
                 model.addAttribute("fechaSeleccionada",
                         reservaDTO.getFechaSeleccionada() != null ? reservaDTO.getFechaSeleccionada() : viaje.getFechaSalida());
-                return "seleccion_asientos";
+                return "reserva/seleccion_asientos";
             }
             session.setAttribute("reservaSession", reservaDTO);
 
@@ -280,7 +320,13 @@ public class ReservaController {
         model.addAttribute("reserva", reserva);
         model.addAttribute("desdeSesion", true);
 
-        return "resumen_de_reserva";
+        Long reservaConfirmadaId = (Long) session.getAttribute("reservaConfirmadaId");
+        if (reservaConfirmadaId != null) {
+            model.addAttribute("reservaConfirmada", true);
+            model.addAttribute("reservaConfirmadaId", reservaConfirmadaId);
+        }
+
+        return "reserva/resumen_de_reserva";
     }
 
     /**
@@ -297,7 +343,7 @@ public class ReservaController {
 
         try {
             Reserva reserva = reservaService.iniciarReserva(dto, usuarioSesion);
-            session.removeAttribute("reservaSession");
+            session.setAttribute("reservaConfirmadaId", reserva.getId());
             return "redirect:/pagos/yape/" + reserva.getId();
         } catch (Exception e) {
             log.error("Error al confirmar reserva: {}", e.getMessage(), e);
@@ -313,7 +359,7 @@ public class ReservaController {
     public String mostrarResumen(@PathVariable("id") Long id, Model model) {
         Reserva reserva = reservaService.obtenerReservaPorId(id);
         model.addAttribute("reserva", reserva);
-        return "resumen_de_reserva";
+        return "reserva/resumen_de_reserva";
     }
 
     /**
@@ -356,6 +402,6 @@ public class ReservaController {
         String qrCodeBase64 = com.montero.app.util.QrCodeGenerator.generarComoBase64(urlVerificacion, 400);
         model.addAttribute("qrCodeBase64", qrCodeBase64);
 
-        return "confirmacion_de_pago"; // Vista Thymeleaf existente
+        return "reserva/confirmacion_de_pago"; // Vista Thymeleaf existente
     }
 }

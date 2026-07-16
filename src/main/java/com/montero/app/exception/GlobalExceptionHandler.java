@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
         model.addAttribute("titulo", "Error de validación");
         model.addAttribute("mensaje", ex.getMessage());
         model.addAttribute("linkVolver", "/viajes");
-        return "error_generico";
+        return "error/error_generico";
     }
 
     /**
@@ -35,6 +35,6 @@ public class GlobalExceptionHandler {
         model.addAttribute("titulo", "Error inesperado");
         model.addAttribute("mensaje", "Ocurrió un problema en el sistema. Por favor intente nuevamente.");
         model.addAttribute("linkVolver", "/inicio");
-        return "error_generico";
+        return "error/error_generico";
     }
 }

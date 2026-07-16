@@ -162,12 +162,12 @@
       </script>
 </head>
 <body class="bg-background text-on-background font-body-md min-h-screen pb-24">
-<header class="bg-surface shadow-sm flex justify-between items-center w-full px-margin-page h-16 sticky top-0 z-50">
-    <a th:href="${session.reservaSession != null and session.reservaSession.fechaRetorno != null} ? @{/reservas/viaje/{id}/asientos-retorno(id=${session.reservaSession.viajeRetornoId})} : @{/reservas/viaje/{id}/asientos(id=${session.reservaSession.viajeId})}" 
-       class="hover:bg-surface-container-high rounded-full p-2 transition-colors">
+<header class="bg-primary-container text-white shadow-md border-b border-secondary/30 flex justify-between items-center w-full px-margin-page h-16 sticky top-0 z-50 rounded-b-2xl">
+    <a th:href="${session.reservaSession != null and session.reservaSession.fechaRetorno != null} ? @{/reservas/viaje/{id}/asientos-retorno(id=${session.reservaSession.viajeRetornoId}, origen=${session.reservaSession.origenRetorno}, destino=${session.reservaSession.destinoRetorno}, fecha=${session.reservaSession.fechaRetorno})} : @{/reservas/viaje/{id}/asientos(id=${session.reservaSession.viajeId}, origen=${session.reservaSession.origenSeleccionado}, destino=${session.reservaSession.destinoSeleccionado}, fecha=${session.reservaSession.fechaSeleccionada})}" 
+       class="text-white hover:bg-white/10 transition-colors rounded-full p-2 inline-flex items-center justify-center">
         <span class="material-symbols-outlined">arrow_back</span>
     </a>
-    <h1 class="font-headline-md text-headline-md font-bold tracking-tight">Datos del Pasajero</h1>
+    <h1 class="font-headline-md text-headline-md font-bold tracking-tight text-white">Datos del Pasajero</h1>
     <div class="w-10"></div>
 </header>
 <main class="px-margin-page pt-stack-lg max-w-lg mx-auto w-full">

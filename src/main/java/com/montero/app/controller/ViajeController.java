@@ -37,7 +37,7 @@ public class ViajeController {
         model.addAttribute("origenBuscado", origen);
         model.addAttribute("destinoBuscado", destino);
         model.addAttribute("fechaBuscada", fecha);
-        return "busqueda_rutas"; // Vista Thymeleaf existente
+        return "reserva/busqueda_rutas"; // Vista Thymeleaf existente
     }
 
     /**
@@ -68,6 +68,6 @@ public class ViajeController {
             model.addAttribute("viajes", resultados);
         }
 
-        return "seleccion_pasaje";
+        return "reserva/seleccion_pasaje";
     }
 }

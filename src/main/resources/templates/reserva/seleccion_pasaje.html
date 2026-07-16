@@ -113,12 +113,12 @@
       </script>
 </head>
 <body class="bg-background text-on-background font-body-md min-h-screen pb-24">
-<header class="bg-surface dark:bg-surface-dim shadow-sm flex justify-between items-center w-full px-margin-page h-16 sticky top-0 z-50">
-<button class="text-primary dark:text-primary-fixed hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-150"></button>
-<h1 class="font-headline-lg text-headline-lg font-bold tracking-tight text-primary dark:text-on-surface"><br></h1>
-<button class="hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-150 rounded-full overflow-hidden w-10 h-10 border border-outline-variant/30">
-<img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDirPqir_d2O6kvzDNLMI6g-m7_wyuI7oNYEq7wzttmDBCJg7fD5EqIQhb0wifmeNu1WI8qh67v_REerIykDWSZZNKfHaMj8OzUARJj3-bS7KZhhgUHi5mvkO8-fdM2Ig0iV2cudV2VSBRCt90mm7p6szHHKSFcGdQB010ZPBdkpV8B_yBiYwM9yUiSg40qLET8OpTGXdqKmRwaacFIvLub9HQFu4Sb3nH_tnWEv33ifZj504NWpynRSS48NzECU8-ZAxahgWzTyzCg" alt="User profile" class="w-full h-full object-cover">
-</button>
+<header class="bg-primary-container text-white shadow-md border-b border-secondary/30 flex justify-between items-center w-full px-margin-page h-16 sticky top-0 z-50 rounded-b-2xl">
+<a th:href="@{/viajes}" class="text-white hover:bg-white/10 transition-colors p-2 rounded-full"><span class="material-symbols-outlined">arrow_back</span></a>
+<h1 class="font-headline-lg text-headline-lg font-bold tracking-tight text-white"><br></h1>
+<a th:href="@{/perfil}" aria-label="Profile" class="text-white hover:bg-white/10 transition-colors flex items-center justify-center w-10 h-10 rounded-full overflow-hidden border border-white/30">
+<img th:src="${session.usuarioLogueado != null && session.usuarioLogueado.fotoPerfil != null ? session.usuarioLogueado.fotoPerfil : 'https://lh3.googleusercontent.com/aida-public/AB6AXuDirPqir_d2O6kvzDNLMI6g-m7_wyuI7oNYEq7wzttmDBCJg7fD5EqIQhb0wifmeNu1WI8qh67v_REerIykDWSZZNKfHaMj8OzUARJj3-bS7KZhhgUHi5mvkO8-fdM2Ig0iV2cudV2VSBRCt90mm7p6szHHKSFcGdQB010ZPBdkpV8B_yBiYwM9yUiSg40qLET8OpTGXdqKmRwaacFIvLub9HQFu4Sb3nH_tnWEv33ifZj504NWpynRSS48NzECU8-ZAxahgWzTyzCg'}" alt="User Profile" class="w-full h-full object-cover">
+</a>
 </header>
 <main class="px-margin-page pt-stack-lg max-w-3xl mx-auto w-full">
 <!-- Progress Indicator -->
@@ -214,26 +214,5 @@
 </article>
 </div>
 </main>
-<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 px-4 pb-2 border-t border-outline-variant bg-surface-container-lowest dark:bg-surface-container-low shadow-lg md:hidden">
-<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-variant/10 rounded-lg p-2 transition-colors">
-<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
-<span class="font-label-md text-label-md">Home</span>
-</button>
-<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed font-bold hover:bg-surface-variant/10 rounded-lg p-2 transition-colors scale-90">
-<span class="material-symbols-outlined mb-1" data-icon="search" data-weight="fill" style="font-variation-settings: &quot;FILL&quot; 1;">search</span>
-<span class="font-label-md text-label-md">Buscar</span>
-</button>
-<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-variant/10 rounded-lg p-2 transition-colors">
-<span class="material-symbols-outlined mb-1" data-icon="directions_transit">directions_transit</span>
-<span class="font-label-md text-label-md">Mis Viajes</span>
-</button>
-<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-variant/10 rounded-lg p-2 transition-colors">
-<span class="material-symbols-outlined mb-1" data-icon="notifications">notifications</span>
-<span class="font-label-md text-label-md">Alerts</span>
-</button>
-<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-variant/10 rounded-lg p-2 transition-colors">
-<span class="material-symbols-outlined mb-1" data-icon="settings" data-stitch-orig-opacity="0">settings</span>
-<span class="font-label-md text-label-md">Ajustes</span>
-</button>
-</nav>
+<nav th:replace="~{fragments/navegacion :: bottom-nav(activeTab='buscar')}"></nav>
 </body></html>

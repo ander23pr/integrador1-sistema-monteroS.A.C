@@ -40,7 +40,7 @@ public class HomeController {
         } else {
             model.addAttribute("saludoBienvenida", "Bienvenido");
         }
-        return "modulo_inicio";
+        return "inicio/modulo_inicio";
     }
 
     private String obtenerPrimerNombre(String nombreCompleto) {
@@ -69,6 +69,6 @@ public class HomeController {
      */
     @GetMapping("/servicios")
     public String servicios() {
-        return "servicios";
+        return "inicio/servicios";
     }
 }
