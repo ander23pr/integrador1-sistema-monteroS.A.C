@@ -12,4 +12,7 @@ public interface ViajeRepository extends JpaRepository<Viaje, Long> {
     
     // Método para buscar viajes basados en los criterios del buscador del usuario
     List<Viaje> findByOrigenAndDestinoAndFechaSalida(String origen, String destino, LocalDate fechaSalida);
+    
+    // Método para contar viajes programados para una fecha específica
+    long countByFechaSalida(LocalDate fechaSalida);
 }

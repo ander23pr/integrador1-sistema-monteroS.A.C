@@ -53,6 +53,12 @@ public class AuthController {
         session.setAttribute("usuarioLogueado", usuario);
         sesionService.registrarSesion(usuario, session.getId(), request.getHeader("User-Agent"), request.getRemoteAddr());
         redirectAttributes.addFlashAttribute("mensajeExito", "¡Bienvenido de vuelta!");
+        
+        // Redirigir según el rol del usuario
+        String rol = usuario.getRol() != null ? usuario.getRol() : "USER";
+        if ("ADMIN".equals(rol)) {
+            return "redirect:/admin/dashboard";
+        }
         return "redirect:/viajes";
     }
 
