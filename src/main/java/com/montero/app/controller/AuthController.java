@@ -3,7 +3,9 @@ package com.montero.app.controller;
 import com.montero.app.dto.LoginRequestDTO;
 import com.montero.app.dto.RegistroRequestDTO;
 import com.montero.app.model.Usuario;
+import com.montero.app.service.SesionService;
 import com.montero.app.service.UsuarioService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,29 +22,43 @@ public class AuthController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private SesionService sesionService;
+
     @GetMapping("/login")
     public String mostrarLogin(Model model) {
         if (!model.containsAttribute("loginDTO")) {
             model.addAttribute("loginDTO", new LoginRequestDTO());
         }
-        return "login";
+        return "auth/login";
     }
 
     @PostMapping("/login")
     public String procesarLogin(@Valid @ModelAttribute("loginDTO") LoginRequestDTO loginDTO,
                                 BindingResult result,
-                                RedirectAttributes redirectAttributes) {
+                                RedirectAttributes redirectAttributes,
+                                jakarta.servlet.http.HttpSession session,
+                                HttpServletRequest request) {
         if (result.hasErrors()) {
-            return "login";
+            return "auth/login";
         }
 
         Usuario usuario = usuarioService.autenticar(loginDTO);
         if (usuario == null) {
+            sesionService.registrarSesion(null, session.getId(), request.getHeader("User-Agent"), request.getRemoteAddr());
             result.rejectValue("email", "error.loginDTO", "Credenciales incorrectas");
-            return "login";
+            return "auth/login";
         }
 
+        session.setAttribute("usuarioLogueado", usuario);
+        sesionService.registrarSesion(usuario, session.getId(), request.getHeader("User-Agent"), request.getRemoteAddr());
         redirectAttributes.addFlashAttribute("mensajeExito", "¡Bienvenido de vuelta!");
+        
+        // Redirigir según el rol del usuario
+        String rol = usuario.getRol() != null ? usuario.getRol() : "USER";
+        if ("ADMIN".equals(rol)) {
+            return "redirect:/admin/dashboard";
+        }
         return "redirect:/viajes";
     }
 
@@ -51,7 +67,7 @@ public class AuthController {
         if (!model.containsAttribute("registroDTO")) {
             model.addAttribute("registroDTO", new RegistroRequestDTO());
         }
-        return "registro_usuario";
+        return "auth/registro_usuario";
     }
 
     @PostMapping("/registro")
@@ -59,16 +75,26 @@ public class AuthController {
                                    BindingResult result,
                                    RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            return "registro_usuario";
+            return "auth/registro_usuario";
         }
 
         boolean registrado = usuarioService.registrarUsuario(registroDTO);
         if (!registrado) {
             result.rejectValue("email", "error.registroDTO", "El correo ya está registrado");
-            return "registro_usuario";
+            return "auth/registro_usuario";
         }
 
         redirectAttributes.addFlashAttribute("mensajeExito", "Registro exitoso. Inicia sesión.");
+        return "redirect:/login";
+    }
+
+    @PostMapping("/auth/logout")
+    public String logout(jakarta.servlet.http.HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuario != null) {
+            sesionService.cerrarSesionPorToken(session.getId(), usuario.getId());
+        }
+        session.invalidate();
         return "redirect:/login";
     }
 }

@@ -1,0 +1,280 @@
+<!DOCTYPE html><html class="light" lang="es" xmlns:th="http://www.thymeleaf.org"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Cambiar Contraseña - Montenero</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f8f9ff",
+                        "secondary-container": "#e21e49",
+                        "on-tertiary-fixed": "#001a42",
+                        "on-primary-container": "#7c839b",
+                        "primary-container": "#131b2e",
+                        "tertiary": "#000000",
+                        "on-surface": "#0d1c2f",
+                        "on-secondary-fixed-variant": "#920028",
+                        "surface-tint": "#565e74",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#3980f4",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#fffbff",
+                        "surface-variant": "#d5e3fd",
+                        "on-secondary-fixed": "#40000c",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#45464d",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#bec6e0",
+                        "outline-variant": "#c6c6cd",
+                        "outline": "#76777d",
+                        "tertiary-fixed-dim": "#adc6ff",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#001a42",
+                        "tertiary-fixed": "#d8e2ff",
+                        "primary-fixed": "#dae2fd",
+                        "surface-bright": "#f8f9ff",
+                        "surface-dim": "#ccdbf4",
+                        "secondary-fixed-dim": "#ffb3b6",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container-high": "#dde9ff",
+                        "secondary-fixed": "#ffdada",
+                        "error-container": "#ffdad6",
+                        "background": "#f8f9ff",
+                        "on-primary-fixed": "#131b2e",
+                        "inverse-surface": "#233144",
+                        "inverse-on-surface": "#ebf1ff",
+                        "secondary": "#ba0035",
+                        "on-tertiary-fixed-variant": "#004395",
+                        "primary": "#000000",
+                        "surface-container-highest": "#d5e3fd",
+                        "inverse-primary": "#bec6e0",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#0d1c2f",
+                        "on-error": "#ffffff",
+                        "surface-container": "#e6eeff",
+                        "on-primary-fixed-variant": "#3f465c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "40px",
+                        "gutter": "16px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "margin-page": "20px",
+                        "unit": "4px",
+                        "stack-lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .strength-bar { transition: width 0.3s ease, background-color 0.3s ease; }
+        .req-item.met .req-icon { color: #2e7d32; }
+        .req-item.met .req-text { color: #0d1c2f; }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased min-h-screen pb-stack-lg overflow-y-auto">
+<!-- TopAppBar -->
+<header class="bg-primary-container text-white shadow-md border-b border-secondary/30 top-0 z-10 sticky rounded-b-2xl">
+<div class="flex justify-between items-center w-full px-margin-page py-stack-sm h-16">
+<a th:href="@{/ajustes/seguridad}" class="text-white hover:bg-white/10 p-2 rounded-full transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</a>
+<h1 class="font-headline-md text-headline-md text-white font-bold flex-1 text-center pr-10">Cambiar contraseña</h1>
+</div>
+</header>
+<main class="py-stack-lg max-w-2xl mx-auto flex flex-col gap-section-gap">
+
+<!-- Header icónico: reemplaza la ilustración genérica por algo propio del sistema de diseño -->
+<div class="flex flex-col items-center px-margin-page text-center gap-stack-sm">
+<div class="w-16 h-16 rounded-full bg-secondary-fixed/40 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[32px]" style="font-variation-settings: 'FILL' 1;">encrypted</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xs">Elige una contraseña que no uses en ningún otro sitio.</p>
+</div>
+
+<!-- Forms Section -->
+<form class="flex flex-col gap-stack-lg px-margin-page" th:action="@{/ajustes/seguridad/contrasena/actualizar}" method="post">
+
+<!-- Current Password -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.05)] border border-surface-container-high p-stack-md flex flex-col gap-stack-sm">
+<label class="font-label-md text-on-surface-variant font-medium flex items-center gap-unit" for="current-password">
+<span class="material-symbols-outlined text-[16px]">lock_open</span>
+            Contraseña actual
+        </label>
+<div class="relative">
+<input class="w-full bg-surface rounded-lg border border-outline-variant px-4 py-3 font-body-md text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="current-password" name="passwordActual" placeholder="••••••••" type="password">
+<button class="toggle-visibility absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface" type="button" data-target="current-password">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+</div>
+</div>
+
+<!-- New Password -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.05)] border border-surface-container-high p-stack-md flex flex-col gap-stack-md">
+<div class="flex flex-col gap-stack-sm">
+<label class="font-label-md text-on-surface-variant font-medium flex items-center gap-unit" for="new-password">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+                Nueva contraseña
+            </label>
+<div class="relative">
+<input class="w-full bg-surface rounded-lg border border-outline-variant px-4 py-3 font-body-md text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="new-password" name="passwordNueva" placeholder="••••••••" type="password">
+<button class="toggle-visibility absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface" type="button" data-target="new-password">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+</div>
+<!-- Medidor de fortaleza -->
+<div class="w-full h-1.5 bg-outline-variant/40 rounded-full overflow-hidden">
+<div id="strength-bar" class="strength-bar h-full w-0 bg-error rounded-full"></div>
+</div>
+</div>
+<div class="flex flex-col gap-stack-sm">
+<label class="font-label-md text-on-surface-variant font-medium flex items-center gap-unit" for="confirm-password">
+<span class="material-symbols-outlined text-[16px]">enhanced_encryption</span>
+                Confirmar nueva contraseña
+            </label>
+<div class="relative">
+<input class="w-full bg-surface rounded-lg border border-outline-variant px-4 py-3 font-body-md text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" id="confirm-password" name="passwordConfirmacion" placeholder="••••••••" type="password">
+<button class="toggle-visibility absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface" type="button" data-target="confirm-password">
+<span class="material-symbols-outlined text-[20px]">visibility_off</span>
+</button>
+</div>
+<p id="match-message" class="font-label-md text-label-md hidden flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">error</span>
+                Las contraseñas no coinciden
+            </p>
+</div>
+</div>
+
+<!-- Requirements -->
+<div class="bg-surface-container-low rounded-lg p-stack-md border border-surface-container-high">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-stack-sm uppercase tracking-wider flex items-center gap-unit">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified_user</span>
+            Requisitos de seguridad
+        </h3>
+<ul class="flex flex-col gap-2 font-body-md text-on-surface-variant">
+<li class="req-item flex items-center gap-2" data-rule="length">
+<span class="material-symbols-outlined req-icon text-[16px] text-outline-variant">radio_button_unchecked</span>
+<span class="req-text">Mínimo 8 caracteres</span>
+            </li>
+<li class="req-item flex items-center gap-2" data-rule="uppercase">
+<span class="material-symbols-outlined req-icon text-[16px] text-outline-variant">radio_button_unchecked</span>
+<span class="req-text">Al menos una letra mayúscula</span>
+            </li>
+<li class="req-item flex items-center gap-2" data-rule="number">
+<span class="material-symbols-outlined req-icon text-[16px] text-outline-variant">radio_button_unchecked</span>
+<span class="req-text">Al menos un número</span>
+            </li>
+<li class="req-item flex items-center gap-2" data-rule="special">
+<span class="material-symbols-outlined req-icon text-[16px] text-outline-variant">radio_button_unchecked</span>
+<span class="req-text">Al menos un carácter especial (!@#$%)</span>
+            </li>
+</ul>
+</div>
+
+<!-- Actions -->
+<div class="mt-4">
+<button id="submit-btn" class="w-full bg-secondary text-on-secondary font-headline-md py-4 rounded-full shadow-md hover:opacity-90 transition-opacity flex justify-center items-center gap-2" type="submit">
+            Guardar cambios
+        </button>
+<a th:href="@{/ajustes/seguridad}" class="w-full mt-4 border border-secondary text-secondary font-headline-md py-4 rounded-full hover:bg-surface-container transition-colors flex justify-center items-center gap-2">Cancelar</a>
+</div>
+</form>
+</main>
+<script>
+        // Mostrar/ocultar contraseña
+        document.querySelectorAll('.toggle-visibility').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var input = document.getElementById(btn.dataset.target);
+                var icon = btn.querySelector('.material-symbols-outlined');
+                var isHidden = input.type === 'password';
+                input.type = isHidden ? 'text' : 'password';
+                icon.textContent = isHidden ? 'visibility' : 'visibility_off';
+            });
+        });
+
+        // Validación en vivo del checklist de requisitos
+        var newPasswordInput = document.getElementById('new-password');
+        var confirmInput = document.getElementById('confirm-password');
+        var strengthBar = document.getElementById('strength-bar');
+        var matchMessage = document.getElementById('match-message');
+
+        var rules = {
+            length: function (v) { return v.length >= 8; },
+            uppercase: function (v) { return /[A-Z]/.test(v); },
+            number: function (v) { return /[0-9]/.test(v); },
+            special: function (v) { return /[!@#$%^&*(),.?":{}|<>]/.test(v); }
+        };
+
+        function actualizarChecklist() {
+            var valor = newPasswordInput.value;
+            var cumplidos = 0;
+
+            document.querySelectorAll('.req-item').forEach(function (item) {
+                var regla = item.dataset.rule;
+                var icon = item.querySelector('.req-icon');
+                var cumple = rules[regla](valor);
+                item.classList.toggle('met', cumple);
+                icon.textContent = cumple ? 'check_circle' : 'radio_button_unchecked';
+                if (cumple) cumplidos++;
+            });
+
+            var porcentaje = (cumplidos / 4) * 100;
+            strengthBar.style.width = porcentaje + '%';
+            if (porcentaje <= 25) {
+                strengthBar.className = 'strength-bar h-full rounded-full bg-error';
+            } else if (porcentaje <= 75) {
+                strengthBar.className = 'strength-bar h-full rounded-full bg-[#f59e0b]';
+            } else {
+                strengthBar.className = 'strength-bar h-full rounded-full bg-[#2e7d32]';
+            }
+            strengthBar.style.width = porcentaje + '%';
+
+            validarCoincidencia();
+        }
+
+        function validarCoincidencia() {
+            if (confirmInput.value.length === 0) {
+                matchMessage.classList.add('hidden');
+                return;
+            }
+            var coincide = confirmInput.value === newPasswordInput.value;
+            matchMessage.classList.toggle('hidden', coincide);
+            matchMessage.classList.toggle('text-error', !coincide);
+        }
+
+        newPasswordInput.addEventListener('input', actualizarChecklist);
+        confirmInput.addEventListener('input', validarCoincidencia);
+    </script>
+</body></html>

@@ -22,6 +22,27 @@ public class Usuario {
     @Column(length = 50)
     private String rol;
 
+    @Column(length = 100)
+    private String nombre;
+
+    @Column(length = 20)
+    private String dni;
+
+    @Column(length = 20)
+    private String telefono;
+
+    @Column(length = 50)
+    private String preferenciaAsiento;
+
+    @Column(length = 50)
+    private String preferenciaServicio;
+
+    @Column(length = 255)
+    private String fotoPerfil;
+
+    @Column(nullable = false)
+    private Boolean activo = true;
+
     public Usuario() {
     }
 
@@ -62,5 +83,61 @@ public class Usuario {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getPreferenciaAsiento() {
+        return preferenciaAsiento;
+    }
+
+    public void setPreferenciaAsiento(String preferenciaAsiento) {
+        this.preferenciaAsiento = preferenciaAsiento;
+    }
+
+    public String getPreferenciaServicio() {
+        return preferenciaServicio;
+    }
+
+    public void setPreferenciaServicio(String preferenciaServicio) {
+        this.preferenciaServicio = preferenciaServicio;
+    }
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+    }
+
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 }

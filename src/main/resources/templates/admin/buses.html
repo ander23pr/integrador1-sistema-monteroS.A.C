@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buses y Flota · Montero Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script th:inline="none">
+    tailwind.config = {
+        theme: { extend: {
+            colors: {
+                primary: "#0B1120", "primary-light": "#141F38", secondary: "#C00037", "secondary-dark": "#920028",
+                "secondary-soft": "#FDE6EB", surface: "#FFFFFF", background: "#F7F8FA",
+                "on-surface-variant": "#71717A", "outline-variant": "#E4E4E7",
+                success: "#15803D", "success-bg": "#DCFCE7", warning: "#B45309", "warning-bg": "#FEF3C7",
+                danger: "#B91C1C", "danger-bg": "#FEE2E2", info: "#1D4ED8", "info-bg": "#DBEAFE"
+            },
+            borderRadius: { DEFAULT: "0.375rem", lg: "0.625rem", xl: "0.875rem", "2xl": "1.25rem", "3xl": "1.75rem", full: "9999px" },
+            fontFamily: { sans: ["Inter", "sans-serif"] },
+            boxShadow: { card: "0 1px 2px rgba(15,23,42,0.04), 0 6px 20px rgba(15,23,42,0.06)", pop: "0 12px 32px rgba(11,17,32,0.16)" }
+        } }
+    }
+</script>
+<style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 20; font-size: 20px; line-height:1; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    [x-cloak] { display: none !important; }
+</style>
+</head>
+
+<body class="bg-background font-sans antialiased">
+
+<aside class="hidden lg:flex w-64 shrink-0 bg-primary min-h-screen flex-col fixed left-0 top-0 bottom-0 z-30">
+<div class="h-16 flex items-center gap-3 px-5 border-b border-white/10">
+<div class="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center font-extrabold text-white text-base">M</div>
+<div class="leading-tight">
+<p class="text-white font-bold text-sm tracking-tight">Montero S.A.C.</p>
+<p class="text-[#8890A0] text-[11px] font-medium">Panel de Administración</p>
+</div>
+</div>
+<nav class="flex-1 px-3 py-5 flex flex-col gap-1 overflow-y-auto">
+<a th:href="@{/admin/dashboard}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">space_dashboard</span><span>Dashboard</span></a>
+<a th:href="@{/admin/buses}" class="nav-item-active flex items-center gap-3 px-4 py-2.5 rounded-lg bg-secondary/15 text-white text-sm font-medium shadow-[inset_3px_0_0_#C00037]"><span class="material-symbols-outlined text-[#FF4D6D]">directions_bus</span><span>Buses y Flota</span></a>
+<a th:href="@{/admin/rutas}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">alt_route</span><span>Rutas</span></a>
+<a th:href="@{/admin/viajes}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">event</span><span>Viajes y Horarios</span></a>
+<a th:href="@{/admin/choferes}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">assignment_ind</span><span>Choferes</span></a>
+<a th:href="@{/admin/usuarios}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">group</span><span>Usuarios</span></a>
+<a th:href="@{/admin/reservas}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">confirmation_number</span><span>Reservas</span></a>
+<a th:href="@{/admin/pagos}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">payments</span><span>Pagos</span></a>
+<a th:href="@{/admin/reportes}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">monitoring</span><span>Reportes</span></a></nav>
+<div class="p-3 border-t border-white/10">
+<a th:href="@{/ajustes}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium">
+<span class="material-symbols-outlined">settings</span><span>Ajustes</span></a>
+<a th:href="@{/admin/logout}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium">
+<span class="material-symbols-outlined">logout</span><span>Cerrar sesión</span></a>
+</div>
+</aside>
+<div class="lg:ml-64 min-h-screen flex flex-col">
+
+<header class="hidden lg:flex h-16 border-b border-outline-variant bg-surface/90 backdrop-blur sticky top-0 z-20 items-center justify-between px-8">
+<div>
+<h1 class="text-lg font-bold text-primary tracking-tight leading-none">Buses y Flota</h1>
+<p class="text-xs text-on-surface-variant mt-1">Administra las unidades disponibles para tus rutas</p>
+</div>
+<div class="flex items-center gap-4">
+<a th:href="@{/admin/notificaciones}" data-notificaciones-nav="true" class="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-background transition-colors">
+<span class="material-symbols-outlined text-primary">notifications</span>
+<span id="notificaciones-badge-desktop" th:if="${notificacionesNoLeidas != null and notificacionesNoLeidas > 0}" th:text="${notificacionesNoLeidas > 99 ? '99+' : notificacionesNoLeidas}" class="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] bg-secondary text-on-secondary text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-surface leading-none px-1">3</span>
+</a>
+<div class="flex items-center gap-2.5 pl-4 border-l border-outline-variant">
+<img src="https://i.pravatar.cc/64?img=12" class="w-9 h-9 rounded-full object-cover" alt="Admin">
+<div class="leading-tight">
+<p class="text-sm font-semibold text-primary" th:text="${admin != null ? admin.nombre : 'Administrador'}">Administrador</p>
+<p class="text-[11px] text-on-surface-variant">Administrador</p>
+</div>
+</div>
+</div>
+</header>
+
+<header class="lg:hidden px-5 pt-6 pb-4 flex items-start justify-between bg-surface">
+<div class="flex items-start gap-1">
+<div class="w-9"></div>
+<div><h1 class="text-[22px] font-extrabold text-secondary tracking-tight leading-none">Buses y Flota</h1>
+<p class="text-xs text-on-surface-variant mt-0.5">Administra las unidades disponibles para tus rutas</p></div>
+</div>
+<a th:href="@{/admin/notificaciones}" data-notificaciones-nav="true" class="w-9 h-9 rounded-full bg-background flex items-center justify-center text-primary relative shrink-0">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span id="notificaciones-badge" th:if="${notificacionesNoLeidas != null and notificacionesNoLeidas > 0}" th:text="${notificacionesNoLeidas > 99 ? '99+' : notificacionesNoLeidas}" class="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-secondary text-on-secondary text-[10px] font-bold rounded-full flex items-center justify-center leading-none px-1">3</span>
+</a>
+</header>
+<main class="flex-1">
+<div class="lg:hidden px-5 pb-6">
+
+<div class="relative mb-3">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input type="text" id="buscadorM" onkeyup="filtrarBuses('buscadorM','bus-card-m')" placeholder="Buscar por placa o modelo…"
+       class="w-full pl-9 pr-4 py-2.5 bg-surface border border-outline-variant rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition">
+</div>
+<p class="text-xs text-on-surface-variant mb-3" th:text="${#lists.size(buses)} + ' unidades registradas'">0 unidades</p>
+<div th:if="${#lists.isEmpty(buses)}" class="text-center py-10 text-on-surface-variant text-sm">Aún no has registrado ningún bus.</div>
+<div th:each="bus : ${buses}" class="bus-card-m bg-surface border border-outline-variant rounded-2xl p-4 shadow-card mb-3">
+<div class="flex items-start justify-between mb-2.5">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary/5 text-primary flex items-center justify-center"><span class="material-symbols-outlined text-[20px]">directions_bus</span></div>
+<div><p class="text-sm font-bold text-primary bus-nombre" th:text="${bus.placa}">PLV-241</p><p class="text-xs text-on-surface-variant bus-nombre" th:text="${bus.modelo}">Modelo</p></div>
+</div>
+
+<span th:switch="${bus.estado}">
+<span th:case="'OPERATIVO'" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-success-bg text-success"><span class="w-1.5 h-1.5 rounded-full bg-current"></span>Operativo</span>
+<span th:case="'MANTENIMIENTO'" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-warning-bg text-warning"><span class="w-1.5 h-1.5 rounded-full bg-current"></span>Mantenimiento</span>
+<span th:case="*" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-zinc-100 text-zinc-600"><span class="w-1.5 h-1.5 rounded-full bg-current"></span>Inactivo</span>
+</span>
+</div>
+<p class="text-xs text-on-surface-variant mb-3" th:text="${bus.tipoServicio} + ' · ' + ${bus.capacidad} + ' asientos'">Tipo</p>
+<div class="flex gap-2">
+<button type="button" th:onclick="'document.getElementById(\'sheet-edit-bus-' + ${bus.id} + '\').classList.remove(\'hidden\');document.getElementById(\'sheet-edit-bus-' + ${bus.id} + '\').classList.add(\'flex\');'"
+        class="flex-1 py-2 rounded-lg border border-outline-variant text-xs font-semibold text-primary">Editar</button>
+<form th:action="@{/admin/buses/{id}/eliminar(id=${bus.id})}" method="post" onsubmit="return confirm('¿Eliminar este bus?');" class="flex-1">
+<button type="submit" class="w-full py-2 rounded-lg bg-danger-bg text-danger text-xs font-semibold">Eliminar</button>
+</form>
+</div>
+</div>
+
+</div>
+<div class="hidden lg:block p-8">
+
+<div class="flex items-center justify-between mb-5">
+<div class="relative w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input type="text" id="buscadorD" onkeyup="filtrarBuses('buscadorD','bus-row-d')" placeholder="Buscar por placa o modelo…"
+       class="pl-9 pr-4 py-2.5 w-full bg-surface border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition">
+</div>
+<button type="button" onclick="document.getElementById('sheet-bus').classList.remove('hidden');document.getElementById('sheet-bus').classList.add('flex');" class="flex items-center gap-2 bg-secondary hover:bg-secondary-dark text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>Nuevo bus</button>
+</div>
+
+<div th:if="${#lists.isEmpty(buses)}" class="text-center py-16 text-on-surface-variant text-sm bg-surface border border-outline-variant rounded-xl">Aún no has registrado ningún bus.</div>
+
+<div th:unless="${#lists.isEmpty(buses)}" class="bg-surface border border-outline-variant rounded-xl shadow-card overflow-hidden">
+<table class="w-full">
+<thead>
+<tr class="text-left text-[11px] uppercase tracking-wider text-on-surface-variant border-b border-outline-variant bg-background/60">
+<th class="pb-3 pt-3.5 pl-6 font-semibold">Unidad</th>
+<th class="pb-3 pt-3.5 font-semibold">Tipo de servicio</th>
+<th class="pb-3 pt-3.5 font-semibold">Capacidad</th>
+<th class="pb-3 pt-3.5 font-semibold">Estado</th>
+<th class="pb-3 pt-3.5 pr-6 font-semibold text-right">Acciones</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="bus : ${buses}" class="bus-row-d border-b border-outline-variant last:border-0 hover:bg-background/50">
+<td class="py-3.5 pl-6">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-primary/5 flex items-center justify-center"><span class="material-symbols-outlined text-primary text-[18px]">directions_bus</span></div>
+<div><p class="text-sm font-semibold text-primary bus-nombre" th:text="${bus.placa}">PLV-241</p><p class="text-xs text-on-surface-variant bus-nombre" th:text="${bus.modelo}">Modelo</p></div>
+</div>
+</td>
+<td class="py-3.5 text-sm text-primary" th:text="${bus.tipoServicio}">Tipo</td>
+<td class="py-3.5 text-sm text-on-surface-variant" th:text="${bus.capacidad} + ' asientos'">Capacidad</td>
+<td class="py-3.5">
+<span th:switch="${bus.estado}">
+<span th:case="'OPERATIVO'" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-success-bg text-success"><span class="w-1.5 h-1.5 rounded-full bg-current"></span>Operativo</span>
+<span th:case="'MANTENIMIENTO'" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-warning-bg text-warning"><span class="w-1.5 h-1.5 rounded-full bg-current"></span>Mantenimiento</span>
+<span th:case="*" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-zinc-100 text-zinc-600"><span class="w-1.5 h-1.5 rounded-full bg-current"></span>Inactivo</span>
+</span></td>
+<td class="py-3.5 pr-6">
+<div class="flex items-center justify-end gap-1">
+<button type="button" th:onclick="'document.getElementById(\'sheet-edit-bus-' + ${bus.id} + '\').classList.remove(\'hidden\');document.getElementById(\'sheet-edit-bus-' + ${bus.id} + '\').classList.add(\'flex\');'"
+        class="w-8 h-8 rounded-lg hover:bg-background flex items-center justify-center text-on-surface-variant" title="Editar"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<form th:action="@{/admin/buses/{id}/eliminar(id=${bus.id})}" method="post" onsubmit="return confirm('¿Eliminar este bus?');" class="inline">
+<button type="submit" class="w-8 h-8 rounded-lg hover:bg-danger-bg flex items-center justify-center text-danger" title="Eliminar"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+</form>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+</main>
+</div>
+
+<button onclick="document.getElementById('sheet-bus').classList.remove('hidden');document.getElementById('sheet-bus').classList.add('flex');" class="lg:hidden fixed right-5 bottom-24 w-14 h-14 rounded-full bg-secondary text-white shadow-pop flex items-center justify-center z-20">
+<span class="material-symbols-outlined text-[26px]">add</span></button>
+<nav class="lg:hidden sticky bottom-0 left-0 right-0 bg-surface border-t border-outline-variant flex items-stretch px-1 z-30">
+<a th:href="@{/admin/dashboard}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">space_dashboard</span>
+<span class="text-[10px] font-semibold">Panel</span>
+</a>
+<a th:href="@{/admin/buses}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1, 'wght' 500;">directions_bus</span>
+<span class="text-[10px] font-semibold">Buses</span>
+</a>
+<a th:href="@{/admin/rutas}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">alt_route</span>
+<span class="text-[10px] font-semibold">Rutas</span>
+</a>
+<a th:href="@{/admin/viajes}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">event</span>
+<span class="text-[10px] font-semibold">Viajes</span>
+</a>
+<a th:href="@{/admin/mas}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">grid_view</span>
+<span class="text-[10px] font-semibold">Más</span>
+</a></nav>
+
+<div id="sheet-bus" class="fixed inset-0 z-50 hidden bg-primary/40 backdrop-blur-sm items-end lg:items-center justify-center">
+<div class="bg-surface rounded-t-3xl lg:rounded-2xl w-full max-w-[480px] lg:max-w-lg max-h-[85%] overflow-y-auto no-scrollbar lg:shadow-pop">
+<div class="w-10 h-1.5 bg-outline-variant rounded-full mx-auto mt-3 lg:hidden"></div>
+<div class="flex items-start justify-between px-5 lg:px-6 pt-3 lg:pt-6 pb-4 border-b border-outline-variant">
+<div><h3 class="font-bold text-primary text-base">Registrar nuevo bus</h3><p class="text-xs text-on-surface-variant mt-0.5">Completa los datos de la unidad</p></div>
+<button type="button" onclick="document.getElementById('sheet-bus').classList.add('hidden')" class="w-8 h-8 rounded-full hover:bg-background flex items-center justify-center text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">close</span></button>
+</div>
+
+<form th:action="@{/admin/buses/nuevo}" th:object="${busNuevo}" method="post" class="px-5 lg:px-6 py-5 flex flex-col gap-4">
+<label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Placa</span>
+<input type="text" th:field="*{placa}" placeholder="Ej. PLV-241" required class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm"></label>
+<label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Modelo</span>
+<input type="text" th:field="*{modelo}" placeholder="Ej. Mercedes-Benz O500" required class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm"></label>
+<label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Tipo de servicio</span>
+<select th:field="*{tipoServicio}" class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm bg-white">
+<option>Bus Cama 180°</option><option>Semi Cama</option><option>Económico</option></select></label>
+<label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Capacidad de asientos</span>
+<input type="number" th:field="*{capacidad}" placeholder="Ej. 44" required class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm"></label>
+<label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Estado</span>
+<select th:field="*{estado}" class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm bg-white">
+<option value="OPERATIVO">Operativo</option><option value="MANTENIMIENTO">En mantenimiento</option><option value="INACTIVO">Inactivo</option></select></label>
+<button type="submit" class="w-full py-3.5 rounded-xl text-sm font-bold bg-secondary text-white shadow-sm mt-1">Registrar bus</button>
+</form>
+</div>
+</div>
+<div th:each="bus : ${buses}" th:id="'sheet-edit-bus-' + ${bus.id}" class="fixed inset-0 z-50 hidden bg-primary/40 backdrop-blur-sm items-end lg:items-center justify-center">
+<div class="bg-surface rounded-t-3xl lg:rounded-2xl w-full max-w-[480px] lg:max-w-lg max-h-[85%] overflow-y-auto no-scrollbar lg:shadow-pop">
+<div class="w-10 h-1.5 bg-outline-variant rounded-full mx-auto mt-3 lg:hidden"></div>
+<div class="flex items-start justify-between px-5 lg:px-6 pt-3 lg:pt-6 pb-4 border-b border-outline-variant">
+<div><h3 class="font-bold text-primary text-base">Editar bus</h3><p class="text-xs text-on-surface-variant mt-0.5" th:text="${bus.placa}">Placa</p></div>
+<button type="button" th:onclick="'document.getElementById(\'sheet-edit-bus-' + ${bus.id} + '\').classList.add(\'hidden\');'" class="w-8 h-8 rounded-full hover:bg-background flex items-center justify-center text-on-surface-variant"><span class="material-symbols-outlined text-[20px]">close</span></button>
+</div>
+<form th:action="@{/admin/buses/{id}/editar(id=${bus.id})}" method="post" class="px-5 lg:px-6 py-5 flex flex-col gap-4">
+<label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Placa</span>
+<input type="text" name="placa" th:value="${bus.placa}" class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm"></label>
+<label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Modelo</span>
+<input type="text" name="modelo" th:value="${bus.modelo}" class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm"></label>
+<label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Tipo de servicio</span>
+<select name="tipoServicio" class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm bg-white">
+<option th:selected="${bus.tipoServicio == 'Bus Cama 180°'}">Bus Cama 180°</option>
+<option th:selected="${bus.tipoServicio == 'Semi Cama'}">Semi Cama</option>
+<option th:selected="${bus.tipoServicio == 'Económico'}">Económico</option></select></label>
+<label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Capacidad</span>
+<input type="number" name="capacidad" th:value="${bus.capacidad}" class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm"></label>
+<label class="flex flex-col gap-1.5"><span class="text-xs font-semibold text-primary">Estado</span>
+<select name="estado" class="w-full px-3.5 py-2.5 border border-outline-variant rounded-lg text-sm bg-white">
+<option value="OPERATIVO" th:selected="${bus.estado == 'OPERATIVO'}">Operativo</option>
+<option value="MANTENIMIENTO" th:selected="${bus.estado == 'MANTENIMIENTO'}">En mantenimiento</option>
+<option value="INACTIVO" th:selected="${bus.estado == 'INACTIVO'}">Inactivo</option></select></label>
+<button type="submit" class="w-full py-3.5 rounded-xl text-sm font-bold bg-secondary text-white shadow-sm mt-1">Guardar cambios</button>
+</form>
+</div>
+</div>
+<script th:inline="none">
+function filtrarBuses(inputId, cardClass) {
+    const q = document.getElementById(inputId).value.toLowerCase();
+    document.querySelectorAll('.' + cardClass).forEach(card => {
+        const texto = card.textContent.toLowerCase();
+        card.style.display = texto.includes(q) ? '' : 'none';
+    });
+}
+</script>
+    <script th:src="@{/js/notificaciones.js}"></script>
+</body>
+</html>

@@ -1,5 +1,13 @@
 package com.montero.app.service;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.montero.app.dto.PagoYapeDTO;
 import com.montero.app.model.EstadoReserva;
 import com.montero.app.model.MetodoPago;
@@ -7,12 +15,6 @@ import com.montero.app.model.Pago;
 import com.montero.app.model.Reserva;
 import com.montero.app.repository.PagoRepository;
 import com.montero.app.repository.ReservaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 /**
  * Servicio encargado de gestionar los pagos simulados.
@@ -20,44 +22,104 @@ import java.util.Optional;
 @Service
 public class PagoService {
 
-    @Autowired
-    private PagoRepository pagoRepository;
+    private static final Logger logger = LoggerFactory.getLogger(PagoService.class);
 
-    @Autowired
-    private ReservaRepository reservaRepository;
+    private final PagoRepository pagoRepository;
+    private final ReservaRepository reservaRepository;
+    private final NotificacionService notificacionService;
 
-    @Autowired
-    private ReservaService reservaService;
+    public PagoService(PagoRepository pagoRepository, ReservaRepository reservaRepository,
+                        NotificacionService notificacionService) {
+        this.pagoRepository = pagoRepository;
+        this.reservaRepository = reservaRepository;
+        this.notificacionService = notificacionService;
+    }
 
-    /**
-     * Procesa la simulación de pago con Yape.
-     * Cambia el estado de la reserva y guarda la entidad Pago.
-     */
-    @Transactional
-    public Pago procesarPagoYape(Long reservaId, PagoYapeDTO pagoYapeDTO) {
-        Reserva reserva = reservaService.obtenerReservaPorId(reservaId);
-
-        // Validar que la reserva esté en estado PENDIENTE
+    private void validarReservaPendiente(Long reservaId, Reserva reserva) {
         if (!reserva.getEstado().equals(EstadoReserva.PENDIENTE)) {
+            logger.warn("Intento de pago para reserva no en estado PENDIENTE. Reserva ID: {}, Estado actual: {}",
+                    reservaId, reserva.getEstado());
             throw new IllegalStateException("La reserva no se encuentra en estado PENDIENTE o ya fue procesada.");
         }
+    }
 
-        // 1. Crear el registro de pago
-        Pago pago = new Pago();
+    private Pago finalizarPago(Reserva reserva, MetodoPago metodo, Pago pago) {
         pago.setReserva(reserva);
-        pago.setMetodoPago(MetodoPago.YAPE);
-        pago.setNumeroTelefono(pagoYapeDTO.getNumeroTelefono());
-        pago.setCodigoAprobacion(pagoYapeDTO.getCodigoAprobacion());
+        pago.setMetodoPago(metodo);
         pago.setFechaPago(LocalDateTime.now());
 
-        // 2. Guardar el pago
         Pago pagoGuardado = pagoRepository.save(pago);
 
-        // 3. Actualizar el estado de la reserva a PAGADO
         reserva.setEstado(EstadoReserva.PAGADO);
         reservaRepository.save(reserva);
 
+        notificacionService.crearNotificacionConfirmacionReserva(reserva);
+        notificacionService.crearNotificacionNuevaVenta(reserva, metodo);
+
+        logger.info("Pago procesado exitosamente. Reserva ID: {}, Método: {}", reserva.getId(), metodo);
         return pagoGuardado;
+    }
+
+    @Transactional
+    public Pago procesarPagoYape(Long reservaId, PagoYapeDTO pagoYapeDTO) {
+        Reserva reserva = reservaRepository.findById(reservaId)
+                .orElseThrow(() -> new IllegalArgumentException("Reserva no encontrada con ID: " + reservaId));
+        validarReservaPendiente(reservaId, reserva);
+
+        Pago pago = new Pago();
+        pago.setNumeroTelefono(pagoYapeDTO.getNumeroTelefono());
+        pago.setCodigoAprobacion(pagoYapeDTO.getCodigoAprobacion());
+
+        return finalizarPago(reserva, MetodoPago.YAPE, pago);
+    }
+
+    @Transactional
+    public Pago procesarPagoTarjeta(Long reservaId, String numeroTarjeta, String fechaExpiracion, String cvv, String nombreTitular) {
+        Reserva reserva = reservaRepository.findById(reservaId)
+                .orElseThrow(() -> new IllegalArgumentException("Reserva no encontrada con ID: " + reservaId));
+        validarReservaPendiente(reservaId, reserva);
+
+        if (numeroTarjeta == null || numeroTarjeta.replace(" ", "").length() < 13) {
+            throw new IllegalArgumentException("Número de tarjeta inválido.");
+        }
+        if (nombreTitular == null || nombreTitular.isBlank()) {
+            throw new IllegalArgumentException("El nombre del titular es obligatorio.");
+        }
+
+        Pago pago = new Pago();
+        pago.setNombreTitular(nombreTitular);
+        pago.setCodigoAprobacion("TARJ-" + LocalDateTime.now().getSecond());
+
+        return finalizarPago(reserva, MetodoPago.TARJETA, pago);
+    }
+
+    @Transactional
+    public Pago procesarPagoEfectivo(Long reservaId, String correo) {
+        Reserva reserva = reservaRepository.findById(reservaId)
+                .orElseThrow(() -> new IllegalArgumentException("Reserva no encontrada con ID: " + reservaId));
+        validarReservaPendiente(reservaId, reserva);
+
+        if (correo == null || !correo.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+            throw new IllegalArgumentException("Correo electrónico inválido.");
+        }
+
+        Pago pago = new Pago();
+        pago.setCorreo(correo);
+        pago.setCodigoAprobacion("CIP-" + System.currentTimeMillis());
+
+        return finalizarPago(reserva, MetodoPago.PAGO_EFECTIVO, pago);
+    }
+
+    @Transactional
+    public Pago procesarPagoQR(Long reservaId) {
+        Reserva reserva = reservaRepository.findById(reservaId)
+                .orElseThrow(() -> new IllegalArgumentException("Reserva no encontrada con ID: " + reservaId));
+        validarReservaPendiente(reservaId, reserva);
+
+        Pago pago = new Pago();
+        pago.setCodigoAprobacion("QR-" + System.currentTimeMillis());
+
+        return finalizarPago(reserva, MetodoPago.PAGO_QR, pago);
     }
 
     public Optional<Pago> obtenerPagoPorReserva(Long reservaId) {

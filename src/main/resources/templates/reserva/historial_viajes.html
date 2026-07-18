@@ -1,0 +1,193 @@
+<!DOCTYPE html><html class="light" lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Historial de viajes</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#fffbff",
+                        "on-surface-variant": "#45464d",
+                        "surface-container-highest": "#d5e3fd",
+                        "on-primary-container": "#7c839b",
+                        "surface-variant": "#d5e3fd",
+                        "secondary-container": "#e21e49",
+                        "primary": "#000000",
+                        "on-secondary-fixed-variant": "#920028",
+                        "on-tertiary-fixed-variant": "#004395",
+                        "inverse-on-surface": "#ebf1ff",
+                        "on-secondary-fixed": "#40000c",
+                        "outline": "#76777d",
+                        "primary-fixed-dim": "#bec6e0",
+                        "surface-bright": "#f8f9ff",
+                        "surface": "#f8f9ff",
+                        "tertiary-fixed-dim": "#adc6ff",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "error": "#ba1a1a",
+                        "tertiary": "#000000",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#eff4ff",
+                        "on-tertiary-fixed": "#001a42",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "inverse-primary": "#bec6e0",
+                        "surface-tint": "#565e74",
+                        "on-primary-fixed": "#131b2e",
+                        "secondary-fixed": "#ffdada",
+                        "surface-container": "#e6eeff",
+                        "on-tertiary-container": "#3980f4",
+                        "primary-container": "#131b2e",
+                        "tertiary-container": "#001a42",
+                        "surface-dim": "#ccdbf4",
+                        "inverse-surface": "#233144",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#ffb3b6",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed": "#d8e2ff",
+                        "secondary": "#ba0035",
+                        "outline-variant": "#c6c6cd",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#dae2fd",
+                        "on-background": "#0d1c2f",
+                        "on-surface": "#0d1c2f",
+                        "surface-container-high": "#dde9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "stack-md": "16px",
+                        "margin-page": "20px",
+                        "gutter": "16px",
+                        "stack-lg": "24px",
+                        "section-gap": "40px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .status-strip-completed { border-left: 4px solid #ba0035; }
+        .status-strip-cancelled { border-left: 4px solid #76777d; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- TopAppBar -->
+<header class="bg-primary-container text-white shadow-md border-b border-secondary/30 docked full-width top-0 flex justify-between items-center w-full px-margin-page h-16 sticky z-40 rounded-b-2xl">
+<a th:href="@{/viajes}" aria-label="Back" class="text-white hover:bg-white/10 transition-colors flex items-center justify-center p-2 rounded-full">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<h1 class="font-headline-lg text-headline-lg font-bold tracking-tight text-white"></h1>
+<a th:href="@{/perfil(origen='/reservas/historial')}"
+   aria-label="Profile"
+   class="text-white hover:bg-white/10 transition-colors flex items-center justify-center p-2 rounded-full">
+<img th:src="${session.usuarioLogueado != null && session.usuarioLogueado.fotoPerfil != null ? session.usuarioLogueado.fotoPerfil : 'https://lh3.googleusercontent.com/aida-public/AB6AXuAqCRchW_OGWiKv82gJ8j7hhip7Tz1eXwAq5ygCPqbryYNIYzvCSgl3VaUq76r7ELczeibqdm9yHFwAlBaQnI-q_G-J1E6CIul5UaOrNYJ-gASfCqWn_AaEoyj-20h6_hHzplKxGr5roo4wKHkj0xMwJhH9kBPGI9l23L0wGq2SEanlVV5ZNEHATuGufLtbrfyI1JGpXBbDjubjYOugtSaawxU3_YIFfcD-O6dvrGvEyfxR9WInqpN1AwKQrr86M-806goYLdWwPkDk'}" alt="User Profile" class="w-10 h-10 rounded-full object-cover border border-white/30 hover:scale-105 transition-transform">
+</a>
+</header>
+<!-- Main Content -->
+<main class="flex-grow px-margin-page py-stack-lg pb-32">
+<!-- Header & Search Section -->
+<section class="mb-section-gap">
+<h2 class="font-headline-xl text-headline-xl mb-stack-md text-primary">Historial de viajes</h2>
+<form th:action="@{/reservas/historial}" method="get" class="flex flex-col md:flex-row gap-gutter">
+<div class="relative flex-grow">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-outline">search</span>
+<input name="busqueda" th:value="${busqueda}" class="w-full pl-10 pr-4 py-3 bg-[#F1F5F9] border border-outline-variant rounded-lg font-body-md text-on-surface focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors" placeholder="Buscar destinos, fechas..." type="text">
+<input type="hidden" name="filtro" th:value="${filtro}" />
+<input type="hidden" name="orden" th:value="${orden}" />
+</div>
+<div class="flex gap-unit">
+<button type="submit" class="px-4 py-3 bg-surface-container border border-outline-variant rounded-lg font-label-md text-on-surface-variant flex items-center gap-2 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+                        Buscar
+                    </button>
+<a th:href="@{/reservas/historial(busqueda=${busqueda}, filtro=${filtro}, orden=${orden == 'fecha_desc' ? 'fecha_asc' : 'fecha_desc'})}" class="px-4 py-3 bg-surface-container border border-outline-variant rounded-lg font-label-md text-on-surface-variant flex items-center gap-2 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined" data-icon="sort">sort</span>
+                        <span th:text="${orden == 'fecha_desc' ? 'Más antiguas' : 'Más recientes'}">Ordenar</span>
+                    </a>
+</div>
+</form>
+<!-- Quick Filters (Chips) -->
+<div class="flex overflow-x-auto gap-unit mt-stack-md pb-2 no-scrollbar">
+<a th:href="@{/reservas/historial(busqueda=${busqueda}, filtro='todos', orden=${orden})}" th:classappend="${filtro == null || #strings.equalsIgnoreCase(filtro, 'todos') ? 'bg-secondary text-on-secondary shadow-sm' : 'bg-surface-highest text-primary border border-outline-variant'}" class="whitespace-nowrap px-4 py-1.5 rounded-full font-label-md hover:bg-surface-variant transition-colors">Todos los viajes</a>
+<a th:href="@{/reservas/historial(busqueda=${busqueda}, filtro='completados', orden=${orden})}" th:classappend="${#strings.equalsIgnoreCase(filtro, 'completados') ? 'bg-secondary text-on-secondary shadow-sm' : 'bg-surface-highest text-primary border border-outline-variant'}" class="whitespace-nowrap px-4 py-1.5 rounded-full font-label-md hover:bg-surface-variant transition-colors">Completados</a>
+<a th:href="@{/reservas/historial(busqueda=${busqueda}, filtro='cancelados', orden=${orden})}" th:classappend="${#strings.equalsIgnoreCase(filtro, 'cancelados') ? 'bg-secondary text-on-secondary shadow-sm' : 'bg-surface-highest text-primary border border-outline-variant'}" class="whitespace-nowrap px-4 py-1.5 rounded-full font-label-md hover:bg-surface-variant transition-colors">Cancelados</a>
+</div>
+</section>
+<!-- Trip Cards List -->
+<section id="lista-viajes" class="flex flex-col gap-stack-lg">
+<div th:if="${#lists.isEmpty(reservas)}" class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-outline-variant/30 p-stack-lg text-center text-on-surface-variant">
+No tienes viajes registrados con esos criterios.
+</div>
+<div th:unless="${#lists.isEmpty(reservas)}" th:replace="~{reserva/fragments/historial_tarjetas :: tarjetas}"></div>
+</section>
+<!-- Image inclusion as requested -->
+<div class="mt-section-gap hidden">
+<img alt="Decorative" src="https://lh3.googleusercontent.com/aida/ADBb0ugwaPTbX6VfnFXroQvcxZdFtSmkfXybHZM9FdwigrJugQrk-BxBXe8f3A71T_vE6afQtXmnDq0Jg38j9joohGVg_i6Bdts1seH1zdlnXGedjlVpWTmzaqjuArYJbo9Q6DjaiZkL-XY456Aj2aQGyb04eBFX88A_dnJQBCzd0l0Zjvh0m5WBSxmHGFUk5v3xmB0sOT12vj66X5Vo4xDe14RWJR3QprZLDGDu42cOh15xsUVjEZ3g_SwTgiFJ8lUf-VNra_UKhWFSjk4" class="">
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav th:replace="~{fragments/navegacion :: bottom-nav('viajes')}"></nav>
+
+<script>
+function cargarMasViajes(boton) {
+    var page = boton.getAttribute('data-next-page');
+    var busqueda = boton.getAttribute('data-busqueda') || '';
+    var filtro = boton.getAttribute('data-filtro') || 'todos';
+    var orden = boton.getAttribute('data-orden') || 'fecha_desc';
+
+    boton.disabled = true;
+    boton.innerHTML = '<span class="material-symbols-outlined animate-spin text-lg">progress_activity</span> Cargando...';
+
+    var url = '/reservas/historial/tarjetas?page=' + page
+            + '&busqueda=' + encodeURIComponent(busqueda)
+            + '&filtro=' + encodeURIComponent(filtro)
+            + '&orden=' + encodeURIComponent(orden);
+
+    fetch(url)
+        .then(function(r) { return r.text(); })
+        .then(function(html) {
+            var btnContainer = document.getElementById('cargar-mas-container');
+            var lista = document.getElementById('lista-viajes');
+            if (btnContainer) btnContainer.remove();
+            lista.insertAdjacentHTML('beforeend', html);
+        })
+        .catch(function() {
+            boton.disabled = false;
+            boton.innerHTML = '<span class="material-symbols-outlined text-lg">expand_more</span> Cargar más viajes';
+            alert('Error al cargar más viajes. Intenta nuevamente.');
+        });
+}
+</script>
+</body></html>

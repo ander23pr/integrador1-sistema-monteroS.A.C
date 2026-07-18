@@ -17,5 +17,6 @@
   "java.jdt.ls.javac.enabled": "off",
   "maven.executable.path": "C:\\Users\\sanan\\.vscode\\extensions\\oracle.oracle-java-25.1.0\\nbcode\\java\\maven\\bin\\mvn.cmd",
   "maven.executable.preferMavenWrapper": true,
-  "maven.terminal.useJavaHome": true
+  "maven.terminal.useJavaHome": true,
+  "java.debug.settings.onBuildFailureProceed": true
 }

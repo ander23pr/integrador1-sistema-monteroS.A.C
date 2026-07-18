@@ -1,15 +1,16 @@
 package com.montero.app.service;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.montero.app.model.Reserva;
 import com.montero.app.model.Viaje;
 import com.montero.app.repository.ReservaRepository;
 import com.montero.app.repository.ViajeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Servicio encargado de la lógica de negocio de Viajes.
@@ -28,14 +29,22 @@ public class ViajeService {
      * Busca viajes disponibles según origen, destino y fecha.
      */
     public List<Viaje> buscarViajes(String origen, String destino, LocalDate fechaSalida) {
-        return viajeRepository.findByOrigenAndDestinoAndFechaSalida(origen, destino, fechaSalida);
+        return viajeRepository.findDisponibles(origen, destino, fechaSalida);
+    }
+
+    /**
+     * Busca viajes de retorno invirtiendo origen y destino (ej: si el usuario
+     * busca Piura→Lima para ida, el retorno será Lima→Piura).
+     */
+    public List<Viaje> buscarViajeRetorno(String destinoIda, String origenIda, LocalDate fechaRetorno) {
+        return viajeRepository.findDisponibles(destinoIda, origenIda, fechaRetorno);
     }
 
     /**
      * Obtiene todos los viajes disponibles (útil para el listado inicial).
      */
     public List<Viaje> obtenerTodos() {
-        return viajeRepository.findAll();
+        return viajeRepository.findAllDisponibles();
     }
 
     /**

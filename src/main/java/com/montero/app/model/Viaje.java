@@ -35,6 +35,9 @@ public class Viaje {
     @Column(nullable = false)
     private Integer asientosTotales;
 
+    @Column(nullable = false, length = 20)
+    private String estado = "PROGRAMADO";
+
     public Viaje() {
     }
 
@@ -103,5 +106,13 @@ public class Viaje {
 
     public void setAsientosTotales(Integer asientosTotales) {
         this.asientosTotales = asientosTotales;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

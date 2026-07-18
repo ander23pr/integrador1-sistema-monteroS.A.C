@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="empty"></div>
+
+<th:block th:fragment="tarjetas">
+<article th:each="reserva : ${reservas}"
+         class="bg-surface-container-lowest rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-outline-variant/30 flex flex-col gap-4 transition-shadow hover:shadow-lg">
+
+    <div class="flex items-center text-sm text-on-surface-variant font-medium pb-3 border-b border-outline-variant/20">
+        <span class="material-symbols-outlined text-lg mr-2 text-primary">calendar_month</span>
+        <span th:text="${#temporals.format(reserva.viaje.fechaSalida, 'MMM dd, yyyy') + ' • ' + #temporals.format(reserva.viaje.horaSalida, 'hh:mm a')}">Oct 12, 2023 • 08:30 AM</span>
+    </div>
+
+    <div class="grid grid-cols-[auto_1fr_auto] items-center gap-4">
+
+        <div class="flex flex-col items-center gap-1">
+            <div class="bg-surface-container-high px-3 py-1 rounded-lg font-bold text-xs text-primary">BUS</div>
+            <span th:if="${reserva.viajeRetorno != null}" class="text-[10px] text-secondary font-bold whitespace-nowrap">IDA Y VUELTA</span>
+        </div>
+
+        <div class="flex flex-col gap-1">
+            <div class="flex items-center gap-2 text-sm">
+                <span class="w-2 h-2 rounded-full bg-outline"></span>
+                <span class="font-medium text-on-surface" th:text="${reserva.viaje.origen}">Piura</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm">
+                <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                <span class="font-bold text-on-surface" th:text="${reserva.viaje.destino}">Sullana</span>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-end gap-1">
+            <span th:if="${reserva.estado.name() == 'PAGADO'}" class="text-[10px] font-bold tracking-wider text-secondary bg-secondary/10 px-2 py-0.5 rounded-full uppercase">COMPLETADO</span>
+            <span th:if="${reserva.estado.name() == 'CANCELADO'}" class="text-[10px] font-bold tracking-wider text-outline bg-outline/10 px-2 py-0.5 rounded-full uppercase">CANCELADO</span>
+            <span class="text-lg font-bold text-on-surface">S/. <span th:text="${#numbers.formatDecimal(reserva.precioTotal, 1, 2)}">6.00</span></span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 pt-2">
+        <a th:if="${reserva.estado.name() != 'CANCELADO'}" th:href="@{/reservas/{id}/confirmacion(id=${reserva.id})}" class="text-sm font-semibold py-2.5 rounded-xl border border-outline-variant text-on-surface hover:bg-surface-variant transition-colors text-center">Ver Factura</a>
+        <button th:unless="${reserva.estado.name() != 'CANCELADO'}" class="text-sm font-semibold py-2.5 rounded-xl border border-outline-variant text-outline bg-surface-container-low cursor-not-allowed text-center" disabled>Ver Factura</button>
+
+        <a th:href="@{/viajes(origen=${reserva.viaje.origen}, destino=${reserva.viaje.destino})}" class="text-sm font-semibold py-2.5 rounded-xl bg-secondary text-on-secondary hover:opacity-90 transition-opacity text-center">Repetir Viaje</a>
+    </div>
+</article>
+
+<div th:fragment="mas-boton" th:if="${hasMore}" id="cargar-mas-container" class="flex justify-center pt-2 pb-4">
+    <button id="btn-cargar-mas"
+            type="button"
+            th:data-next-page="${page + 1}"
+            th:data-busqueda="${busqueda}"
+            th:data-filtro="${filtro}"
+            th:data-orden="${orden}"
+            onclick="cargarMasViajes(this)"
+            class="bg-surface-container-high text-on-surface font-body-md text-body-md font-medium py-3 px-8 rounded-full border border-outline-variant/50 hover:bg-surface-container transition-colors flex items-center gap-2 shadow-sm">
+        <span class="material-symbols-outlined text-lg">expand_more</span>
+        Cargar más viajes
+    </button>
+</div>
+</th:block>
+</body>
+</html>
