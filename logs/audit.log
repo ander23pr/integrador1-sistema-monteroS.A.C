@@ -1,0 +1,103 @@
+2026-07-18 00:03:28 [http-nio-8080-exec-3] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 101, DNI Pasajero: 12345672, Asientos: 5
+2026-07-18 00:03:41 [http-nio-8080-exec-1] INFO  c.m.app.service.NotificacionService - Notificación admin de cancelación creada para reserva 101
+2026-07-18 00:03:41 [http-nio-8080-exec-1] INFO  c.montero.app.service.ReservaService - Reserva cancelada exitosamente. Reserva ID: 101
+2026-07-18 00:05:17 [http-nio-8080-exec-3] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 102, DNI Pasajero: 12345672, Asientos: 6
+2026-07-18 00:05:28 [http-nio-8080-exec-8] INFO  c.m.app.service.NotificacionService - Notificación admin de cancelación creada para reserva 102
+2026-07-18 00:05:28 [http-nio-8080-exec-8] INFO  c.montero.app.service.ReservaService - Reserva cancelada exitosamente. Reserva ID: 102
+2026-07-18 00:12:30 [main] INFO  c.m.app.service.NotificacionService - Notificación de confirmación creada para la reserva 99
+2026-07-18 00:12:30 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: PAGO_EFECTIVO
+2026-07-18 00:12:30 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: TARJETA
+2026-07-18 00:12:30 [main] WARN  com.montero.app.service.PagoService - Intento de pago para reserva no en estado PENDIENTE. Reserva ID: 1, Estado actual: PAGADO
+2026-07-18 00:12:30 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: PAGO_QR
+2026-07-18 00:12:30 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: YAPE
+2026-07-18 00:12:30 [main] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 1, DNI Pasajero: 12345678, Asientos: 1,2
+2026-07-18 00:12:30 [main] WARN  c.montero.app.service.ReservaService - Intento de reserva con asientos ocupados. Viaje ID: 1, Asientos: [1, 2]
+2026-07-18 00:12:30 [main] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: existente@example.com
+2026-07-18 00:12:30 [main] WARN  c.montero.app.service.UsuarioService - Intento de login fallido (contraseña incorrecta) para: existente@example.com
+2026-07-18 00:12:30 [main] WARN  c.montero.app.service.UsuarioService - Intento de registro con email ya existente: existente@example.com
+2026-07-18 00:12:30 [main] INFO  c.montero.app.service.UsuarioService - Nuevo usuario registrado exitosamente: nuevo@example.com
+2026-07-18 00:13:18 [main] INFO  c.m.app.service.NotificacionService - Notificación de confirmación creada para la reserva 99
+2026-07-18 00:13:18 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: PAGO_EFECTIVO
+2026-07-18 00:13:18 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: TARJETA
+2026-07-18 00:13:18 [main] WARN  com.montero.app.service.PagoService - Intento de pago para reserva no en estado PENDIENTE. Reserva ID: 1, Estado actual: PAGADO
+2026-07-18 00:13:18 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: PAGO_QR
+2026-07-18 00:13:18 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: YAPE
+2026-07-18 00:13:18 [main] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 1, DNI Pasajero: 12345678, Asientos: 1,2
+2026-07-18 00:13:18 [main] WARN  c.montero.app.service.ReservaService - Intento de reserva con asientos ocupados. Viaje ID: 1, Asientos: [1, 2]
+2026-07-18 00:13:18 [main] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: existente@example.com
+2026-07-18 00:13:18 [main] WARN  c.montero.app.service.UsuarioService - Intento de login fallido (contraseña incorrecta) para: existente@example.com
+2026-07-18 00:13:18 [main] WARN  c.montero.app.service.UsuarioService - Intento de registro con email ya existente: existente@example.com
+2026-07-18 00:13:18 [main] INFO  c.montero.app.service.UsuarioService - Nuevo usuario registrado exitosamente: nuevo@example.com
+2026-07-18 00:13:38 [main] INFO  c.m.app.service.NotificacionService - Notificación de confirmación creada para la reserva 99
+2026-07-18 00:13:38 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: PAGO_EFECTIVO
+2026-07-18 00:13:38 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: TARJETA
+2026-07-18 00:13:38 [main] WARN  com.montero.app.service.PagoService - Intento de pago para reserva no en estado PENDIENTE. Reserva ID: 1, Estado actual: PAGADO
+2026-07-18 00:13:38 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: PAGO_QR
+2026-07-18 00:13:38 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: YAPE
+2026-07-18 00:13:39 [main] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 1, DNI Pasajero: 12345678, Asientos: 1,2
+2026-07-18 00:13:39 [main] WARN  c.montero.app.service.ReservaService - Intento de reserva con asientos ocupados. Viaje ID: 1, Asientos: [1, 2]
+2026-07-18 00:13:39 [main] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: existente@example.com
+2026-07-18 00:13:39 [main] WARN  c.montero.app.service.UsuarioService - Intento de login fallido (contraseña incorrecta) para: existente@example.com
+2026-07-18 00:13:39 [main] WARN  c.montero.app.service.UsuarioService - Intento de registro con email ya existente: existente@example.com
+2026-07-18 00:13:39 [main] INFO  c.montero.app.service.UsuarioService - Nuevo usuario registrado exitosamente: nuevo@example.com
+2026-07-18 00:13:57 [main] INFO  c.m.app.service.NotificacionService - Notificación de confirmación creada para la reserva 99
+2026-07-18 00:13:58 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: PAGO_EFECTIVO
+2026-07-18 00:13:58 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: TARJETA
+2026-07-18 00:13:58 [main] WARN  com.montero.app.service.PagoService - Intento de pago para reserva no en estado PENDIENTE. Reserva ID: 1, Estado actual: PAGADO
+2026-07-18 00:13:58 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: PAGO_QR
+2026-07-18 00:13:58 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: YAPE
+2026-07-18 00:13:58 [main] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 1, DNI Pasajero: 12345678, Asientos: 1,2
+2026-07-18 00:13:58 [main] WARN  c.montero.app.service.ReservaService - Intento de reserva con asientos ocupados. Viaje ID: 1, Asientos: [1, 2]
+2026-07-18 00:13:58 [main] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: existente@example.com
+2026-07-18 00:13:58 [main] WARN  c.montero.app.service.UsuarioService - Intento de login fallido (contraseña incorrecta) para: existente@example.com
+2026-07-18 00:13:58 [main] WARN  c.montero.app.service.UsuarioService - Intento de registro con email ya existente: existente@example.com
+2026-07-18 00:13:58 [main] INFO  c.montero.app.service.UsuarioService - Nuevo usuario registrado exitosamente: nuevo@example.com
+2026-07-18 00:14:16 [main] INFO  c.m.app.service.NotificacionService - Notificación de confirmación creada para la reserva 99
+2026-07-18 00:14:17 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: PAGO_EFECTIVO
+2026-07-18 00:14:17 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: TARJETA
+2026-07-18 00:14:17 [main] WARN  com.montero.app.service.PagoService - Intento de pago para reserva no en estado PENDIENTE. Reserva ID: 1, Estado actual: PAGADO
+2026-07-18 00:14:17 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: PAGO_QR
+2026-07-18 00:14:17 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: YAPE
+2026-07-18 00:14:17 [main] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 1, DNI Pasajero: 12345678, Asientos: 1,2
+2026-07-18 00:14:17 [main] WARN  c.montero.app.service.ReservaService - Intento de reserva con asientos ocupados. Viaje ID: 1, Asientos: [1, 2]
+2026-07-18 00:14:17 [main] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: existente@example.com
+2026-07-18 00:14:17 [main] WARN  c.montero.app.service.UsuarioService - Intento de login fallido (contraseña incorrecta) para: existente@example.com
+2026-07-18 00:14:17 [main] WARN  c.montero.app.service.UsuarioService - Intento de registro con email ya existente: existente@example.com
+2026-07-18 00:14:17 [main] INFO  c.montero.app.service.UsuarioService - Nuevo usuario registrado exitosamente: nuevo@example.com
+2026-07-18 00:14:36 [main] INFO  c.m.app.service.NotificacionService - Notificación de confirmación creada para la reserva 99
+2026-07-18 00:14:36 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: PAGO_EFECTIVO
+2026-07-18 00:14:36 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: TARJETA
+2026-07-18 00:14:36 [main] WARN  com.montero.app.service.PagoService - Intento de pago para reserva no en estado PENDIENTE. Reserva ID: 1, Estado actual: PAGADO
+2026-07-18 00:14:36 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: PAGO_QR
+2026-07-18 00:14:36 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: YAPE
+2026-07-18 00:14:36 [main] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 1, DNI Pasajero: 12345678, Asientos: 1,2
+2026-07-18 00:14:36 [main] WARN  c.montero.app.service.ReservaService - Intento de reserva con asientos ocupados. Viaje ID: 1, Asientos: [1, 2]
+2026-07-18 00:14:37 [main] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: existente@example.com
+2026-07-18 00:14:37 [main] WARN  c.montero.app.service.UsuarioService - Intento de login fallido (contraseña incorrecta) para: existente@example.com
+2026-07-18 00:14:37 [main] WARN  c.montero.app.service.UsuarioService - Intento de registro con email ya existente: existente@example.com
+2026-07-18 00:14:37 [main] INFO  c.montero.app.service.UsuarioService - Nuevo usuario registrado exitosamente: nuevo@example.com
+2026-07-18 00:14:56 [main] INFO  c.m.app.service.NotificacionService - Notificación de confirmación creada para la reserva 99
+2026-07-18 00:14:56 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: PAGO_EFECTIVO
+2026-07-18 00:14:56 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: TARJETA
+2026-07-18 00:14:56 [main] WARN  com.montero.app.service.PagoService - Intento de pago para reserva no en estado PENDIENTE. Reserva ID: 1, Estado actual: PAGADO
+2026-07-18 00:14:56 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: PAGO_QR
+2026-07-18 00:14:56 [main] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 1, Método: YAPE
+2026-07-18 00:14:56 [main] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 1, DNI Pasajero: 12345678, Asientos: 1,2
+2026-07-18 00:14:56 [main] WARN  c.montero.app.service.ReservaService - Intento de reserva con asientos ocupados. Viaje ID: 1, Asientos: [1, 2]
+2026-07-18 00:14:56 [main] INFO  c.montero.app.service.UsuarioService - Autenticación exitosa para usuario: existente@example.com
+2026-07-18 00:14:56 [main] WARN  c.montero.app.service.UsuarioService - Intento de login fallido (contraseña incorrecta) para: existente@example.com
+2026-07-18 00:14:56 [main] WARN  c.montero.app.service.UsuarioService - Intento de registro con email ya existente: existente@example.com
+2026-07-18 00:14:56 [main] INFO  c.montero.app.service.UsuarioService - Nuevo usuario registrado exitosamente: nuevo@example.com
+2026-07-18 00:18:28 [http-nio-8080-exec-9] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 103, DNI Pasajero: 12345672, Asientos: 1
+2026-07-18 00:18:31 [http-nio-8080-exec-4] INFO  c.m.app.service.NotificacionService - Notificación admin de cancelación creada para reserva 103
+2026-07-18 00:18:31 [http-nio-8080-exec-4] INFO  c.montero.app.service.ReservaService - Reserva cancelada exitosamente. Reserva ID: 103
+2026-07-18 00:25:13 [http-nio-8080-exec-5] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 104, DNI Pasajero: 12345672, Asientos: 1
+2026-07-18 00:25:20 [http-nio-8080-exec-2] INFO  c.m.app.service.NotificacionService - Notificación de confirmación creada para la reserva 104
+2026-07-18 00:25:20 [http-nio-8080-exec-2] INFO  c.m.app.service.NotificacionService - Notificación admin de nueva venta creada para reserva 104
+2026-07-18 00:25:20 [http-nio-8080-exec-2] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 104, Método: YAPE
+2026-07-18 00:32:38 [http-nio-8080-exec-8] INFO  c.montero.app.service.ReservaService - Reserva creada exitosamente. Reserva ID: 105, DNI Pasajero: 73784111, Asientos: 2
+2026-07-18 00:32:52 [http-nio-8080-exec-4] INFO  c.m.app.service.NotificacionService - Notificación de confirmación creada para la reserva 105
+2026-07-18 00:32:52 [http-nio-8080-exec-4] INFO  c.m.app.service.NotificacionService - Notificación admin de nueva venta creada para reserva 105
+2026-07-18 00:32:52 [http-nio-8080-exec-4] INFO  com.montero.app.service.PagoService - Pago procesado exitosamente. Reserva ID: 105, Método: YAPE
+2026-07-18 00:33:25 [http-nio-8080-exec-1] INFO  c.m.app.service.NotificacionService - Notificación eliminada. ID: 31
+2026-07-18 00:34:49 [http-nio-8080-exec-1] INFO  c.montero.app.service.SesionService - Sesiones cerradas para usuario 10 excepto la actual
