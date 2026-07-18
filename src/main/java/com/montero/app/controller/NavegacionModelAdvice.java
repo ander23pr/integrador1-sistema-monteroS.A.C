@@ -27,6 +27,10 @@ public class NavegacionModelAdvice {
     @ModelAttribute("notificacionesNoLeidas")
     public long notificacionesNoLeidas(HttpSession session) {
         Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogueado");
-        return usuarioSesion != null ? notificacionService.contarNoLeidas(usuarioSesion.getId()) : 0L;
+        if (usuarioSesion == null) return 0L;
+        if ("ADMIN".equals(usuarioSesion.getRol())) {
+            return notificacionService.contarNoLeidasAdmin();
+        }
+        return notificacionService.contarNoLeidas(usuarioSesion.getId());
     }
 }

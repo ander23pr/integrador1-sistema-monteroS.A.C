@@ -29,7 +29,7 @@ public class ViajeService {
      * Busca viajes disponibles según origen, destino y fecha.
      */
     public List<Viaje> buscarViajes(String origen, String destino, LocalDate fechaSalida) {
-        return viajeRepository.findByOrigenAndDestinoAndFechaSalida(origen, destino, fechaSalida);
+        return viajeRepository.findDisponibles(origen, destino, fechaSalida);
     }
 
     /**
@@ -37,14 +37,14 @@ public class ViajeService {
      * busca Piura→Lima para ida, el retorno será Lima→Piura).
      */
     public List<Viaje> buscarViajeRetorno(String destinoIda, String origenIda, LocalDate fechaRetorno) {
-        return viajeRepository.findByOrigenAndDestinoAndFechaSalida(destinoIda, origenIda, fechaRetorno);
+        return viajeRepository.findDisponibles(destinoIda, origenIda, fechaRetorno);
     }
 
     /**
      * Obtiene todos los viajes disponibles (útil para el listado inicial).
      */
     public List<Viaje> obtenerTodos() {
-        return viajeRepository.findAll();
+        return viajeRepository.findAllDisponibles();
     }
 
     /**

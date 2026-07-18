@@ -85,7 +85,10 @@ public class NotificacionController {
     @ResponseBody
     public Map<String, Long> contarNoLeidas(HttpSession session) {
         Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogueado");
-        long count = usuarioSesion != null ? notificacionService.contarNoLeidas(usuarioSesion.getId()) : 0L;
-        return Map.of("count", count);
+        if (usuarioSesion == null) return Map.of("count", 0L);
+        if ("ADMIN".equals(usuarioSesion.getRol())) {
+            return Map.of("count", notificacionService.contarNoLeidasAdmin());
+        }
+        return Map.of("count", notificacionService.contarNoLeidas(usuarioSesion.getId()));
     }
 }

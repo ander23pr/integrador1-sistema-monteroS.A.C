@@ -15,4 +15,8 @@ public interface NotificacionRepository extends JpaRepository<Notificacion, Long
     long countByUsuarioIdAndLeidaFalse(Long usuarioId);
 
     boolean existsByReservaIdAndTipo(Long reservaId, Notificacion.TipoNotificacion tipo);
+
+    List<Notificacion> findByDestinatarioRolOrderByFechaCreacionDesc(String rol);
+
+    long countByDestinatarioRolAndLeidaFalse(String rol);
 }

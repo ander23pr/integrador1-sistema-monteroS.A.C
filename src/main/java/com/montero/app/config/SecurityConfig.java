@@ -1,5 +1,7 @@
 package com.montero.app.config;
 
+import com.montero.app.model.Usuario;
+import com.montero.app.repository.UsuarioRepository;
 import com.montero.app.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,6 +39,9 @@ public class SecurityConfig {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     /**
      * Configura el proveedor de autenticación DAO
@@ -66,16 +72,19 @@ public class SecurityConfig {
             @Override
             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                                 Authentication authentication) throws IOException, ServletException {
-                // Verificar el rol del usuario autenticado
+                String email = authentication.getName();
+                Usuario usuario = usuarioRepository.findByEmail(email).orElse(null);
+                if (usuario != null) {
+                    request.getSession().setAttribute("usuarioLogueado", usuario);
+                }
+
                 boolean isAdmin = authentication.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
                         .anyMatch(auth -> auth.equals("ROLE_ADMIN"));
 
                 if (isAdmin) {
-                    // Si es ADMIN, redirigir al dashboard
                     response.sendRedirect("/admin/dashboard");
                 } else {
-                    // Si es USER, redirigir a viajes
                     response.sendRedirect("/viajes");
                 }
             }
@@ -91,7 +100,7 @@ public class SecurityConfig {
         http
             .csrf().disable() // Desabilita CSRF (considera habilitarlo en producción)
             .authorizeRequests()
-                .requestMatchers("/login", "/registro", "/css/**", "/js/**", "/images/**", "/", "/favicon.ico").permitAll()
+                .requestMatchers("/login", "/registro", "/css/**", "/js/**", "/images/**", "/ticket/**", "/", "/favicon.ico").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/viajes/**", "/reservas/**", "/perfil/**").hasRole("USER")
                 .anyRequest().authenticated()
@@ -104,7 +113,7 @@ public class SecurityConfig {
                 .permitAll()
             .and()
                 .logout()
-                .logoutUrl("/logout")
+                .logoutRequestMatcher(new AntPathRequestMatcher("/admin/logout"))
                 .logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")

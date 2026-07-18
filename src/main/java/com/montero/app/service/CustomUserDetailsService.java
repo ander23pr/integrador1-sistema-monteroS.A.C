@@ -3,6 +3,7 @@ package com.montero.app.service;
 import com.montero.app.model.Usuario;
 import com.montero.app.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -36,6 +37,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         Usuario usuario = usuarioOpt.get();
         
+        // Validar si la cuenta está bloqueada
+        if (Boolean.FALSE.equals(usuario.getActivo())) {
+            throw new DisabledException("Cuenta bloqueada. Contacte al administrador para más información.");
+        }
+
         // Obtener el rol del usuario (por defecto "USER" si es nulo)
         String rol = usuario.getRol() != null ? usuario.getRol() : "USER";
         

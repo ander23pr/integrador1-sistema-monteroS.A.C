@@ -24,6 +24,9 @@ public class UsuarioService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private NotificacionService notificacionService;
+
 
     public boolean registrarUsuario(RegistroRequestDTO dto) {
         if (usuarioRepository.findByEmail(dto.getEmail()).isPresent()) {
@@ -38,6 +41,7 @@ public class UsuarioService {
         nuevoUsuario.setRol("USER");
 
         usuarioRepository.save(nuevoUsuario);
+        notificacionService.crearNotificacionNuevoUsuario(dto.getEmail());
         logger.info("Nuevo usuario registrado exitosamente: {}", dto.getEmail());
         return true;
     }

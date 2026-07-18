@@ -67,10 +67,10 @@
 <p class="text-xs text-on-surface-variant mt-1">Gestiona los trayectos y tarifas del servicio</p>
 </div>
 <div class="flex items-center gap-4">
-<button class="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-background transition-colors">
+<a th:href="@{/admin/notificaciones}" data-notificaciones-nav="true" class="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-background transition-colors">
 <span class="material-symbols-outlined text-primary">notifications</span>
-<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-secondary rounded-full ring-2 ring-surface"></span>
-</button>
+<span id="notificaciones-badge-desktop" th:if="${notificacionesNoLeidas != null and notificacionesNoLeidas > 0}" th:text="${notificacionesNoLeidas > 99 ? '99+' : notificacionesNoLeidas}" class="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] bg-secondary text-on-secondary text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-surface leading-none px-1">3</span>
+</a>
 <div class="flex items-center gap-2.5 pl-4 border-l border-outline-variant">
 <img src="https://i.pravatar.cc/64?img=12" class="w-9 h-9 rounded-full object-cover" alt="Admin">
 <div class="leading-tight">
@@ -87,8 +87,9 @@
 <div><h1 class="text-[22px] font-extrabold text-secondary tracking-tight leading-none">Rutas</h1>
 <p class="text-xs text-on-surface-variant mt-0.5">Gestiona los trayectos y tarifas del servicio</p></div>
 </div>
-<a th:href="@{/admin/mas}" class="w-9 h-9 rounded-full bg-background flex items-center justify-center text-primary relative shrink-0">
+<a th:href="@{/admin/notificaciones}" data-notificaciones-nav="true" class="w-9 h-9 rounded-full bg-background flex items-center justify-center text-primary relative shrink-0">
 <span class="material-symbols-outlined text-[20px]">notifications</span>
+<span id="notificaciones-badge" th:if="${notificacionesNoLeidas != null and notificacionesNoLeidas > 0}" th:text="${notificacionesNoLeidas > 99 ? '99+' : notificacionesNoLeidas}" class="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-secondary text-on-secondary text-[10px] font-bold rounded-full flex items-center justify-center leading-none px-1">3</span>
 </a>
 </header>
 <main class="flex-1">
@@ -268,5 +269,6 @@ function filtrarRutas(inputId, cardClass) {
     });
 }
 </script>
+    <script th:src="@{/js/notificaciones.js}"></script>
 </body>
 </html>

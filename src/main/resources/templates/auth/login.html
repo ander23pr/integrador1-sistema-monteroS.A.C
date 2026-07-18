@@ -101,20 +101,10 @@
         <div th:if="${mensajeExito}" class="bg-green-100 text-green-700 p-3 rounded-lg text-center font-bold mb-4"
             th:text="${mensajeExito}"></div>
 
-        <!-- Pestañas de Login Usuario / Administrador -->
-        <div class="flex gap-stack-md border-b border-outline-variant mb-stack-lg">
-            <button type="button" id="usuarioTab"
-                class="tab-button active py-3 px-4 font-semibold text-sm md:text-base cursor-pointer"
-                onclick="cambiarPestana('usuario')">
-                <span class="material-symbols-outlined inline mr-2 align-middle">person</span>
-                Usuario
-            </button>
-            <button type="button" id="adminTab"
-                class="tab-button py-3 px-4 font-semibold text-sm md:text-base cursor-pointer"
-                onclick="cambiarPestana('admin')">
-                <span class="material-symbols-outlined inline mr-2 align-middle">admin_panel_settings</span>
-                Administrador
-            </button>
+        <!-- Mensaje de error de autenticación (cuenta bloqueada, credenciales inválidas) -->
+        <div th:if="${param.error != null}"
+             class="bg-red-100 text-red-700 p-3 rounded-lg text-center font-bold mb-4">
+            Cuenta bloqueada por el administrador. No es posible iniciar sesión.
         </div>
 
         <!-- Formulario Login Usuario -->

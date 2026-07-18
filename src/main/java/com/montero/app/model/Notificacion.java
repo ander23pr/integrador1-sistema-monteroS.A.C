@@ -23,8 +23,11 @@ public class Notificacion {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    @Column(name = "destinatario_rol", length = 20)
+    private String destinatarioRol;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reserva_id")
@@ -57,7 +60,11 @@ public class Notificacion {
         RECORDATORIO_VIAJE,
         CAMBIO_VIAJE,
         PROMOCION,
-        INFORMACION
+        INFORMACION,
+        NUEVA_VENTA,
+        CANCELACION,
+        NUEVO_USUARIO,
+        ALERTA
     }
 
     public Long getId() {
@@ -138,5 +145,13 @@ public class Notificacion {
 
     public void setAccion(String accion) {
         this.accion = accion;
+    }
+
+    public String getDestinatarioRol() {
+        return destinatarioRol;
+    }
+
+    public void setDestinatarioRol(String destinatarioRol) {
+        this.destinatarioRol = destinatarioRol;
     }
 }

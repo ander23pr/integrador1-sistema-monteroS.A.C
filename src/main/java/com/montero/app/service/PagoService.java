@@ -54,6 +54,7 @@ public class PagoService {
         reservaRepository.save(reserva);
 
         notificacionService.crearNotificacionConfirmacionReserva(reserva);
+        notificacionService.crearNotificacionNuevaVenta(reserva, metodo);
 
         logger.info("Pago procesado exitosamente. Reserva ID: {}, Método: {}", reserva.getId(), metodo);
         return pagoGuardado;

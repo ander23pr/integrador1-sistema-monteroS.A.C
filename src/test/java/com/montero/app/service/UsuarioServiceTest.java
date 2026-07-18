@@ -36,6 +36,9 @@ class UsuarioServiceTest {
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Mock
+    private NotificacionService notificacionService;
+
     @InjectMocks
     private UsuarioService usuarioService;
 

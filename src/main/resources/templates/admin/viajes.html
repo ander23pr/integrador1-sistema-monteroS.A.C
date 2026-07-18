@@ -74,6 +74,9 @@
             <a th:href="@{/admin/pagos}"
                 class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span
                     class="material-symbols-outlined">payments</span><span>Pagos</span></a>
+            <a th:href="@{/admin/reportes}"
+                class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span
+                    class="material-symbols-outlined">monitoring</span><span>Reportes</span></a>
         </nav>
         <div class="p-3 border-t border-white/10">
             <a th:href="@{/admin/logout}"
@@ -90,12 +93,10 @@
                 <p class="text-xs text-on-surface-variant mt-1">Programación de salidas</p>
             </div>
             <div class="flex items-center gap-4">
-                <button
-                    class="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-background transition-colors">
-                    <span class="material-symbols-outlined text-primary">notifications</span>
-                    <span
-                        class="absolute top-1.5 right-1.5 w-2 h-2 bg-secondary rounded-full ring-2 ring-surface"></span>
-                </button>
+                <a th:href="@{/admin/notificaciones}" data-notificaciones-nav="true" class="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-background transition-colors">
+<span class="material-symbols-outlined text-primary">notifications</span>
+<span id="notificaciones-badge-desktop" th:if="${notificacionesNoLeidas != null and notificacionesNoLeidas > 0}" th:text="${notificacionesNoLeidas > 99 ? '99+' : notificacionesNoLeidas}" class="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] bg-secondary text-on-secondary text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-surface leading-none px-1">3</span>
+</a>
                 <div class="flex items-center gap-2.5 pl-4 border-l border-outline-variant">
                     <img src="https://i.pravatar.cc/64?img=12" class="w-9 h-9 rounded-full object-cover" alt="Admin">
                     <div class="leading-tight">
@@ -116,26 +117,43 @@
                     <p class="text-xs text-on-surface-variant mt-0.5">Programación de salidas</p>
                 </div>
             </div>
-            <a th:href="@{#}"
-                class="w-9 h-9 rounded-full bg-background flex items-center justify-center text-primary relative shrink-0">
-                <span class="material-symbols-outlined text-[20px]">notifications</span>
-            </a>
+            <a th:href="@{/admin/notificaciones}" data-notificaciones-nav="true" class="w-9 h-9 rounded-full bg-background flex items-center justify-center text-primary relative shrink-0">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span id="notificaciones-badge" th:if="${notificacionesNoLeidas != null and notificacionesNoLeidas > 0}" th:text="${notificacionesNoLeidas > 99 ? '99+' : notificacionesNoLeidas}" class="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-secondary text-on-secondary text-[10px] font-bold rounded-full flex items-center justify-center leading-none px-1">3</span>
+</a>
         </header>
         <main class="flex-1">
+            <div th:if="${mensajeExito}" class="mx-5 mt-4 lg:mx-8 px-5 py-3 bg-success-bg text-success border border-success/20 rounded-xl text-sm font-medium flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                <span th:text="${mensajeExito}">Éxito</span>
+            </div>
+            <div th:if="${mensajeError}" class="mx-5 mt-4 lg:mx-8 px-5 py-3 bg-danger-bg text-danger border border-danger/20 rounded-xl text-sm font-medium flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">error</span>
+                <span th:text="${mensajeError}">Error</span>
+            </div>
             <div class="lg:hidden px-5 pb-6">
 
                 <div class="relative mb-3">
                     <span
                         class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
                     <input type="text" id="buscadorM" onkeyup="filtrarViajes('buscadorM','viaje-card-m')"
-                        placeholder="Buscar por ruta, bus o chofer…"
+                        placeholder="Buscar por ruta, estado o salida…"
                         class="w-full pl-9 pr-4 py-2.5 bg-surface border border-outline-variant rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition">
                 </div>
+                <div th:if="${viajesPage.totalPages > 1}" class="flex items-center justify-center gap-1 mb-3">
+                        <a th:href="@{/admin/viajes(page=0)}" th:classappend="${viajesPage.first} ? 'text-on-surface-variant pointer-events-none' : 'text-primary'" class="w-7 h-7 rounded-lg flex items-center justify-center text-sm hover:bg-background transition-colors">«</a>
+                        <a th:each="i : ${#numbers.sequence(0, viajesPage.totalPages - 1)}"
+                           th:href="@{/admin/viajes(page=${i})}"
+                           th:classappend="${i == viajesPage.number} ? 'bg-secondary text-white' : 'text-primary hover:bg-background'"
+                           class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-semibold transition-colors"
+                           th:text="${i + 1}">1</a>
+                        <a th:href="@{/admin/viajes(page=${viajesPage.number + 1})}" th:classappend="${viajesPage.last} ? 'text-on-surface-variant pointer-events-none' : 'text-primary'" class="w-7 h-7 rounded-lg flex items-center justify-center text-sm hover:bg-background transition-colors">»</a>
+                </div>
                 <p class="text-xs text-on-surface-variant mb-3"
-                    th:text="${#lists.size(viajes)} + ' viajes registrados'">0 viajes</p>
-                <div th:if="${#lists.isEmpty(viajes)}" class="text-center py-10 text-on-surface-variant text-sm">Aún no
+                    th:text="${viajesPage.totalElements} + ' viajes registrados'">0 viajes</p>
+                <div th:if="${#lists.isEmpty(viajesPage.content)}" class="text-center py-10 text-on-surface-variant text-sm">Aún no
                     hay viajes programados.</div>
-                <div th:each="viaje : ${viajes}"
+                <div th:each="viaje : ${viajesPage.content}"
                     class="viaje-card-m bg-surface border border-outline-variant rounded-2xl p-4 shadow-card mb-3">
                     <div class="flex items-start justify-between mb-2.5">
                         <div>
@@ -201,21 +219,23 @@ this.dataset.asientos
             <div class="hidden lg:block p-8">
 
                 <div class="flex items-center justify-between mb-5">
-                    <div class="relative w-80">
-                        <span
-                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
-                        <input type="text" id="buscadorD" onkeyup="filtrarViajes('buscadorD','viaje-row-d')"
-                            placeholder="Buscar por ruta, bus o chofer…"
-                            class="pl-9 pr-4 py-2.5 w-full bg-surface border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition">
+                    <div class="flex items-center gap-4">
+                        <div class="relative w-80">
+                            <span
+                                class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+                            <input type="text" id="buscadorD" onkeyup="filtrarViajes('buscadorD','viaje-row-d')"
+                                placeholder="Buscar por ruta, estado o salida…"
+                                class="pl-9 pr-4 py-2.5 w-full bg-surface border border-outline-variant rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary transition">
+                        </div>
                     </div>
                     <button type="button" onclick="abrirFormularioNuevo()"
                         class="flex items-center gap-2 bg-secondary hover:bg-secondary-dark text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors shadow-sm">
                         <span class="material-symbols-outlined text-[18px]">add</span>Programar viaje</button>
                 </div>
-                <div th:if="${#lists.isEmpty(viajes)}"
+                <div th:if="${#lists.isEmpty(viajesPage.content)}"
                     class="text-center py-16 text-on-surface-variant text-sm bg-surface border border-outline-variant rounded-xl">
                     Aún no hay viajes programados.</div>
-                <div th:unless="${#lists.isEmpty(viajes)}"
+                <div th:if="${not #lists.isEmpty(viajesPage.content)}"
                     class="bg-surface border border-outline-variant rounded-xl shadow-card overflow-hidden">
                     <table class="w-full">
                         <thead>
@@ -230,7 +250,7 @@ this.dataset.asientos
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="viaje : ${viajes}"
+                            <tr th:each="viaje : ${viajesPage.content}"
                                 class="viaje-row-d border-b border-outline-variant last:border-0 hover:bg-background/50">
                                 <td class="py-3.5 pl-6 text-sm font-semibold text-primary viaje-nombre"
                                     th:text="${viaje.origen} + ' → ' + ${viaje.destino}">Ruta</td>
@@ -275,10 +295,14 @@ this.dataset.asientos
 )" class="w-full py-2 rounded-lg bg-primary/5 text-primary text-xs font-semibold text-center">
                                             Editar viaje
                                         </button>
-                                        <button type="submit"
-                                            class="w-8 h-8 rounded-lg hover:bg-danger-bg flex items-center justify-center text-danger"
-                                            title="Cancelar"><span
-                                                class="material-symbols-outlined text-[18px]">cancel</span></button>
+                                        <form th:if="${viaje.estado != 'CANCELADO'}"
+                                            th:action="@{/admin/viajes/{id}/cancelar(id=${viaje.id})}"
+                                            method="post"
+                                            onsubmit="return confirm('¿Cancelar este viaje?');">
+                                            <button type="submit"
+                                                class="w-8 h-8 rounded-lg hover:bg-danger-bg flex items-center justify-center text-danger"
+                                                title="Cancelar"><span
+                                                    class="material-symbols-outlined text-[18px]">cancel</span></button>
                                         </form>
                                         <a th:href="@{/admin/viajes/eliminar/{id}(id=${viaje.id})}"
                                             onclick="return confirm('¿Eliminar este viaje?');"
@@ -290,6 +314,15 @@ this.dataset.asientos
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div th:if="${viajesPage.totalPages > 1}" class="flex items-center justify-center gap-2 mt-5">
+                    <a th:href="@{/admin/viajes(page=0)}" th:classappend="${viajesPage.first} ? 'text-on-surface-variant pointer-events-none' : 'text-primary hover:bg-background'" class="w-8 h-8 rounded-lg flex items-center justify-center text-sm transition-colors">«</a>
+                    <a th:each="i : ${#numbers.sequence(0, viajesPage.totalPages - 1)}"
+                       th:href="@{/admin/viajes(page=${i})}"
+                       th:classappend="${i == viajesPage.number} ? 'bg-secondary text-white' : 'text-primary hover:bg-background'"
+                       class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-semibold transition-colors"
+                       th:text="${i + 1}">1</a>
+                    <a th:href="@{/admin/viajes(page=${viajesPage.number + 1})}" th:classappend="${viajesPage.last} ? 'text-on-surface-variant pointer-events-none' : 'text-primary hover:bg-background'" class="w-8 h-8 rounded-lg flex items-center justify-center text-sm transition-colors">»</a>
                 </div>
 
             </div>
@@ -328,6 +361,12 @@ this.dataset.asientos
             <span class="material-symbols-outlined"
                 style="font-variation-settings:'FILL' 0, 'wght' 500;">payments</span>
             <span class="text-[10px] font-semibold">Pagos</span>
+        </a>
+        <a th:href="@{/admin/reportes}"
+            class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+            <span class="material-symbols-outlined"
+                style="font-variation-settings:'FILL' 0, 'wght' 500;">monitoring</span>
+            <span class="text-[10px] font-semibold">Reportes</span>
         </a>
     </nav>
 
@@ -419,6 +458,7 @@ this.dataset.asientos
             });
         }
     </script>
+    <script th:src="@{/js/notificaciones.js}"></script>
 </body>
 
 </html>

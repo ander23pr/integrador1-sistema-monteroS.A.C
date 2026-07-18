@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.montero.app.dto.PerfilUsuarioDTO;
 import com.montero.app.model.Reserva;
@@ -22,6 +23,7 @@ public class PerfilUsuarioService {
     @Autowired
     private ReservaRepository reservaRepository;
 
+    @Transactional(readOnly = true)
     public PerfilUsuarioDTO obtenerPerfilPorUsuarioId(Long usuarioId) {
         Usuario usuario = usuarioRepository.findById(usuarioId).orElse(null);
         if (usuario == null) return null;

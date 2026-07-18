@@ -47,7 +47,9 @@
 <a th:href="@{/admin/viajes}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">event</span><span>Viajes y Horarios</span></a>
 <a th:href="@{/admin/usuarios}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">group</span><span>Usuarios</span></a>
 <a th:href="@{/admin/reservas}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">confirmation_number</span><span>Reservas</span></a>
-<a th:href="@{/admin/pagos}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">payments</span><span>Pagos</span></a></nav>
+<a th:href="@{/admin/pagos}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">payments</span><span>Pagos</span></a>
+<a th:href="@{/admin/reportes}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">monitoring</span><span>Reportes</span></a></nav>
+
 <div class="p-3 border-t border-white/10">
 <a th:href="@{/admin/logout}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium">
 <span class="material-symbols-outlined">logout</span><span>Cerrar sesión</span></a>
@@ -61,10 +63,10 @@
 <p class="text-xs text-on-surface-variant mt-1">Resumen general del sistema</p>
 </div>
 <div class="flex items-center gap-4">
-<button class="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-background transition-colors">
+<a th:href="@{/admin/notificaciones}" data-notificaciones-nav="true" class="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-background transition-colors">
 <span class="material-symbols-outlined text-primary">notifications</span>
-<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-secondary rounded-full ring-2 ring-surface"></span>
-</button>
+<span id="notificaciones-badge-desktop" th:if="${notificacionesNoLeidas != null and notificacionesNoLeidas > 0}" th:text="${notificacionesNoLeidas > 99 ? '99+' : notificacionesNoLeidas}" class="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] bg-secondary text-on-secondary text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-surface leading-none px-1">3</span>
+</a>
 <div class="flex items-center gap-2.5 pl-4 border-l border-outline-variant">
 <img src="https://i.pravatar.cc/64?img=12" class="w-9 h-9 rounded-full object-cover" alt="Admin">
 <div class="leading-tight">
@@ -81,8 +83,9 @@
 <div><h1 class="text-[22px] font-extrabold text-secondary tracking-tight leading-none">Dashboard</h1>
 <p class="text-xs text-on-surface-variant mt-0.5">Resumen general del sistema</p></div>
 </div>
-<a th:href="@{#}" class="w-9 h-9 rounded-full bg-background flex items-center justify-center text-primary relative shrink-0">
+<a th:href="@{/admin/notificaciones}" data-notificaciones-nav="true" class="w-9 h-9 rounded-full bg-background flex items-center justify-center text-primary relative shrink-0">
 <span class="material-symbols-outlined text-[20px]">notifications</span>
+<span id="notificaciones-badge" th:if="${notificacionesNoLeidas != null and notificacionesNoLeidas > 0}" th:text="${notificacionesNoLeidas > 99 ? '99+' : notificacionesNoLeidas}" class="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-secondary text-on-secondary text-[10px] font-bold rounded-full flex items-center justify-center leading-none px-1">3</span>
 </a>
 </header>
 <main class="flex-1">
@@ -127,17 +130,10 @@
 <span class="material-symbols-outlined text-[18px] ml-auto opacity-70">chevron_right</span></a>
 </div>
 
-<p class="text-xs font-bold text-primary uppercase tracking-wide mb-3">Estado del sistema</p>
-<div>
-<div class="flex items-center gap-2.5 p-3.5 rounded-xl bg-success-bg text-success text-sm font-medium">
-<span class="material-symbols-outlined text-[18px]">check_circle</span>Todo funciona con normalidad.
-</div>
-</div>
-
 </div>
 <div class="hidden lg:block p-8">
 
-<div class="grid grid-cols-4 gap-5 mb-8">
+<div class="grid grid-cols-4 gap-6 mb-8">
 
 <div class="bg-surface border border-outline-variant rounded-xl p-5 shadow-card">
 <div class="w-10 h-10 rounded-lg bg-primary/5 flex items-center justify-center mb-4"><span class="material-symbols-outlined text-primary">event</span></div>
@@ -163,35 +159,146 @@
 <p class="text-xs text-on-surface-variant mt-1 font-medium">Pagos registrados</p>
 </div>
 </div>
-<div class="grid grid-cols-3 gap-6">
-<div class="col-span-2">
+<div class="w-full">
 <p class="text-xs font-bold text-primary uppercase tracking-wide mb-3">Accesos directos</p>
-<div class="grid grid-cols-2 gap-3">
+<div class="grid grid-cols-2 gap-5">
 
-<a th:href="@{/admin/viajes}" class="flex items-center gap-3 bg-secondary hover:bg-secondary-dark text-white rounded-xl px-4 py-3.5 shadow-card transition-colors">
-<span class="material-symbols-outlined text-[20px]">event</span><span class="text-sm font-semibold">Viajes y Horarios</span>
-<span class="material-symbols-outlined text-[18px] ml-auto opacity-70">chevron_right</span></a>
+    <!-- VIAJES -->
+    <a th:href="@{/admin/viajes}"
+   class="group relative overflow-hidden rounded-3xl bg-blue-50 border border-blue-100 p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:bg-blue-100">
 
-<a th:href="@{/admin/usuarios}" class="flex items-center gap-3 bg-primary hover:bg-primary-light text-white rounded-xl px-4 py-3.5 shadow-card transition-colors">
-<span class="material-symbols-outlined text-[20px]">group</span><span class="text-sm font-semibold">Usuarios</span>
-<span class="material-symbols-outlined text-[18px] ml-auto opacity-70">chevron_right</span></a>
+    <div class="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-700 to-blue-500"></div>
 
-<a th:href="@{/admin/reservas}" class="flex items-center gap-3 bg-primary hover:bg-primary-light text-white rounded-xl px-4 py-3.5 shadow-card transition-colors">
-<span class="material-symbols-outlined text-[20px]">confirmation_number</span><span class="text-sm font-semibold">Reservas</span>
-<span class="material-symbols-outlined text-[18px] ml-auto opacity-70">chevron_right</span></a>
+    <div class="flex items-center justify-between">
 
-<a th:href="@{/admin/pagos}" class="flex items-center gap-3 bg-teal-700 hover:bg-teal-800 text-white rounded-xl px-4 py-3.5 shadow-card transition-colors">
-<span class="material-symbols-outlined text-[20px]">payments</span><span class="text-sm font-semibold">Pagos</span>
-<span class="material-symbols-outlined text-[18px] ml-auto opacity-70">chevron_right</span></a>
+        <div class="w-16 h-16 rounded-2xl bg-blue-600 shadow-lg flex items-center justify-center">
+            <span class="material-symbols-outlined text-white text-[30px]">
+                event
+            </span>
+        </div>
+
+        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-md group-hover:bg-blue-600 transition">
+            <span class="material-symbols-outlined text-blue-600 group-hover:text-white transition">
+                arrow_forward
+            </span>
+        </div>
+
+    </div>
+
+    <h3 class="mt-7 text-xl font-bold text-blue-900">
+        Viajes y Horarios
+    </h3>
+
+    <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+        Gestiona rutas, horarios y disponibilidad de todos los viajes.
+    </p>
+
+</a>
+
+    <!-- USUARIOS -->
+    <a th:href="@{/admin/usuarios}"
+       class="group relative overflow-hidden rounded-3xl bg-slate-100 border border-slate-200 p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+
+        <div class="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-primary to-slate-600"></div>
+
+        <div class="flex items-center justify-between">
+
+            <div class="w-16 h-16 rounded-2xl bg-primary shadow-lg flex items-center justify-center">
+                <span class="material-symbols-outlined text-white text-[30px]">
+                    group
+                </span>
+            </div>
+
+            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-md group-hover:bg-primary transition">
+                <span class="material-symbols-outlined text-primary group-hover:text-white transition">
+                    arrow_forward
+                </span>
+            </div>
+
+        </div>
+
+        <h3 class="mt-7 text-xl font-bold text-primary">
+            Usuarios
+        </h3>
+
+        <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+            Administra usuarios, roles y permisos del sistema.
+        </p>
+
+    </a>
+
+    <!-- RESERVAS -->
+    <a th:href="@{/admin/reservas}"
+       class="group relative overflow-hidden rounded-3xl bg-rose-50 border border-rose-100 p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+
+        <div class="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-secondary to-pink-500"></div>
+
+        <div class="flex items-center justify-between">
+
+            <div class="w-16 h-16 rounded-2xl bg-secondary shadow-lg flex items-center justify-center">
+                <span class="material-symbols-outlined text-white text-[30px]">
+                    confirmation_number
+                </span>
+            </div>
+
+            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-md group-hover:bg-secondary transition">
+                <span class="material-symbols-outlined text-secondary group-hover:text-white transition">
+                    arrow_forward
+                </span>
+            </div>
+
+        </div>
+
+        <h3 class="mt-7 text-xl font-bold text-primary">
+            Reservas
+        </h3>
+
+        <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+            Consulta, administra y controla todas las reservas del sistema.
+        </p>
+
+    </a>
+
+    <!-- PAGOS -->
+    <a th:href="@{/admin/pagos}"
+       class="group relative overflow-hidden rounded-3xl bg-emerald-50 border border-emerald-100 p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+        <div class="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-emerald-700 to-emerald-500"></div>
+        <div class="flex items-center justify-between">
+            <div class="w-16 h-16 rounded-2xl bg-emerald-600 shadow-lg flex items-center justify-center">
+                <span class="material-symbols-outlined text-white text-[30px]">
+                    payments
+                </span>
+            </div>
+            <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-md group-hover:bg-emerald-600 transition">
+                <span class="material-symbols-outlined text-emerald-600 group-hover:text-white transition">
+                    arrow_forward
+                </span>
+            </div>
+        </div>
+        <h3 class="mt-7 text-xl font-bold text-primary">
+            Pagos
+        </h3>
+        <p class="mt-2 text-sm text-gray-600 leading-relaxed">
+            Visualiza pagos, comprobantes e historial de transacciones.
+        </p>
+
+    </a>
+    <a th:href="@{/admin/reportes}"
+   class="group relative overflow-hidden rounded-3xl bg-purple-50 border border-purple-100 p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+    <div class="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-purple-700 to-purple-500"></div>
+    <div class="flex items-center justify-between">
+        <div class="w-16 h-16 rounded-2xl bg-purple-600 shadow-lg flex items-center justify-center">
+            <span class="material-symbols-outlined text-white text-[30px]">monitoring</span>
+        </div>
+        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-md group-hover:bg-purple-600 transition">
+            <span class="material-symbols-outlined text-purple-600 group-hover:text-white transition">arrow_forward</span>
+        </div>
+    </div>
+    <h3 class="mt-7 text-xl font-bold text-purple-900">Reportes</h3>
+    <p class="mt-2 text-sm text-gray-600 leading-relaxed">Analítica del negocio, ingresos y estadísticas.</p>
+</a>
+
 </div>
-</div>
-<div>
-<p class="text-xs font-bold text-primary uppercase tracking-wide mb-3">Estado del sistema</p>
-<div class="flex items-center gap-2.5 p-4 rounded-xl bg-success-bg text-success text-sm font-medium">
-<span class="material-symbols-outlined text-[18px]">check_circle</span>Todo funciona con normalidad.
-</div>
-</div>
-
 </div>
 </main>
 </div>
@@ -216,7 +323,12 @@
 <a th:href="@{/admin/pagos}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
 <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">payments</span>
 <span class="text-[10px] font-semibold">Pagos</span>
+</a>
+<a th:href="@{/admin/reportes}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">monitoring</span>
+<span class="text-[10px] font-semibold">Reportes</span>
 </a></nav>
 
+    <script th:src="@{/js/notificaciones.js}"></script>
 </body>
 </html>

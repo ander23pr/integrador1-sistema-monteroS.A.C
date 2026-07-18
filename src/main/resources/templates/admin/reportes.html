@@ -44,17 +44,12 @@
 </div>
 <nav class="flex-1 px-3 py-5 flex flex-col gap-1 overflow-y-auto">
 <a th:href="@{/admin/dashboard}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">space_dashboard</span><span>Dashboard</span></a>
-<a th:href="@{/admin/buses}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">directions_bus</span><span>Buses y Flota</span></a>
-<a th:href="@{/admin/rutas}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">alt_route</span><span>Rutas</span></a>
 <a th:href="@{/admin/viajes}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">event</span><span>Viajes y Horarios</span></a>
-<a th:href="@{/admin/choferes}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">assignment_ind</span><span>Choferes</span></a>
 <a th:href="@{/admin/usuarios}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">group</span><span>Usuarios</span></a>
 <a th:href="@{/admin/reservas}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">confirmation_number</span><span>Reservas</span></a>
 <a th:href="@{/admin/pagos}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium"><span class="material-symbols-outlined">payments</span><span>Pagos</span></a>
 <a th:href="@{/admin/reportes}" class="nav-item-active flex items-center gap-3 px-4 py-2.5 rounded-lg bg-secondary/15 text-white text-sm font-medium shadow-[inset_3px_0_0_#C00037]"><span class="material-symbols-outlined text-[#FF4D6D]">monitoring</span><span>Reportes</span></a></nav>
 <div class="p-3 border-t border-white/10">
-<a th:href="@{/ajustes}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium">
-<span class="material-symbols-outlined">settings</span><span>Ajustes</span></a>
 <a th:href="@{/admin/logout}" class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-[#B7BDCB] hover:bg-white/5 hover:text-white transition-colors text-sm font-medium">
 <span class="material-symbols-outlined">logout</span><span>Cerrar sesión</span></a>
 </div>
@@ -67,10 +62,10 @@
 <p class="text-xs text-on-surface-variant mt-1">Desempeño comercial y operativo</p>
 </div>
 <div class="flex items-center gap-4">
-<button class="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-background transition-colors">
+<a th:href="@{/admin/notificaciones}" data-notificaciones-nav="true" class="relative w-9 h-9 rounded-full flex items-center justify-center hover:bg-background transition-colors">
 <span class="material-symbols-outlined text-primary">notifications</span>
-<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-secondary rounded-full ring-2 ring-surface"></span>
-</button>
+<span id="notificaciones-badge-desktop" th:if="${notificacionesNoLeidas != null and notificacionesNoLeidas > 0}" th:text="${notificacionesNoLeidas > 99 ? '99+' : notificacionesNoLeidas}" class="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] bg-secondary text-on-secondary text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-surface leading-none px-1">3</span>
+</a>
 <div class="flex items-center gap-2.5 pl-4 border-l border-outline-variant">
 <img src="https://i.pravatar.cc/64?img=12" class="w-9 h-9 rounded-full object-cover" alt="Admin">
 <div class="leading-tight">
@@ -87,8 +82,9 @@
 <div><h1 class="text-[22px] font-extrabold text-secondary tracking-tight leading-none">Reportes</h1>
 <p class="text-xs text-on-surface-variant mt-0.5">Desempeño comercial y operativo</p></div>
 </div>
-<a th:href="@{/admin/mas}" class="w-9 h-9 rounded-full bg-background flex items-center justify-center text-primary relative shrink-0">
+<a th:href="@{/admin/notificaciones}" data-notificaciones-nav="true" class="w-9 h-9 rounded-full bg-background flex items-center justify-center text-primary relative shrink-0">
 <span class="material-symbols-outlined text-[20px]">notifications</span>
+<span id="notificaciones-badge" th:if="${notificacionesNoLeidas != null and notificacionesNoLeidas > 0}" th:text="${notificacionesNoLeidas > 99 ? '99+' : notificacionesNoLeidas}" class="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-secondary text-on-secondary text-[10px] font-bold rounded-full flex items-center justify-center leading-none px-1">3</span>
 </a>
 </header>
 <main class="flex-1">
@@ -251,14 +247,6 @@
 <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">space_dashboard</span>
 <span class="text-[10px] font-semibold">Panel</span>
 </a>
-<a th:href="@{/admin/buses}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
-<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">directions_bus</span>
-<span class="text-[10px] font-semibold">Buses</span>
-</a>
-<a th:href="@{/admin/rutas}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
-<span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">alt_route</span>
-<span class="text-[10px] font-semibold">Rutas</span>
-</a>
 <a th:href="@{/admin/viajes}" class="flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-on-surface-variant">
 <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 0, 'wght' 500;">event</span>
 <span class="text-[10px] font-semibold">Viajes</span>
@@ -268,5 +256,6 @@
 <span class="text-[10px] font-semibold">Más</span>
 </a></nav>
 
+    <script th:src="@{/js/notificaciones.js}"></script>
 </body>
 </html>

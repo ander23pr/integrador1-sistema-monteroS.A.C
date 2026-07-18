@@ -68,10 +68,13 @@ public class ReservaService {
 
     private final ReservaRepository reservaRepository;
     private final ViajeService viajeService;
+    private final NotificacionService notificacionService;
 
-    public ReservaService(ReservaRepository reservaRepository, ViajeService viajeService) {
+    public ReservaService(ReservaRepository reservaRepository, ViajeService viajeService,
+                            NotificacionService notificacionService) {
         this.reservaRepository = reservaRepository;
         this.viajeService = viajeService;
+        this.notificacionService = notificacionService;
     }
 
     public Reserva iniciarReserva(ReservaRequestDTO dto) {
@@ -353,8 +356,9 @@ public class ReservaService {
     /**
      * Obtiene una reserva por su ID para mostrar el resumen.
      */
+    @Transactional(readOnly = true)
     public Reserva obtenerReservaPorId(Long id) {
-        return reservaRepository.findById(id)
+        return reservaRepository.findByIdWithViaje(id)
                 .orElseThrow(() -> {
                     logger.warn("Intento de acceso a reserva no existente. Reserva ID: {}", id);
                     return new IllegalArgumentException("Reserva no encontrada con ID: " + id);
@@ -369,6 +373,7 @@ public class ReservaService {
         }
         reserva.setEstado(EstadoReserva.CANCELADO);
         reservaRepository.save(reserva);
+        notificacionService.crearNotificacionCancelacion(reserva);
         logger.info("Reserva cancelada exitosamente. Reserva ID: {}", id);
     }
 }
