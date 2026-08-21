@@ -42,12 +42,12 @@ public final class QrCodeGenerator {
             Map<EncodeHintType, Object> opciones = new EnumMap<>(EncodeHintType.class);
             opciones.put(EncodeHintType.MARGIN, 1);
             opciones.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
-
+            //Crea una matriz de puntos QR con el contenido de la URL
             BitMatrix matriz = new QRCodeWriter().encode(contenido, BarcodeFormat.QR_CODE, tamanoPx, tamanoPx, opciones);
-
+//          Convierte a imagen PNG            
             ByteArrayOutputStream salida = new ByteArrayOutputStream();
             MatrixToImageWriter.writeToStream(matriz, "PNG", salida);
-
+//          Codificarla a Base64
             return Base64.getEncoder().encodeToString(salida.toByteArray());
         } catch (WriterException | IOException excepcionGeneracionQr) {
             return null;

@@ -1,38 +1,5 @@
 package com.montero.app.controller;
 
-import com.montero.app.model.Notificacion;
-import com.montero.app.model.Reserva;
-import com.montero.app.model.EstadoReserva;
-import com.montero.app.model.Viaje;
-import com.montero.app.model.Usuario;
-import com.montero.app.model.MetodoPago;
-import com.montero.app.model.Pago;
-import com.montero.app.repository.ViajeRepository;
-import com.montero.app.repository.UsuarioRepository;
-import com.montero.app.repository.ReservaRepository;
-import com.montero.app.repository.PagoRepository;
-import com.montero.app.service.NotificacionService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -43,6 +10,40 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.montero.app.model.EstadoReserva;
+import com.montero.app.model.MetodoPago;
+import com.montero.app.model.Notificacion;
+import com.montero.app.model.Pago;
+import com.montero.app.model.Reserva;
+import com.montero.app.model.Usuario;
+import com.montero.app.model.Viaje;
+import com.montero.app.repository.PagoRepository;
+import com.montero.app.repository.ReservaRepository;
+import com.montero.app.repository.UsuarioRepository;
+import com.montero.app.repository.ViajeRepository;
+import com.montero.app.service.NotificacionService;
 
 @Controller
 @RequestMapping("/admin")
@@ -323,8 +324,10 @@ public class AdminController {
     @PostMapping("/usuarios/{id}/bloquear")
     public String bloquearUsuario(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
+            //El controlador busca al usuario
             Usuario usuario = usuarioRepository.findById(id)
                     .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+                    //lo guarda en la base de datos con el atributo activo en false
             usuario.setActivo(false);
             usuarioRepository.save(usuario);
             redirectAttributes.addFlashAttribute("mensajeExito", "Usuario bloqueado correctamente");
